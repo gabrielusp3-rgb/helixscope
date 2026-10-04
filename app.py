@@ -619,14 +619,42 @@ def _primer_pair(guide_sequence: str, sequence: str) -> dict:
     return crispr.design_primer_pair(guide_sequence, sequence)
 
 
+def _reject_nonportable_upload_name(name: str) -> None:
+    """Refuse an upload name that is not a single portable file name.
+
+    Args:
+        name: The name reported by the browser. It is never used as a path.
+
+    Raises:
+        ValueError: The name contains a separator, a parent segment, or is empty.
+    """
+    text = str(name or "")
+    if (
+        not text
+        or text in {".", ".."}
+        or ".." in text
+        or "/" in text
+        or "\\" in text
+        or ":" in text
+        or "\x00" in text
+    ):
+        raise ValueError(
+            "Upload rejected. Use a simple file name without slashes or '..'. "
+            "The name is not used as a path, and the file was not analyzed."
+        )
+
+
 def _read_uploaded_text(uploaded_file) -> str:
-    """Le o FASTA enviado, recusando arquivos acima de MAX_UPLOAD_BYTES."""
+    """Le o FASTA enviado, recusando nome inseguro, vazio ou acima de MAX_UPLOAD_BYTES."""
+    _reject_nonportable_upload_name(str(getattr(uploaded_file, "name", "") or ""))
     data = uploaded_file.getvalue()
     if len(data) > MAX_UPLOAD_BYTES:
         raise ValueError(
             "Uploaded file exceeds 1 MiB. Use a smaller FASTA or paste a "
             "region of interest."
         )
+    if len(data) == 0:
+        raise ValueError("Uploaded file is empty. Nothing was analyzed.")
     return data.decode("utf-8", errors="replace")
 
 
@@ -2324,6 +2352,9 @@ def render_dna_analysis() -> None:
         uploaded = st.file_uploader(
             "Or upload a FASTA file", type=["fasta", "fa"], key="dna_file"
         )
+        st.caption(
+            "A rejected upload is not analyzed. Use a simple file name such as sample.fasta."
+        )
         analyze = st.button("Analyze", key="dna_analyze")
 
     if analyze:
@@ -3352,6 +3383,9 @@ def render_rna_analysis() -> None:
     with side_col:
         uploaded = st.file_uploader(
             "Or upload a FASTA file", type=["fasta", "fa"], key="rna_file"
+        )
+        st.caption(
+            "A rejected upload is not analyzed. Use a simple file name such as sample.fasta."
         )
         analyze = st.button("Analyze", key="rna_analyze")
 
@@ -5094,6 +5128,9 @@ def render_protein_analysis() -> None:
     with side_col:
         uploaded = st.file_uploader(
             "Or upload a FASTA file", type=["fasta", "fa"], key="prot_file"
+        )
+        st.caption(
+            "A rejected upload is not analyzed. Use a simple file name such as sample.fasta."
         )
         analyze = st.button("Analyze", key="prot_analyze")
 
@@ -9241,6 +9278,9 @@ def _render_crispr_provided_reference(
                     type=["fa", "fasta", "fna", "gz"],
                     key="crispr_ref_upload",
                 )
+                st.caption(
+                    "A rejected upload is not analyzed. Use a simple file name such as sample.fasta."
+                )
             guide_labels = [
                 f"#{g.get('rank')} {g.get('guide_sequence')} {g.get('pam_sequence')} "
                 f"{g.get('strand')} @{g.get('position')}"
@@ -9320,8 +9360,15 @@ def _render_crispr_provided_reference(
                                 "INVALID_INPUT",
                             )
                         filename = str(getattr(uploaded, "name", "") or "")
+                        _reject_nonportable_upload_name(filename)
+                        raw_reference = uploaded.getvalue()
+                        if not raw_reference:
+                            raise crispr_reference.ReferenceError(
+                                "Uploaded file is empty. Nothing was analyzed.",
+                                "INVALID_INPUT",
+                            )
                         fasta_text = crispr_reference.decode_reference_payload(
-                            uploaded.getvalue()
+                            raw_reference
                         )
                         source_label = "user FASTA upload"
                     elif source_choice == "Workspace DNA":

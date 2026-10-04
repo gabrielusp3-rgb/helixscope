@@ -23,6 +23,10 @@ reconstructed release history.
   without it.
 - A public demo is served at https://helixscope.onrender.com from the
   Dockerfile on Render's free plan in Virginia.
+- History actions use Open and Delete, matching the English caption.
+- Uploads with path-like names or empty contents are refused before analysis.
+  A request whose body contains `../` can still be blocked by the host edge
+  before it reaches the application.
 - Python dependencies in `requirements.txt` are pinned to the versions measured
   in the tested container: Streamlit 1.58.0, Biopython 1.87, Plotly 6.9.0,
   pandas 2.3.3, NumPy 2.5.3, pytest 9.1.1 and Hypothesis 6.168.3.

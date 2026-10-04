@@ -400,12 +400,12 @@ def render_analysis_history() -> None:
                 f"{html_escape(str(entry.get('status') or ''))}"
             )
         with open_col:
-            if st.button("Abrir", key=f"history_open_{entry_id}"):
+            if st.button("Open", key=f"history_open_{entry_id}"):
                 restore_analysis(history, entry_id, st.session_state)
                 set_active_module(str(entry.get("module") or ""))
                 st.rerun()
         with delete_col:
-            if st.button("Excluir", key=f"history_delete_{entry_id}"):
+            if st.button("Delete", key=f"history_delete_{entry_id}"):
                 delete_analysis(history, entry_id)
                 st.session_state["helix_analysis_history"] = history
                 st.rerun()
