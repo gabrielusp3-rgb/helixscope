@@ -76,6 +76,16 @@ def test_structure_filename_rejects_path_syntax(tmp_path) -> None:
     assert Path(kept).is_file()
 
 
+def test_single_chain_write_keeps_only_that_chain(tmp_path) -> None:
+    dest = tmp_path / "onlyA.cif"
+    usalign._write_single_chain(str(FIXTURES / "1CRN.cif"), str(dest), "A")
+    assert dest.is_file()
+    assert dest.stat().st_size > 0
+    with pytest.raises(usalign.USAlignError) as exc:
+        usalign._write_single_chain(str(FIXTURES / "1CRN.cif"), str(tmp_path / "none.cif"), "Z")
+    assert exc.value.category == "INVALID_INPUT"
+
+
 def test_empty_chain_id_means_no_filter() -> None:
     assert usalign.normalize_chain_id("") == ""
 

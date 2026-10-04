@@ -20,6 +20,7 @@ import hashlib
 import math
 import os
 import re
+import shutil
 import subprocess
 import tempfile
 from typing import Any, Mapping, Optional, Sequence
@@ -412,6 +413,92 @@ def _existing_structure_file(path: str) -> str:
     return resolved
 
 
+def _stage_structure(source: str, directory: str, which: str, chain_id: str) -> str:
+    """Copy a structure into the work directory under a fixed name.
+
+    Args:
+        source: Real path of the caller file. It is read, not passed through.
+        directory: Temporary directory created by this module.
+        which: "1" or "2".
+        chain_id: Empty keeps every chain. Otherwise only that chain is written.
+
+    Returns:
+        Path of the staged file. The name is chosen here, not by the caller.
+
+    Raises:
+        USAlignError: INVALID_INPUT when the chain is absent or the file
+            cannot be reduced to that chain.
+
+    Nota biologica:
+        O US-align recebe o arquivo estagiado. O identificador de cadeia nao
+        entra na linha de comando. A selecao, quando pedida, acontece antes,
+        no conteudo da estrutura.
+    """
+    if which == "1":
+        name = "structure1.pdb" if source.lower().endswith((".pdb", ".ent")) else "structure1.cif"
+    elif which == "2":
+        name = "structure2.pdb" if source.lower().endswith((".pdb", ".ent")) else "structure2.cif"
+    else:
+        raise USAlignError("US-align stage index is not 1 or 2.", "INVALID_INPUT")
+    dest = os.path.join(directory, name)
+    if chain_id == "":
+        shutil.copyfile(source, dest)
+        return dest
+    _write_single_chain(source, dest, chain_id)
+    return dest
+
+
+def _write_single_chain(source: str, dest: str, chain_id: str) -> None:
+    """Write one chain from a PDB or mmCIF file.
+
+    Args:
+        source: Input structure path.
+        dest: Output path inside the temporary directory.
+        chain_id: ASCII chain token already validated.
+
+    Returns:
+        None.
+
+    Raises:
+        USAlignError: INVALID_INPUT when that chain is not in the file.
+    """
+    from Bio.PDB import MMCIFIO, MMCIFParser, PDBIO, PDBParser, Select
+
+    class _OnlyChain(Select):
+        def accept_chain(self, chain: object) -> bool:
+            return str(getattr(chain, "id", "")) == chain_id
+
+    pdb = source.lower().endswith((".pdb", ".ent"))
+    try:
+        if pdb:
+            structure = PDBParser(QUIET=True).get_structure("helixscope", source)
+        else:
+            structure = MMCIFParser(QUIET=True).get_structure("helixscope", source)
+    except Exception as exc:
+        raise USAlignError(
+            "US-align could not read the structure while selecting a chain.",
+            "INVALID_INPUT",
+        ) from exc
+    present = {
+        str(chain.id)
+        for model in structure
+        for chain in model
+    }
+    if chain_id not in present:
+        raise USAlignError(
+            f"Chain {chain_id} is not in the structure.",
+            "INVALID_INPUT",
+        )
+    if pdb:
+        writer = PDBIO()
+        writer.set_structure(structure)
+        writer.save(dest, select=_OnlyChain())
+    else:
+        writer = MMCIFIO()
+        writer.set_structure(structure)
+        writer.save(dest, select=_OnlyChain())
+
+
 def align_structure_files(
     path1: str,
     path2: str,
@@ -456,8 +543,16 @@ def align_structure_files(
         )
     safe_chain1 = normalize_chain_id(chain1)
     safe_chain2 = normalize_chain_id(chain2)
-    file1 = _existing_structure_file(path1)
-    file2 = _existing_structure_file(path2)
+    if molecule == "auto":
+        mol_flag = "auto"
+    elif molecule == "prot":
+        mol_flag = "prot"
+    elif molecule == "RNA":
+        mol_flag = "RNA"
+    else:
+        raise USAlignError(f"US-align -mol '{mol}' is not offered.", "INVALID_INPUT")
+    source1 = _existing_structure_file(path1)
+    source2 = _existing_structure_file(path2)
     detected = detect_usalign()
     if not detected.get("available"):
         raise USAlignError(str(detected.get("reason") or "US-align is not installed."), "TOOL_NOT_INSTALLED")
@@ -468,11 +563,6 @@ def align_structure_files(
     )
     if not executable:
         raise USAlignError("US-align executable UNAVAILABLE.", "TOOL_NOT_INSTALLED")
-    argv = [executable, file1, file2, "-ter", "2", "-mol", molecule]
-    if safe_chain1:
-        argv.extend(["-chain1", safe_chain1])
-    if safe_chain2:
-        argv.extend(["-chain2", safe_chain2])
     try:
         timeout = float(timeout_s)
     except (TypeError, ValueError) as exc:
@@ -480,8 +570,10 @@ def align_structure_files(
     if not math.isfinite(timeout) or timeout <= 0:
         raise USAlignError("US-align timeout must be positive.", "INVALID_INPUT")
     with tempfile.TemporaryDirectory(prefix="helixscope_usalign_") as tmp:
+        file1 = _stage_structure(source1, tmp, "1", safe_chain1)
+        file2 = _stage_structure(source2, tmp, "2", safe_chain2)
         matrix_path = os.path.join(tmp, "matrix.txt")
-        argv.extend(["-m", matrix_path])
+        argv = [executable, file1, file2, "-ter", "2", "-mol", mol_flag, "-m", matrix_path]
         try:
             completed = subprocess.run(
                 argv,
@@ -510,8 +602,8 @@ def align_structure_files(
             matrix = parse_usalign_matrix(_read_capped(matrix_path))
         record = build_alignment_record(
             parsed,
-            path1=file1,
-            path2=file2,
+            path1=source1,
+            path2=source2,
             mol=molecule,
             chain1=safe_chain1,
             chain2=safe_chain2,
@@ -524,8 +616,8 @@ def align_structure_files(
             details = dict(previous.get("details") or {})
             details.update(
                 {
-                    "fixture_1": os.path.basename(file1),
-                    "fixture_2": os.path.basename(file2),
+                    "fixture_1": os.path.basename(source1),
+                    "fixture_2": os.path.basename(source2),
                     "n_aligned": record.get("n_aligned_residue_pairs"),
                     "rmsd_angstrom": record.get("rmsd_global_angstrom"),
                     "mol": molecule,
