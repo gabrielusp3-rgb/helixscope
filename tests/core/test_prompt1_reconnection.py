@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from urllib.parse import urlparse
+
 import pytest
 
 from helixscope_core.alignment import pairwise_align, translate_nucleic_for_alignment
@@ -247,7 +249,7 @@ def test_rcsb_sequence_search_posts_official_api(monkeypatch: pytest.MonkeyPatch
 
     monkeypatch.setattr("modules.protein_structure._http_json", fake_http)
     hits = search_rcsb_by_sequence("TTCCPSIVARSNFNVCRLPGTPEAICATYTGCIIIPGATCPGDYAN", sequence_type="protein")
-    assert "search.rcsb.org" in str(captured["url"])
+    assert urlparse(str(captured["url"])).hostname == "search.rcsb.org"
     assert captured["method"] == "POST"
     assert captured["body"]["query"]["service"] == "sequence"
     assert captured["body"]["query"]["parameters"]["sequence_type"] == "protein"

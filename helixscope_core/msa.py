@@ -82,6 +82,41 @@ def classify_alignment_text(text: str) -> str:
     return "unknown"
 
 
+def _bracket_holds_bases(text: str) -> bool:
+    """True when one bracket pair holds at least three base characters.
+
+    Args:
+        text: Candidate alignment body.
+
+    Returns:
+        True only for a closed bracket whose interior has three base
+        characters. The scan is linear. A long unclosed bracket is not a match.
+
+    Raises:
+        None.
+    """
+    bases = frozenset("ACGTUacgtu ")
+    body = text[:200_000]
+    start = 0
+    while start < len(body):
+        open_at = body.find("[", start)
+        if open_at < 0:
+            return False
+        close_at = body.find("]", open_at + 1)
+        if close_at < 0:
+            return False
+        window = body[open_at + 1:close_at]
+        if len(window) <= 2_000:
+            count = 0
+            for char in window:
+                if char in bases:
+                    count += 1
+                    if count >= 3:
+                        return True
+        start = open_at + 1
+    return False
+
+
 def _looks_like_annotated_table(text: str) -> bool:
     """True for markdown/human tables that are not FASTA/Clustal/Stockholm."""
     if text.lstrip().startswith(">"):
@@ -95,7 +130,7 @@ def _looks_like_annotated_table(text: str) -> bool:
         return True
     if any(mark in text for mark in ("←", "→", "->", "<-")):
         return True
-    if re.search(r"\[[^\]]*[ACGTUacgtu ]{3,}[^\]]*\]", text):
+    if _bracket_holds_bases(text):
         return True
     if re.search(r"(?im)^(humano|chimpanz[eé]|gorilla|sequence\s+\d+)\b", text):
         return True

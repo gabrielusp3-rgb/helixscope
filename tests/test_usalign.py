@@ -28,6 +28,68 @@ def test_usalign_not_installed_keeps_nucleic_unavailable(monkeypatch):
     assert "C-alpha" in nucleic["rcsb_alignment_api"]
 
 
+@pytest.mark.parametrize(
+    "chain_id",
+    [
+        " ",
+        " A",
+        "A ",
+        "A B",
+        "\"A\"",
+        "A;rm",
+        "A&B",
+        "A|B",
+        "$A",
+        "`A`",
+        "A\n",
+        "A\r",
+        "-A",
+        "--chain",
+        "../A",
+        "..\\A",
+        "%2e%2e",
+        "Ａ",
+        "A" * 5,
+        "A/B",
+        "A\x00",
+    ],
+)
+def test_chain_id_rejects_argument_injection(chain_id: str) -> None:
+    with pytest.raises(usalign.USAlignError) as exc:
+        usalign.normalize_chain_id(chain_id)
+    assert exc.value.category == "INVALID_INPUT"
+
+
+@pytest.mark.parametrize("chain_id", ["A", "a", "AA", "A1", "1", "ABCD"])
+def test_chain_id_keeps_structure_token(chain_id: str) -> None:
+    assert usalign.normalize_chain_id(chain_id) == chain_id
+
+
+def test_structure_filename_rejects_path_syntax(tmp_path) -> None:
+    with pytest.raises(usalign.USAlignError) as exc:
+        usalign.write_structure_text("data_x\n", str(tmp_path), "foo..bar.cif")
+    assert exc.value.category == "INVALID_INPUT"
+    written = usalign.write_structure_text("data_x\n", str(tmp_path), "../secret.cif")
+    assert Path(written).name == "secret.cif"
+    assert Path(written).resolve().parent == tmp_path.resolve()
+    kept = usalign.write_structure_text("data_x\n", str(tmp_path), "1CRN.cif")
+    assert Path(kept).is_file()
+
+
+def test_empty_chain_id_means_no_filter() -> None:
+    assert usalign.normalize_chain_id("") == ""
+
+
+def test_bad_chain_never_reaches_subprocess(monkeypatch) -> None:
+    def fail_run(*_args, **_kwargs):
+        raise AssertionError("subprocess must not start")
+
+    monkeypatch.setattr(usalign.subprocess, "run", fail_run)
+    with pytest.raises(usalign.USAlignError) as exc:
+        usalign.align_structure_files("missing.cif", "missing.cif", chain1="-mol")
+    assert exc.value.category == "INVALID_INPUT"
+
+
 def test_usalign_subprocess_is_shell_false():
     probe_src = inspect.getsource(usalign._probe_version)
     align_src = inspect.getsource(usalign.align_structure_files)

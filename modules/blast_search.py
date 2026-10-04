@@ -121,7 +121,7 @@ DECLARED_PROT_DB_NAME: str = "helixscope_tiny_prot"
 LOCAL_BLAST_TIMEOUT_S: float = 30.0
 LOCAL_BLAST_MAX_OUTPUT_BYTES: int = 2_000_000
 BLASTPLUS_VERSION_RE: re.Pattern[str] = re.compile(
-    r"blast(?:n|p|x|tblastn|tblastx)?[:\s]+([0-9][0-9.\w+]*)",
+    r"blast(?:n|p|x|tblastn|tblastx)?[:\s]+([0-9][\w.+]*)",
     re.I,
 )
 

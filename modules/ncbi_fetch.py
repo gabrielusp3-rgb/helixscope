@@ -59,7 +59,7 @@ SEARCH_RETRY_ATTEMPTS: int = 3
 """Tentativas de esearch/esummary diante de timeout, HTTP 429 ou 5xx."""
 
 LOCATION_SEGMENT_PATTERN: re.Pattern[str] = re.compile(
-    r"\[<?(\d+)\:>?(\d+)\](?:\(([+-?])\))?"
+    r"\[<?(\d+)\:>?(\d+)\](?:\(([+?-])\))?"
 )
 """Padrao de um segmento na representacao textual de uma localizacao Biopython,
 como "[0:1234](+)"; aceita limites incertos ("<" e ">") e fita ausente."""

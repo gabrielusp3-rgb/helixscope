@@ -469,6 +469,20 @@ def test_ebi_result_falls_back_from_aln_fasta_404():
     assert any(url.endswith("/fa") or url.endswith("/out") for url in calls)
 
 
+def test_bracketed_base_scan_rejects_unclosed_input_quickly() -> None:
+    import time
+
+    from helixscope_core.msa import _bracket_holds_bases
+
+    nasty = "[" + ("A" * 100_000)
+    started = time.perf_counter()
+    assert _bracket_holds_bases(nasty) is False
+    elapsed = time.perf_counter() - started
+    assert elapsed < 0.25
+    assert _bracket_holds_bases("[AAA]") is True
+    assert _bracket_holds_bases("[AT]") is False
+
+
 def test_msa_envelope_includes_alignment_hash():
     members = _members("ACGT", "ACGT")
     result = msa.build_msa_result(

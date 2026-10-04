@@ -8,6 +8,7 @@ fontes.
 from __future__ import annotations
 
 import json
+from urllib.parse import urlparse
 
 import pytest
 
@@ -198,7 +199,8 @@ def _clinvar_opener(uids, records):
 def _domain_opener():
     def opener(request, timeout=None):
         url = str(request.full_url)
-        if "uniprot.org" in url:
+        host = urlparse(url).hostname or ""
+        if host == "rest.uniprot.org":
             return _FakeHandle(json.dumps(UNIPROT_ENTRY), "https://rest.uniprot.org/uniprotkb/P38398.json")
         return _FakeHandle(json.dumps(INTERPRO_PAGE), "https://www.ebi.ac.uk/interpro/api/x")
 

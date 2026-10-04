@@ -223,7 +223,7 @@ def detect_fasttree() -> dict:
         tool_id="fasttree",
         version_args=("-expert",),
         version_pattern=re.compile(
-            r"FastTree(?:\s+Version)?\s+([0-9][0-9.\w-]*)",
+            r"FastTree(?:\s+Version)?\s+([0-9][\w.+-]*)",
             re.I,
         ),
     )
@@ -247,7 +247,7 @@ def detect_iqtree() -> dict:
         tool="IQ-TREE",
         tool_id="iqtree",
         version_args=("-version",),
-        version_pattern=re.compile(r"IQ-TREE[^\n]*?version\s+([0-9][0-9.\w-]*)", re.I),
+        version_pattern=re.compile(r"IQ-TREE[^\n]*?version\s+([0-9][\w.+-]*)", re.I),
     )
 
 
@@ -2253,7 +2253,7 @@ def _run_fasttree(
             snippet = stderr.strip()[:300] or "no Newick on stdout"
             raise PhylogenyError(f"FastTree did not return a tree: {snippet}", "PARSING_ERROR")
         version = ""
-        match = re.search(r"FastTree\s+Version\s+([0-9][0-9.\w-]*)", stderr, re.I)
+        match = re.search(r"FastTree\s+Version\s+([0-9][\w.+-]*)", stderr, re.I)
         if match:
             version = match.group(1)
         return stdout.strip(), version
@@ -2329,7 +2329,7 @@ def _run_iqtree(
                 report_meta = _parse_iqtree_report(handle.read())
         version = ""
         blob = f"{getattr(completed, 'stdout', '')}\n{stderr}"
-        match = re.search(r"version\s+([0-9][0-9.\w-]*)", blob, re.I)
+        match = re.search(r"version\s+([0-9][\w.+-]*)", blob, re.I)
         if match:
             version = match.group(1)
         return newick.strip(), version, report_meta

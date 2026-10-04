@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from typing import Any, Optional
 
@@ -28,6 +29,7 @@ MANIFEST_NAME: str = "manifest.json"
 FASTA_NAME: str = "genome.fa"
 FAI_NAME: str = "genome.fa.fai"
 PARTIAL_SUFFIX: str = ".partial"
+_ASSEMBLY_ID_RE: re.Pattern[str] = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}\Z")
 
 MIN_FREE_BYTES: int = 200 * 1024 * 1024
 
@@ -108,16 +110,25 @@ def assembly_dir(assembly_id: str) -> str:
         GenomeStoreError: INVALID_INPUT.
     """
     ident = _safe_id(assembly_id)
-    return os.path.join(store_root(), ident)
+    root = os.path.realpath(store_root())
+    path = os.path.realpath(os.path.join(root, ident))
+    try:
+        shared = os.path.commonpath([root, path])
+    except ValueError as exc:
+        raise GenomeStoreError("Assembly path leaves the reference store.", "INVALID_INPUT") from exc
+    if os.path.normcase(shared) != os.path.normcase(root):
+        raise GenomeStoreError("Assembly path leaves the reference store.", "INVALID_INPUT")
+    return path
 
 
 def _safe_id(assembly_id: str) -> str:
-    ident = str(assembly_id or "").strip()
-    if not ident or ident in {".", ".."} or "/" in ident or "\\" in ident:
+    ident = str(assembly_id or "")
+    if ident == "" or ident != ident.strip() or ".." in ident or "\x00" in ident:
         raise GenomeStoreError("Assembly id is not a safe directory name.", "INVALID_INPUT")
-    if any(ch in ident for ch in ":*?\"<>|"):
+    matched = _ASSEMBLY_ID_RE.fullmatch(ident)
+    if matched is None:
         raise GenomeStoreError("Assembly id contains illegal path characters.", "INVALID_INPUT")
-    return ident
+    return matched.group(0)
 
 
 def path_is_in_store(path: str) -> bool:

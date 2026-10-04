@@ -518,7 +518,7 @@ def spawn_download_assembly(assembly_id: str) -> dict:
     disk = genome_store.disk_status(need_bytes=need)
     if not disk.get("ok"):
         raise GenomeDownloadError(str(disk.get("reason") or "Low disk."), "RESOURCE_LIMIT")
-    ident = str(assembly_id)
+    ident = str(catalog["id"])
     genome_store.write_manifest(
         ident,
         {

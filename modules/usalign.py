@@ -64,6 +64,13 @@ MATRIX_ROW_RE: re.Pattern[str] = re.compile(
 LOCAL_TIMEOUT_S: float = 60.0
 MAX_OUTPUT_CHARS: int = 200_000
 ALLOWED_MOL: frozenset[str] = frozenset({"auto", "prot", "RNA"})
+# PDB auth_asym_id is one character. mmCIF label_asym_id in deposited
+# entries used here is a short ASCII token, not a command-line option.
+_CHAIN_ID_RE: re.Pattern[str] = re.compile(r"[A-Za-z0-9]{1,4}\Z")
+_STRUCTURE_NAME_RE: re.Pattern[str] = re.compile(
+    r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}\.(?:cif|pdb|ent)\Z",
+    re.IGNORECASE,
+)
 
 
 class USAlignError(RuntimeError):
@@ -348,6 +355,63 @@ def rotation_translation_to_column_major(u: Sequence[Sequence[float]], t: Sequen
     return matrix
 
 
+def normalize_chain_id(chain_id: str) -> str:
+    """Return a US-align chain token, or empty when no chain filter is requested.
+
+    Args:
+        chain_id: Caller-supplied chain label. Empty means the whole structure.
+
+    Returns:
+        The same ASCII letters or digits, length 1 to 4.
+
+    Raises:
+        USAlignError: INVALID_INPUT when the label is not a structure chain id.
+
+    Nota biologica:
+        O token e o auth_asym_id ou label_asym_id da estrutura, nao uma opcao
+        do US-align. Um hifen inicial seria lido como outra flag.
+    """
+    if chain_id is None:
+        return ""
+    if not isinstance(chain_id, str):
+        raise USAlignError("US-align chain id must be text.", "INVALID_INPUT")
+    if chain_id == "":
+        return ""
+    if chain_id != chain_id.strip() or any(ord(char) < 32 or ord(char) == 127 for char in chain_id):
+        raise USAlignError("US-align chain id contains whitespace or controls.", "INVALID_INPUT")
+    matched = _CHAIN_ID_RE.fullmatch(chain_id)
+    if matched is None:
+        raise USAlignError(
+            "US-align chain id must be 1 to 4 ASCII letters or digits.",
+            "INVALID_INPUT",
+        )
+    return matched.group(0)
+
+
+def _existing_structure_file(path: str) -> str:
+    """Resolve a caller path to an existing structure file.
+
+    Args:
+        path: PDB or mmCIF path.
+
+    Returns:
+        Real path of an existing .cif, .pdb, or .ent file.
+
+    Raises:
+        USAlignError: INVALID_INPUT when the path is not that file.
+    """
+    if not isinstance(path, str) or path == "" or "\x00" in path:
+        raise USAlignError("US-align structure path is empty or contains NUL.", "INVALID_INPUT")
+    if any(ord(char) < 32 for char in path):
+        raise USAlignError("US-align structure path contains a control character.", "INVALID_INPUT")
+    resolved = os.path.realpath(path)
+    if not os.path.isfile(resolved):
+        raise USAlignError("US-align input structure file is missing.", "INVALID_INPUT")
+    if not resolved.lower().endswith((".cif", ".pdb", ".ent")):
+        raise USAlignError("US-align input must be .cif, .pdb, or .ent.", "INVALID_INPUT")
+    return resolved
+
+
 def align_structure_files(
     path1: str,
     path2: str,
@@ -390,10 +454,10 @@ def align_structure_files(
             "Oligomer/complex modes are not exposed until a dedicated interface is validated.",
             "INVALID_INPUT",
         )
-    file1 = os.path.abspath(path1)
-    file2 = os.path.abspath(path2)
-    if not os.path.isfile(file1) or not os.path.isfile(file2):
-        raise USAlignError("US-align input structure file is missing.", "INVALID_INPUT")
+    safe_chain1 = normalize_chain_id(chain1)
+    safe_chain2 = normalize_chain_id(chain2)
+    file1 = _existing_structure_file(path1)
+    file2 = _existing_structure_file(path2)
     detected = detect_usalign()
     if not detected.get("available"):
         raise USAlignError(str(detected.get("reason") or "US-align is not installed."), "TOOL_NOT_INSTALLED")
@@ -405,10 +469,10 @@ def align_structure_files(
     if not executable:
         raise USAlignError("US-align executable UNAVAILABLE.", "TOOL_NOT_INSTALLED")
     argv = [executable, file1, file2, "-ter", "2", "-mol", molecule]
-    if chain1:
-        argv.extend(["-chain1", str(chain1).strip()])
-    if chain2:
-        argv.extend(["-chain2", str(chain2).strip()])
+    if safe_chain1:
+        argv.extend(["-chain1", safe_chain1])
+    if safe_chain2:
+        argv.extend(["-chain2", safe_chain2])
     try:
         timeout = float(timeout_s)
     except (TypeError, ValueError) as exc:
@@ -449,8 +513,8 @@ def align_structure_files(
             path1=file1,
             path2=file2,
             mol=molecule,
-            chain1=chain1,
-            chain2=chain2,
+            chain1=safe_chain1,
+            chain2=safe_chain2,
             matrix=matrix,
             executable_version=str(parsed.get("version") or detected.get("version") or ""),
         )
@@ -686,14 +750,23 @@ def write_structure_text(text: str, directory: str, filename: str) -> str:
         USAlignError: INVALID_INPUT se o texto ou o nome forem invalidos.
     """
     body = str(text or "")
-    if not body.strip():
+    if not body.strip() or "\x00" in body:
         raise USAlignError("US-align cannot run without structure text.", "INVALID_INPUT")
-    base = os.path.basename(str(filename or "structure.cif"))
-    if ".." in base or "/" in base or "\\" in base:
+    if not isinstance(directory, str) or directory == "" or "\x00" in directory:
+        raise USAlignError("US-align output directory is not usable.", "INVALID_INPUT")
+    base = os.path.basename(str(filename or ""))
+    matched = _STRUCTURE_NAME_RE.fullmatch(base)
+    if matched is None or ".." in base:
         raise USAlignError("US-align output filename is not a basename.", "INVALID_INPUT")
-    if not base.lower().endswith((".cif", ".pdb", ".ent")):
-        base += ".cif"
-    path = os.path.join(directory, base)
+    base = matched.group(0)
+    root = os.path.realpath(directory)
+    path = os.path.realpath(os.path.join(root, base))
+    try:
+        shared = os.path.commonpath([root, path])
+    except ValueError as exc:
+        raise USAlignError("US-align output path leaves the temporary directory.", "INVALID_INPUT") from exc
+    if os.path.normcase(shared) != os.path.normcase(root):
+        raise USAlignError("US-align output path leaves the temporary directory.", "INVALID_INPUT")
     with open(path, "w", encoding="utf-8") as handle:
         handle.write(body if body.endswith("\n") else body + "\n")
     return path
