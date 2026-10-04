@@ -10,7 +10,7 @@ analysis, with an explicit status on every result.
 [Security](SECURITY.md) ·
 [Citation](CITATION.cff)
 
-![HelixScope wordmark on a black field with an abstract molecular form. This is a repository banner, not an experimental structure.](docs/assets/github-social-preview.png)
+<img src="docs/assets/helixscope-banner.png" alt="HelixScope wordmark on a black field. The O contains a helix drawing. The line under the name reads: See the code of life, past and present. This is a repository banner, not an experimental structure." width="100%">
 
 ## Demo
 
