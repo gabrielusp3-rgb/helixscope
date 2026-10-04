@@ -609,10 +609,44 @@ def test_worker_passes_zero_max_mismatches(tmp_path, monkeypatch):
     assert captured["max_mismatches"] == 0
 
 
-def test_unsafe_assembly_id_rejected(tmp_path, monkeypatch):
+@pytest.mark.parametrize(
+    "assembly_id",
+    [
+        "..",
+        "../",
+        "..\\",
+        "../../",
+        "/etc/passwd",
+        "C:\\",
+        "C:/Windows",
+        "\\\\server\\share",
+        "id\x00",
+        "id\n",
+        "ＧＲＣｈ３８",
+        "A" * 80,
+        ".hidden",
+        "/GRCh38.p14",
+        "\\GRCh38.p14",
+        "GRCh38.p14/../x",
+        "not-a-catalog-id",
+    ],
+)
+def test_unsafe_assembly_id_rejected(tmp_path, monkeypatch, assembly_id):
     _isolate_store(tmp_path, monkeypatch)
     with pytest.raises(genome_store.GenomeStoreError):
-        genome_store.assembly_dir("..\\Windows")
+        genome_store.assembly_dir(assembly_id)
+
+
+def test_catalog_assembly_stays_inside_store(tmp_path, monkeypatch):
+    _isolate_store(tmp_path, monkeypatch)
+    path = genome_store.assembly_dir("GRCh38.p14")
+    root = os.path.realpath(str(tmp_path / "refs"))
+    assert os.path.commonpath([root, os.path.realpath(path)]) == root
+    assert os.path.basename(path) == "GRCh38.p14"
+
+
+def test_job_dir_rejects_non_hex(tmp_path, monkeypatch):
+    _isolate_store(tmp_path, monkeypatch)
     with pytest.raises(genome_jobs.GenomeJobError):
         genome_jobs.job_dir("not-hex")
 

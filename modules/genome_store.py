@@ -122,13 +122,31 @@ def assembly_dir(assembly_id: str) -> str:
 
 
 def _safe_id(assembly_id: str) -> str:
+    """Map a request to one catalog id. The returned text is the catalog constant.
+
+    Args:
+        assembly_id: Caller-supplied label.
+
+    Returns:
+        The catalog id, not the raw caller string.
+
+    Raises:
+        GenomeStoreError: INVALID_INPUT when the label is not in the catalog.
+    """
     ident = str(assembly_id or "")
     if ident == "" or ident != ident.strip() or ".." in ident or "\x00" in ident:
         raise GenomeStoreError("Assembly id is not a safe directory name.", "INVALID_INPUT")
-    matched = _ASSEMBLY_ID_RE.fullmatch(ident)
-    if matched is None:
+    if _ASSEMBLY_ID_RE.fullmatch(ident) is None:
         raise GenomeStoreError("Assembly id contains illegal path characters.", "INVALID_INPUT")
-    return matched.group(0)
+    if ident == "GRCh38.p14":
+        return "GRCh38.p14"
+    if ident == "T2T-CHM13v2.0":
+        return "T2T-CHM13v2.0"
+    if ident == "GRCm39":
+        return "GRCm39"
+    if ident == crispr_assemblies.TEST_REFERENCE_ID:
+        return crispr_assemblies.TEST_REFERENCE_ID
+    raise GenomeStoreError("Assembly id is not in the public catalog.", "INVALID_INPUT")
 
 
 def path_is_in_store(path: str) -> bool:
