@@ -48,7 +48,8 @@ RUN curl -fsSL -o /tmp/blast.tar.gz \
         /opt/blast/ \
     && rm -rf /tmp/blast.tar.gz /tmp/ncbi-blast-2.17.0+
 
-RUN curl -fsSL -o /tmp/usalign.zip \
+RUN curl -fsSL -A "Mozilla/5.0 (compatible; HelixScope-build/1.0)" \
+        -o /tmp/usalign.zip \
         https://zhanggroup.org/US-align/bin/module/USalignLinux64.zip \
     && echo "af5ad073c0f732de22e6dd62c5abf25b2cbad9c791d436fff32231c61576b7a3  /tmp/usalign.zip" | sha256sum -c - \
     && unzip -j /tmp/usalign.zip USalign/USalign -d /opt \
