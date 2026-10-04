@@ -18,6 +18,11 @@ reconstructed release history.
 
 - The public README keeps the repository banner and no longer embeds the
   interface screenshots or the captions that described them.
+- The US-align download in the image sends a user agent. The official URL
+  and checksum are unchanged. Render's builder had received HTTP 403
+  without it.
+- A public demo is served at https://helixscope.onrender.com from the
+  Dockerfile on Render's free plan in Virginia.
 - Python dependencies in `requirements.txt` are pinned to the versions measured
   in the tested container: Streamlit 1.58.0, Biopython 1.87, Plotly 6.9.0,
   pandas 2.3.3, NumPy 2.5.3, pytest 9.1.1 and Hypothesis 6.168.3.

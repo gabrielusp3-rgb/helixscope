@@ -18,6 +18,16 @@ it and does not create a hosting account.
 The image id changes when the Dockerfile changes. The digest above is the
 base image, not the HelixScope image id.
 
+## Public host
+
+A Render web service named `helixscope` in Virginia builds this Dockerfile
+from `main` and serves https://helixscope.onrender.com. The plan used for
+the first public demo is Free. Render injects `PORT`; the measured process
+listened on `0.0.0.0:10000`. Health is `/_stcore/health`. No NCBI key is
+configured. Disk on that service is ephemeral. The free plan can suspend
+the process after inactivity and is not a claim that every scientific
+workload fits in 512 MB.
+
 ## Run locally
 
 ```text

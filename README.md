@@ -14,7 +14,15 @@ analysis, with an explicit status on every result.
 
 ## Demo
 
-Public hosted demo: not yet available.
+Public hosted demo: https://helixscope.onrender.com
+
+That address is a Render free web service built from this repository's
+Dockerfile. It is a portfolio demo, not a permanent production service.
+The free instance has about 512 MB of RAM and about 0.1 CPU, and Render
+suspends it after inactivity. The first request after a suspend waits for
+the process to wake. Session history lives in the Streamlit process and
+does not survive a restart. Health is `GET /_stcore/health` and returns
+`ok` when the process is up.
 
 ## Highlights
 
