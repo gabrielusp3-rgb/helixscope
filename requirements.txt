@@ -1,0 +1,17 @@
+# Exact versions measured in helixscope:local on 2026-10-03.
+# Streamlit and Biopython stay on the validated workstation pins.
+# Plotly, pandas, numpy, pytest and hypothesis were previously ranges;
+# these are the versions that passed the container suite, not newer releases.
+streamlit==1.58.0
+biopython==1.87
+plotly==6.9.0
+pandas==2.3.3
+numpy==2.5.3
+pytest==9.1.1
+hypothesis==6.168.3
+# Optional RNA folding: pip install ViennaRNA==2.7.2
+# Official ViennaRNA Python bindings (cp314 win_amd64 wheel exists).
+# The Python module is not the RNAfold CLI. Without either, folding is UNAVAILABLE.
+# Protein structure uses the Python standard library plus Biopython alignment.
+# 3D visualization uses Plotly Scatter3d already required above; no Three.js,
+# 3Dmol.js, or CDN renderer.

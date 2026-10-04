@@ -1,0 +1,14 @@
+##gff-version 3
+# HelixScope TEST REFERENCE annotation. Not GRCh38. Assembly HELIXSCOPE_TEST_REF.
+HS_TEST_1	testdb	gene	41	80	.	+	.	ID=gene1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_1	testdb	exon	41	55	.	+	.	Parent=tx1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_1	testdb	CDS	41	55	.	+	0	Parent=tx1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_1	testdb	exon	61	80	.	+	.	Parent=tx1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_1	testdb	CDS	61	80	.	+	0	Parent=tx1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_1	testdb	three_prime_utr	81	90	.	+	.	Parent=tx1;gene_id=HSG1;Name=TESTGENE;transcript_id=tx1
+HS_TEST_2	testdb	gene	1	40	.	-	.	ID=gene2;gene_id=HSG2;Name=REVGENE;transcript_id=tx2
+HS_TEST_2	testdb	exon	1	40	.	-	.	Parent=tx2;gene_id=HSG2;Name=REVGENE;transcript_id=tx2
+HS_TEST_2	testdb	CDS	1	39	.	-	0	Parent=tx2;gene_id=HSG2;Name=REVGENE;transcript_id=tx2
+HS_TEST_2	testdb	gene	20	50	.	+	.	ID=gene3;gene_id=HSG3;Name=OVERLAP;transcript_id=tx3
+HS_TEST_2	testdb	exon	20	50	.	+	.	Parent=tx3;gene_id=HSG3;Name=OVERLAP;transcript_id=tx3
+HS_TEST_2	testdb	CDS	20	49	.	+	0	Parent=tx3;gene_id=HSG3;Name=OVERLAP;transcript_id=tx3

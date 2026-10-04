@@ -1,0 +1,171 @@
+{
+  "codon_fixture": {
+    "cai_report": {
+      "exclude_stops": true,
+      "method": "Geometric mean of relative adaptiveness w = f(codon)/f(best synonym) from the embedded frequency-per-thousand table. Heuristic inspired by Sharp and Li (1987); not the original published software.",
+      "n_informative": 20,
+      "organism": "human",
+      "status": "HEURISTIC",
+      "table_source": "Approximate Kazusa-style codon usage (frequency per thousand) for Homo sapiens, embedded as a HelixScope constant. Not a live Kazusa query.",
+      "value": 0.6643
+    },
+    "coding_rna": "AUGGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUGCUUAA",
+    "enc_report": {
+      "method": "Wright (1990) Nc = 2 + 9/F2 + 1/F3 + 5/F4 + 3/F6, with F3 interpolated from F2 and F4 when isoleucine is missing.",
+      "reason": "Nao ha dados suficientes para estimar o ENC de forma confiavel: as familias sinonimas de 2 codons, 6 codons nao tem codons observados em quantidade minima. Analise uma regiao codificadora mais longa.",
+      "status": "UNAVAILABLE",
+      "value": {
+        "__nonfinite__": "NaN"
+      }
+    }
+  },
+  "composition": {
+    "rna_sequence": "AUGCAUGCAUGC",
+    "shannon_entropy": 2.0
+  },
+  "fold_python_viennarna": {
+    "accession": "",
+    "algorithm": "ViennaRNA RNAlib RNA.fold MFE",
+    "algorithm_version": "",
+    "backend": "viennarna_python",
+    "base_pairs": [
+      {
+        "base": "G",
+        "coordinate_system": "0-based",
+        "paired_base": "C",
+        "paired_position_0based": 15,
+        "position_0based": 0
+      },
+      {
+        "base": "C",
+        "coordinate_system": "0-based",
+        "paired_base": "G",
+        "paired_position_0based": 14,
+        "position_0based": 1
+      },
+      {
+        "base": "G",
+        "coordinate_system": "0-based",
+        "paired_base": "C",
+        "paired_position_0based": 13,
+        "position_0based": 2
+      },
+      {
+        "base": "C",
+        "coordinate_system": "0-based",
+        "paired_base": "G",
+        "paired_position_0based": 12,
+        "position_0based": 3
+      },
+      {
+        "base": "G",
+        "coordinate_system": "0-based",
+        "paired_base": "C",
+        "paired_position_0based": 11,
+        "position_0based": 4
+      },
+      {
+        "base": "C",
+        "coordinate_system": "0-based",
+        "paired_base": "G",
+        "paired_position_0based": 10,
+        "position_0based": 5
+      }
+    ],
+    "cache_status": "live",
+    "computed_at_utc": "2026-08-29T19:23:06Z",
+    "coordinate_system": "0-based",
+    "database": "",
+    "disclaimer": "Predicted RNA secondary structure (minimum free energy). This is a computational prediction, not an experimental structure, not a 3D model, and not a functional annotation. Predicted structure. Coordinates come from a computational model. They are not an experimental measurement.",
+    "dot_bracket": "((((((....))))))",
+    "elements": [
+      {
+        "end": 16,
+        "label": "stem (dot-bracket)",
+        "length": 6,
+        "outer_pair": [
+          0,
+          15
+        ],
+        "start": 0,
+        "status": "COMPUTED",
+        "type": "stem"
+      },
+      {
+        "end": 10,
+        "label": "hairpin loop (dot-bracket)",
+        "length": 4,
+        "start": 6,
+        "status": "COMPUTED",
+        "type": "hairpin_loop"
+      },
+      {
+        "end": 10,
+        "label": "internal loop (dot-bracket)",
+        "length": 4,
+        "start": 6,
+        "status": "COMPUTED",
+        "type": "internal_loop"
+      }
+    ],
+    "full_sequence_hash": "bf8795e4b4c6bf6f4f10c27be49d3a826c73a89fef675fcfa37e26d4026fb6fa",
+    "identifier": "prompt0_hairpin",
+    "input_hash": "bf8795e4b4c6bf6f4f10c27be49d3a826c73a89fef675fcfa37e26d4026fb6fa",
+    "input_identifier": "prompt0_hairpin",
+    "input_length": 16,
+    "kind": "predicted",
+    "length": 16,
+    "method": "RNA.fold MFE",
+    "mfe": -10.899999618530273,
+    "mfe_kcal_mol": -10.899999618530273,
+    "mfe_unit": "kcal/mol",
+    "module": "RNA folding",
+    "n_pairs": 6,
+    "normalization": {
+      "nucleotides_changed": false,
+      "uppercased": false,
+      "whitespace_removed": false
+    },
+    "organism": "",
+    "parameters": {
+      "algorithm": "MFE (ViennaRNA Zuker-style dynamic programming)",
+      "energy_parameters": "ViennaRNA default nearest-neighbor set (Turner 2004 in unmodified ViennaRNA 2 distributions). HelixScope does not load a custom file.",
+      "noPS": true,
+      "noconv": true,
+      "partition_function": false,
+      "pseudoknots": false,
+      "region_mode": "full sequence",
+      "salt_M": 1.021,
+      "salt_passed_by_helixscope": false,
+      "salt_source": "ViennaRNA documented RNAfold default. HelixScope does not pass --salt; the library value is used.",
+      "temperature_c": 37.0,
+      "temperature_passed_by_helixscope": true,
+      "temperature_source": "ViennaRNA documented default. RNAfold is invoked with --temp=37.0. Python RNA.cvar.temperature is set when that attribute exists."
+    },
+    "region_end": 16,
+    "region_mode": "full sequence",
+    "region_start": 0,
+    "retrieved_at": "",
+    "sequence": "GCGCGCAAAAGCGCGC",
+    "sequence_hash": "bf8795e4b4c6bf6f4f10c27be49d3a826c73a89fef675fcfa37e26d4026fb6fa",
+    "sequence_source": "user input",
+    "software": "HelixScope",
+    "software_version": "0.24.3-19",
+    "source": "user input",
+    "status": "PREDICTED",
+    "structure": "((((((....))))))",
+    "structure_kind": "predicted",
+    "structure_source": "ViennaRNA RNAlib",
+    "tool": "ViennaRNA RNAlib",
+    "tool_version": "2.7.2",
+    "version": "",
+    "version_status": "detected"
+  },
+  "let7_length": 22,
+  "let7_not_folded_here": true,
+  "note": "ViennaRNA Python MFE is PREDICTED. RNAfold CLI is a different backend.",
+  "transcription": {
+    "dna": "ATGCATGCATGC",
+    "rna": "AUGCAUGCAUGC"
+  }
+}

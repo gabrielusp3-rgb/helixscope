@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- HelixScope fixture: NCBI BlastOutput XML with Iteration_message No hits found. Not a live NCBI response. -->
+<BlastOutput>
+  <BlastOutput_program>blastn</BlastOutput_program>
+  <BlastOutput_version>BLASTN 2.16.0+</BlastOutput_version>
+  <BlastOutput_reference>HelixScope offline fixture</BlastOutput_reference>
+  <BlastOutput_db>core_nt</BlastOutput_db>
+  <BlastOutput_query-ID>Query_1</BlastOutput_query-ID>
+  <BlastOutput_query-def>helixscope_query</BlastOutput_query-def>
+  <BlastOutput_query-len>20</BlastOutput_query-len>
+  <BlastOutput_iterations>
+    <Iteration>
+      <Iteration_iter-num>1</Iteration_iter-num>
+      <Iteration_query-ID>Query_1</Iteration_query-ID>
+      <Iteration_query-def>helixscope_query</Iteration_query-def>
+      <Iteration_query-len>20</Iteration_query-len>
+      <Iteration_message>No hits found</Iteration_message>
+    </Iteration>
+  </BlastOutput_iterations>
+</BlastOutput>

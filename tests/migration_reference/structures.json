@@ -1,0 +1,30 @@
+{
+  "4UN3_cache": null,
+  "fixtures": {
+    "1BNA.cif": {
+      "bytes": 102564,
+      "kind": "experimental fixture",
+      "sha256": "d7e8d8a695a73f692faeae08377050570c011adfac369583e9d67a3401b78092",
+      "source": "tests/fixtures (vendored)"
+    },
+    "1CRN.cif": {
+      "bytes": 69506,
+      "kind": "experimental fixture",
+      "sha256": "23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba",
+      "source": "tests/fixtures (vendored)"
+    },
+    "1RNA.cif": {
+      "bytes": 113162,
+      "kind": "experimental fixture",
+      "sha256": "0d9a83e5b903947f7337df287919a8d47152d63c0af9ca5276577c22eda34fc0",
+      "source": "tests/fixtures (vendored)"
+    }
+  },
+  "kinds": [
+    "experimental",
+    "predicted",
+    "illustrative",
+    "unavailable"
+  ],
+  "mapping_law": "UNCERTAIN mapping must not be promoted to EXACT by a new frontend."
+}

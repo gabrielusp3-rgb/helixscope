@@ -1,0 +1,4091 @@
+{
+  "components": {
+    "schemas": {
+      "ApiEnvelope": {
+        "additionalProperties": false,
+        "description": "Consistent success wrapper. Domain meaning stays inside result.",
+        "properties": {
+          "api_version": {
+            "default": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "execution_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Execution Status"
+          },
+          "input_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Hash"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "product_version": {
+            "default": "0.24.3-19",
+            "title": "Product Version",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "result": {
+            "additionalProperties": true,
+            "title": "Result",
+            "type": "object"
+          },
+          "scientific_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scientific Status"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "request_id",
+          "result"
+        ],
+        "title": "ApiEnvelope",
+        "type": "object"
+      },
+      "BlastLocalJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "molecule": {
+            "default": "DNA",
+            "pattern": "^(DNA|RNA|PROTEIN)$",
+            "title": "Molecule",
+            "type": "string"
+          },
+          "program": {
+            "default": "blastn",
+            "maxLength": 16,
+            "title": "Program",
+            "type": "string"
+          },
+          "query": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "BlastLocalJobRequest",
+        "type": "object"
+      },
+      "BlastRemoteJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "program": {
+            "default": "blastn",
+            "maxLength": 16,
+            "title": "Program",
+            "type": "string"
+          },
+          "query": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query",
+          "email"
+        ],
+        "title": "BlastRemoteJobRequest",
+        "type": "object"
+      },
+      "Body_msaImportPrealignedUpload": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_msaImportPrealignedUpload",
+        "type": "object"
+      },
+      "CasOffinderJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly_id": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly Id",
+            "type": "string"
+          },
+          "cas_system": {
+            "default": "SpCas9",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Cas System",
+            "type": "string"
+          },
+          "guide_sequence": {
+            "maxLength": 40,
+            "minLength": 10,
+            "title": "Guide Sequence",
+            "type": "string"
+          },
+          "pam": {
+            "default": "NGG",
+            "maxLength": 16,
+            "title": "Pam",
+            "type": "string"
+          }
+        },
+        "required": [
+          "guide_sequence",
+          "assembly_id"
+        ],
+        "title": "CasOffinderJobRequest",
+        "type": "object"
+      },
+      "CompareEvidenceRequest": {
+        "additionalProperties": false,
+        "description": "Evidence mode reuses two identified variant identities.",
+        "properties": {
+          "assembly_a": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly A",
+            "type": "string"
+          },
+          "assembly_b": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly B",
+            "type": "string"
+          },
+          "text_a": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text A",
+            "type": "string"
+          },
+          "text_b": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text B",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text_a",
+          "assembly_a",
+          "text_b",
+          "assembly_b"
+        ],
+        "title": "CompareEvidenceRequest",
+        "type": "object"
+      },
+      "CompareEvolutionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "column": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Column",
+            "type": "integer"
+          },
+          "fasta": {
+            "maxLength": 2000000,
+            "minLength": 1,
+            "title": "Fasta",
+            "type": "string"
+          },
+          "group_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Group Ids",
+            "type": "array"
+          },
+          "member_id": {
+            "default": "",
+            "maxLength": 80,
+            "title": "Member Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fasta"
+        ],
+        "title": "CompareEvolutionRequest",
+        "type": "object"
+      },
+      "CompareGuidesRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "guide_a": {
+            "additionalProperties": true,
+            "title": "Guide A",
+            "type": "object"
+          },
+          "guide_b": {
+            "additionalProperties": true,
+            "title": "Guide B",
+            "type": "object"
+          }
+        },
+        "required": [
+          "guide_a",
+          "guide_b"
+        ],
+        "title": "CompareGuidesRequest",
+        "type": "object"
+      },
+      "CompareParseRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          }
+        },
+        "required": [
+          "payload"
+        ],
+        "title": "CompareParseRequest",
+        "type": "object"
+      },
+      "CompareProteinsRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "identifier_a": {
+            "default": "protein_a",
+            "maxLength": 80,
+            "title": "Identifier A",
+            "type": "string"
+          },
+          "identifier_b": {
+            "default": "protein_b",
+            "maxLength": 80,
+            "title": "Identifier B",
+            "type": "string"
+          },
+          "sequence_a": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Sequence A",
+            "type": "string"
+          },
+          "sequence_b": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Sequence B",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence_a",
+          "sequence_b"
+        ],
+        "title": "CompareProteinsRequest",
+        "type": "object"
+      },
+      "CompareRemoteJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "fetch_coordinates": {
+            "default": true,
+            "title": "Fetch Coordinates",
+            "type": "boolean"
+          },
+          "method": {
+            "default": "tm-align",
+            "maxLength": 40,
+            "title": "Method",
+            "type": "string"
+          },
+          "reference_chain": {
+            "default": "A",
+            "maxLength": 8,
+            "title": "Reference Chain",
+            "type": "string"
+          },
+          "reference_entry": {
+            "maxLength": 80,
+            "minLength": 4,
+            "pattern": "^[0-9A-Za-z_-]+$",
+            "title": "Reference Entry",
+            "type": "string"
+          },
+          "target_chain": {
+            "default": "A",
+            "maxLength": 8,
+            "title": "Target Chain",
+            "type": "string"
+          },
+          "target_entry": {
+            "maxLength": 80,
+            "minLength": 4,
+            "pattern": "^[0-9A-Za-z_-]+$",
+            "title": "Target Entry",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reference_entry",
+          "target_entry"
+        ],
+        "title": "CompareRemoteJobRequest",
+        "type": "object"
+      },
+      "CompareUSalignJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "reference_chain": {
+            "default": "A",
+            "maxLength": 8,
+            "title": "Reference Chain",
+            "type": "string"
+          },
+          "reference_entry": {
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Reference Entry",
+            "type": "string"
+          },
+          "target_chain": {
+            "default": "A",
+            "maxLength": 8,
+            "title": "Target Chain",
+            "type": "string"
+          },
+          "target_entry": {
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Target Entry",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reference_entry",
+          "target_entry"
+        ],
+        "title": "CompareUSalignJobRequest",
+        "type": "object"
+      },
+      "CompareVariantsRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly_a": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly A",
+            "type": "string"
+          },
+          "assembly_b": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly B",
+            "type": "string"
+          },
+          "text_a": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text A",
+            "type": "string"
+          },
+          "text_b": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text B",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text_a",
+          "assembly_a",
+          "text_b",
+          "assembly_b"
+        ],
+        "title": "CompareVariantsRequest",
+        "type": "object"
+      },
+      "CrisprGuidesRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "cas_system": {
+            "default": "SpCas9",
+            "maxLength": 80,
+            "title": "Cas System",
+            "type": "string"
+          },
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "max_mismatches": {
+            "default": 3,
+            "maximum": 8.0,
+            "minimum": 0.0,
+            "title": "Max Mismatches",
+            "type": "integer"
+          },
+          "run_off_target": {
+            "default": false,
+            "title": "Run Off Target",
+            "type": "boolean"
+          },
+          "sequence": {
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "CrisprGuidesRequest",
+        "type": "object"
+      },
+      "DnaAnalyzeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "drop_overlapping_orfs": {
+            "default": true,
+            "title": "Drop Overlapping Orfs",
+            "type": "boolean"
+          },
+          "include_cpg": {
+            "default": false,
+            "title": "Include Cpg",
+            "type": "boolean"
+          },
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "include_kmers": {
+            "default": false,
+            "title": "Include Kmers",
+            "type": "boolean"
+          },
+          "include_orfs": {
+            "default": false,
+            "title": "Include Orfs",
+            "type": "boolean"
+          },
+          "include_profiles": {
+            "default": false,
+            "title": "Include Profiles",
+            "type": "boolean"
+          },
+          "include_restriction": {
+            "default": false,
+            "title": "Include Restriction",
+            "type": "boolean"
+          },
+          "include_santalucia": {
+            "default": false,
+            "title": "Include Santalucia",
+            "type": "boolean"
+          },
+          "kmer_k": {
+            "default": 3,
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Kmer K",
+            "type": "integer"
+          },
+          "kmer_top_n": {
+            "default": 30,
+            "maximum": 256.0,
+            "minimum": 1.0,
+            "title": "Kmer Top N",
+            "type": "integer"
+          },
+          "min_orf_length": {
+            "default": 150,
+            "maximum": 10000.0,
+            "minimum": 3.0,
+            "title": "Min Orf Length",
+            "type": "integer"
+          },
+          "profile_step": {
+            "default": 50,
+            "maximum": 2000.0,
+            "minimum": 1.0,
+            "title": "Profile Step",
+            "type": "integer"
+          },
+          "profile_window": {
+            "default": 100,
+            "maximum": 2000.0,
+            "minimum": 10.0,
+            "title": "Profile Window",
+            "type": "integer"
+          },
+          "santalucia_na_m": {
+            "default": 0.05,
+            "maximum": 1.5,
+            "minimum": 0.001,
+            "title": "Santalucia Na M",
+            "type": "number"
+          },
+          "santalucia_oligo_nm": {
+            "default": 250.0,
+            "maximum": 1000000.0,
+            "minimum": 1.0,
+            "title": "Santalucia Oligo Nm",
+            "type": "number"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "DnaAnalyzeRequest",
+        "type": "object"
+      },
+      "DnaHelix3dRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "center_on_selected": {
+            "default": false,
+            "title": "Center On Selected",
+            "type": "boolean"
+          },
+          "inspect_position": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Inspect Position",
+            "type": "integer"
+          },
+          "lod": {
+            "default": "high",
+            "pattern": "^(low|medium|high)$",
+            "title": "Lod",
+            "type": "string"
+          },
+          "prefer": {
+            "default": "illustrative",
+            "pattern": "^(illustrative|experimental|predicted|auto)$",
+            "title": "Prefer",
+            "type": "string"
+          },
+          "region_end": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region End"
+          },
+          "region_start": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Region Start",
+            "type": "integer"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "DnaHelix3dRequest",
+        "type": "object"
+      },
+      "EvidenceItemIn": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_status": {
+            "default": "RETRIEVED",
+            "title": "Evidence Status",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "identifier": {
+            "default": "",
+            "title": "Identifier",
+            "type": "string"
+          },
+          "mapping_status": {
+            "default": "",
+            "title": "Mapping Status",
+            "type": "string"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "retrieved_at_utc": {
+            "default": "",
+            "title": "Retrieved At Utc",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value"
+          }
+        },
+        "required": [
+          "field",
+          "source"
+        ],
+        "title": "EvidenceItemIn",
+        "type": "object"
+      },
+      "EvidencePackRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "inputs": {
+            "additionalProperties": true,
+            "title": "Inputs",
+            "type": "object"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItemIn"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "kind": {
+            "default": "variants",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "EvidencePackRequest",
+        "type": "object"
+      },
+      "ExplainRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Kind",
+            "type": "string"
+          },
+          "values": {
+            "additionalProperties": true,
+            "title": "Values",
+            "type": "object"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "ExplainRequest",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "JobAccepted": {
+        "properties": {
+          "execution_status": {
+            "title": "Execution Status",
+            "type": "string"
+          },
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "poll_url": {
+            "title": "Poll Url",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "job_id",
+          "kind",
+          "execution_status",
+          "poll_url"
+        ],
+        "title": "JobAccepted",
+        "type": "object"
+      },
+      "MotifSearchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "molecule": {
+            "default": "DNA",
+            "pattern": "^(DNA|RNA|PROTEIN)$",
+            "title": "Molecule",
+            "type": "string"
+          },
+          "pattern": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Pattern",
+            "type": "string"
+          },
+          "sequence": {
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence",
+          "pattern"
+        ],
+        "title": "MotifSearchRequest",
+        "type": "object"
+      },
+      "MsaEngineJobRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "backend": {
+            "default": "ebi_clustalo",
+            "maxLength": 40,
+            "title": "Backend",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "fasta": {
+            "maxLength": 2000000,
+            "minLength": 1,
+            "title": "Fasta",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fasta",
+          "email"
+        ],
+        "title": "MsaEngineJobRequest",
+        "type": "object"
+      },
+      "MsaPrealignedRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "fasta": {
+            "maxLength": 2000000,
+            "minLength": 1,
+            "title": "Fasta",
+            "type": "string"
+          },
+          "format": {
+            "default": "auto",
+            "pattern": "^(auto|fasta|clustal|stockholm|phylip)$",
+            "title": "Format",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fasta"
+        ],
+        "title": "MsaPrealignedRequest",
+        "type": "object"
+      },
+      "NcbiFetchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "accession": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Accession",
+            "type": "string"
+          },
+          "api_key": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          },
+          "db": {
+            "default": "nucleotide",
+            "maxLength": 32,
+            "title": "Db",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "accession",
+          "email"
+        ],
+        "title": "NcbiFetchRequest",
+        "type": "object"
+      },
+      "NcbiSearchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "api_key": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          },
+          "db": {
+            "default": "nucleotide",
+            "maxLength": 32,
+            "title": "Db",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "retmax": {
+            "default": 15,
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Retmax",
+            "type": "integer"
+          },
+          "term": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Term",
+            "type": "string"
+          }
+        },
+        "required": [
+          "term",
+          "email"
+        ],
+        "title": "NcbiSearchRequest",
+        "type": "object"
+      },
+      "PairwiseAlignRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "include_dotplot": {
+            "default": false,
+            "title": "Include Dotplot",
+            "type": "boolean"
+          },
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "mode": {
+            "default": "global",
+            "pattern": "^(global|local)$",
+            "title": "Mode",
+            "type": "string"
+          },
+          "seq1": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Seq1",
+            "type": "string"
+          },
+          "seq2": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Seq2",
+            "type": "string"
+          },
+          "translate_nucleic": {
+            "default": false,
+            "title": "Translate Nucleic",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "seq1",
+          "seq2"
+        ],
+        "title": "PairwiseAlignRequest",
+        "type": "object"
+      },
+      "PhylogenyInferRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "alignment_hash": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alignment Hash"
+          },
+          "distance_model": {
+            "default": "p_distance",
+            "title": "Distance Model",
+            "type": "string"
+          },
+          "fasta": {
+            "maxLength": 2000000,
+            "minLength": 1,
+            "title": "Fasta",
+            "type": "string"
+          },
+          "method": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fasta",
+          "method"
+        ],
+        "title": "PhylogenyInferRequest",
+        "type": "object"
+      },
+      "PhylogenyTaxonomyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "declared_organisms": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Declared Organisms",
+            "type": "object"
+          },
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "tree": {
+            "additionalProperties": true,
+            "title": "Tree",
+            "type": "object"
+          }
+        },
+        "required": [
+          "tree",
+          "email"
+        ],
+        "title": "PhylogenyTaxonomyRequest",
+        "type": "object"
+      },
+      "ProteinAlphafoldRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "uniprot": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Uniprot",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uniprot"
+        ],
+        "title": "ProteinAlphafoldRequest",
+        "type": "object"
+      },
+      "ProteinAnalyzeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "ph": {
+            "default": 7.0,
+            "maximum": 14.0,
+            "minimum": 0.0,
+            "title": "Ph",
+            "type": "number"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "ProteinAnalyzeRequest",
+        "type": "object"
+      },
+      "ProteinStructureAnalyzeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "run_dssp": {
+            "default": false,
+            "title": "Run Dssp",
+            "type": "boolean"
+          },
+          "run_dssp_remote": {
+            "default": false,
+            "title": "Run Dssp Remote",
+            "type": "boolean"
+          },
+          "run_edtsurf": {
+            "default": false,
+            "title": "Run Edtsurf",
+            "type": "boolean"
+          },
+          "run_sasa": {
+            "default": true,
+            "title": "Run Sasa",
+            "type": "boolean"
+          },
+          "run_stride": {
+            "default": false,
+            "title": "Run Stride",
+            "type": "boolean"
+          },
+          "structure_id": {
+            "default": "1CRN",
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "title": "ProteinStructureAnalyzeRequest",
+        "type": "object"
+      },
+      "ProteinStructureLoadRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "bundled": {
+            "default": false,
+            "title": "Bundled",
+            "type": "boolean"
+          },
+          "chain": {
+            "default": "",
+            "maxLength": 8,
+            "title": "Chain",
+            "type": "string"
+          },
+          "molecule": {
+            "default": "PROTEIN",
+            "pattern": "^(PROTEIN|DNA|RNA)$",
+            "title": "Molecule",
+            "type": "string"
+          },
+          "sequence": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Sequence",
+            "type": "string"
+          },
+          "structure_id": {
+            "maxLength": 80,
+            "minLength": 4,
+            "pattern": "^[0-9A-Za-z_-]+$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure_id"
+        ],
+        "title": "ProteinStructureLoadRequest",
+        "type": "object"
+      },
+      "ProteinStructureSearchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "alphafold_id": {
+            "default": "",
+            "maxLength": 80,
+            "title": "Alphafold Id",
+            "type": "string"
+          },
+          "identity_cutoff": {
+            "default": 0.9,
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Identity Cutoff",
+            "type": "number"
+          },
+          "lookup_alphafold": {
+            "default": false,
+            "title": "Lookup Alphafold",
+            "type": "boolean"
+          },
+          "lookup_uniprot": {
+            "default": false,
+            "title": "Lookup Uniprot",
+            "type": "boolean"
+          },
+          "molecule": {
+            "default": "PROTEIN",
+            "pattern": "^(PROTEIN|DNA|RNA)$",
+            "title": "Molecule",
+            "type": "string"
+          },
+          "pdb_id": {
+            "default": "",
+            "maxLength": 32,
+            "title": "Pdb Id",
+            "type": "string"
+          },
+          "search_pdb_by_sequence": {
+            "default": false,
+            "title": "Search Pdb By Sequence",
+            "type": "boolean"
+          },
+          "sequence": {
+            "maxLength": 10000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          },
+          "uniprot": {
+            "default": "",
+            "maxLength": 32,
+            "title": "Uniprot",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "ProteinStructureSearchRequest",
+        "type": "object"
+      },
+      "ProteinUniprotRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "accession": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Accession",
+            "type": "string"
+          },
+          "include_domains": {
+            "default": false,
+            "title": "Include Domains",
+            "type": "boolean"
+          },
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accession"
+        ],
+        "title": "ProteinUniprotRequest",
+        "type": "object"
+      },
+      "ReferenceAdmissionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly_id": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "assembly_id"
+        ],
+        "title": "ReferenceAdmissionRequest",
+        "type": "object"
+      },
+      "ReferenceInstallRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly_id": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly Id",
+            "type": "string"
+          },
+          "confirm": {
+            "default": false,
+            "title": "Confirm",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "assembly_id"
+        ],
+        "title": "ReferenceInstallRequest",
+        "type": "object"
+      },
+      "RnaAnalyzeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "backend": {
+            "default": "auto",
+            "title": "Backend",
+            "type": "string"
+          },
+          "fold": {
+            "default": false,
+            "title": "Fold",
+            "type": "boolean"
+          },
+          "include_codon_metrics": {
+            "default": true,
+            "title": "Include Codon Metrics",
+            "type": "boolean"
+          },
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "include_kmers": {
+            "default": false,
+            "title": "Include Kmers",
+            "type": "boolean"
+          },
+          "include_profiles": {
+            "default": false,
+            "title": "Include Profiles",
+            "type": "boolean"
+          },
+          "kmer_k": {
+            "default": 3,
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Kmer K",
+            "type": "integer"
+          },
+          "profile_step": {
+            "default": 50,
+            "maximum": 2000.0,
+            "minimum": 1.0,
+            "title": "Profile Step",
+            "type": "integer"
+          },
+          "profile_window": {
+            "default": 100,
+            "maximum": 2000.0,
+            "minimum": 10.0,
+            "title": "Profile Window",
+            "type": "integer"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "RnaAnalyzeRequest",
+        "type": "object"
+      },
+      "RnaHelix3dRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "center_on_selected": {
+            "default": false,
+            "title": "Center On Selected",
+            "type": "boolean"
+          },
+          "inspect_position": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Inspect Position",
+            "type": "integer"
+          },
+          "lod": {
+            "default": "high",
+            "pattern": "^(low|medium|high)$",
+            "title": "Lod",
+            "type": "string"
+          },
+          "prefer": {
+            "default": "illustrative",
+            "pattern": "^(illustrative|experimental|predicted|auto)$",
+            "title": "Prefer",
+            "type": "string"
+          },
+          "region_end": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region End"
+          },
+          "region_start": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Region Start",
+            "type": "integer"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "RnaHelix3dRequest",
+        "type": "object"
+      },
+      "RnaTranslateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "include_explanation": {
+            "default": true,
+            "title": "Include Explanation",
+            "type": "boolean"
+          },
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "RnaTranslateRequest",
+        "type": "object"
+      },
+      "StructureComplexRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "structure_id": {
+            "pattern": "^(4UN3|4OO8)$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure_id"
+        ],
+        "title": "StructureComplexRequest",
+        "type": "object"
+      },
+      "StructureCoordinateFileRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "structure_id": {
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure_id"
+        ],
+        "title": "StructureCoordinateFileRequest",
+        "type": "object"
+      },
+      "StructureFixtureRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "structure_id": {
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure_id"
+        ],
+        "title": "StructureFixtureRequest",
+        "type": "object"
+      },
+      "StructureMappedRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "molecule": {
+            "default": "PROTEIN",
+            "pattern": "^(PROTEIN|DNA|RNA)$",
+            "title": "Molecule",
+            "type": "string"
+          },
+          "query_sequence": {
+            "maxLength": 10000,
+            "minLength": 1,
+            "title": "Query Sequence",
+            "type": "string"
+          },
+          "structure_id": {
+            "pattern": "^(1CRN|1BNA|1RNA)$",
+            "title": "Structure Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure_id",
+          "query_sequence"
+        ],
+        "title": "StructureMappedRequest",
+        "type": "object"
+      },
+      "StructureMappingRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "observed_coordinate_residues": {
+            "minimum": 0.0,
+            "title": "Observed Coordinate Residues",
+            "type": "integer"
+          },
+          "polymer_index_mode": {
+            "title": "Polymer Index Mode",
+            "type": "boolean"
+          },
+          "polymer_length": {
+            "minimum": 0.0,
+            "title": "Polymer Length",
+            "type": "integer"
+          },
+          "sequences_identical": {
+            "title": "Sequences Identical",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sequences_identical",
+          "polymer_index_mode",
+          "observed_coordinate_residues",
+          "polymer_length"
+        ],
+        "title": "StructureMappingRequest",
+        "type": "object"
+      },
+      "TranscribeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "sequence": {
+            "examples": [
+              "ATGCATGCATGC"
+            ],
+            "maxLength": 250000,
+            "minLength": 1,
+            "title": "Sequence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "TranscribeRequest",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VariantExploreRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly",
+            "type": "string"
+          },
+          "email": {
+            "default": "",
+            "maxLength": 254,
+            "title": "Email",
+            "type": "string"
+          },
+          "enable_clinvar": {
+            "default": false,
+            "title": "Enable Clinvar",
+            "type": "boolean"
+          },
+          "enable_domains": {
+            "default": false,
+            "title": "Enable Domains",
+            "type": "boolean"
+          },
+          "enable_vep": {
+            "default": false,
+            "title": "Enable Vep",
+            "type": "boolean"
+          },
+          "text": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "assembly"
+        ],
+        "title": "VariantExploreRequest",
+        "type": "object"
+      },
+      "VariantIdentifyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assembly": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Assembly",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "assembly"
+        ],
+        "title": "VariantIdentifyRequest",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Product version 0.24.3-19. API contract v1. This service validates transport input, calls helixscope_core, and serializes results. It does not independently calculate biology. Job backend: LOCAL MIGRATION JOB BACKEND, NON-DURABLE, NOT FINAL PRODUCTION QUEUE.",
+    "summary": "Typed scientific HTTP API for HelixScope core.",
+    "title": "HelixScope API",
+    "version": "v1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1": {
+      "get": {
+        "description": "Identify HelixScope API v1. Not a marketing page.",
+        "operationId": "apiRoot",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Apiroot",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "API contract identity",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/alignment/pairwise": {
+      "post": {
+        "description": "global = Needleman-Wunsch. local = Smith-Waterman. Not BLAST.",
+        "operationId": "alignmentPairwise",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PairwiseAlignRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Needleman-Wunsch or Smith-Waterman pairwise alignment",
+        "tags": [
+          "alignment"
+        ]
+      }
+    },
+    "/api/v1/blast/availability": {
+      "get": {
+        "description": "Local database is the declared tiny test prefix, not nt/nr.",
+        "operationId": "blastAvailability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Local BLAST+ and NCBI remote BLAST capability",
+        "tags": [
+          "blast"
+        ]
+      }
+    },
+    "/api/v1/blast/jobs/local": {
+      "post": {
+        "description": "Refuses to queue when BLAST+ or the declared database is missing.",
+        "operationId": "blastLocalSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlastLocalJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue local BLAST+ against the declared test database",
+        "tags": [
+          "blast"
+        ]
+      }
+    },
+    "/api/v1/blast/jobs/remote": {
+      "post": {
+        "description": "Remote BLAST is explicit. Timeout does not fall back to local BLAST+.",
+        "operationId": "blastRemoteSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlastRemoteJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue NCBI remote BLAST Put (RID)",
+        "tags": [
+          "blast"
+        ]
+      }
+    },
+    "/api/v1/compare/evidence": {
+      "post": {
+        "description": "Does not vote, rank, or diagnose.",
+        "operationId": "compareEvidence",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareEvidenceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Evidence pack for two identified variants",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/evolution": {
+      "post": {
+        "description": "Conservation among submitted sequences. Not dN/dS.",
+        "operationId": "compareEvolution",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareEvolutionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Inspect MSA columns and optional group-associated positions",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/guides": {
+      "post": {
+        "description": "No invented universal score. Genome-wide MIT/CFD stay unavailable unless supplied.",
+        "operationId": "compareGuides",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareGuidesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compare two CRISPR guides",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/jobs/remote": {
+      "post": {
+        "description": "Explicit RCSB backend. Does not fall back to US-align or rewrite IDs/chains/method.",
+        "operationId": "compareRemoteSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareRemoteJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue RCSB Alignment API comparison",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/jobs/usalign": {
+      "post": {
+        "description": "Explicit local US-align backend. Does not fall back to RCSB or substitute 1CRN/1BNA.",
+        "operationId": "compareUSalignSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareUSalignJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue local US-align on bundled structures",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/methods": {
+      "get": {
+        "description": "Official RCSB method catalog. No invented aligners.",
+        "operationId": "compareListMethods",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "RCSB Alignment API methods HelixScope may submit",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/modes": {
+      "get": {
+        "description": "Six Core modes. Not one generic JSON endpoint.",
+        "operationId": "compareListModes",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Declared comparison modes and dedicated endpoints",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/parse": {
+      "post": {
+        "description": "Keeps block RMSD and global RMSD as distinct fields.",
+        "operationId": "compareParseAlignment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareParseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Parse an RCSB COMPLETE alignment payload",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/proteins": {
+      "post": {
+        "description": "Sequence identity is not structure similarity.",
+        "operationId": "compareProteins",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareProteinsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compare two protein sequences",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/compare/variants": {
+      "post": {
+        "description": "Identity side-by-side. ClinVar/VEP layers are not invented here.",
+        "operationId": "compareVariants",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareVariantsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compare two identified variants without pathogenicity ranking",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/v1/crispr/availability": {
+      "get": {
+        "description": "Azimuth/DeepHF/Rule Set 2 remain unavailable offline.",
+        "operationId": "crisprAvailability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Advanced CRISPR model availability",
+        "tags": [
+          "crispr"
+        ]
+      }
+    },
+    "/api/v1/crispr/casoffinder/availability": {
+      "get": {
+        "description": "Truthful capability. Missing OpenCL is not simulated hits.",
+        "operationId": "casOffinderAvailability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cas-OFFinder and OpenCL capability",
+        "tags": [
+          "crispr"
+        ]
+      }
+    },
+    "/api/v1/crispr/casoffinder/jobs": {
+      "post": {
+        "description": "Do not queue a job that cannot execute. TEST REFERENCE is not FULL GENOME.",
+        "operationId": "casOffinderSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CasOffinderJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit a Cas-OFFinder job after capability checks",
+        "tags": [
+          "crispr"
+        ]
+      }
+    },
+    "/api/v1/crispr/guides": {
+      "post": {
+        "description": "Provided-sequence off-target is not genome-wide. None scores stay null.",
+        "operationId": "crisprGuides",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrisprGuidesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Design guides on a provided sequence",
+        "tags": [
+          "crispr"
+        ]
+      }
+    },
+    "/api/v1/crispr/systems": {
+      "get": {
+        "description": "UI dropdowns must use canonical_key. Informal tokens are invalid.",
+        "operationId": "crisprListSystems",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Canonical Cas-system registry",
+        "tags": [
+          "crispr"
+        ]
+      }
+    },
+    "/api/v1/dna/analyze": {
+      "post": {
+        "description": "Call analyze_dna. Optional windowed profiles and deterministic explanation.",
+        "operationId": "dnaAnalyze",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DnaAnalyzeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analyze a DNA sequence",
+        "tags": [
+          "dna"
+        ]
+      }
+    },
+    "/api/v1/dna/helix-3d": {
+      "post": {
+        "description": "ILLUSTRATIVE helix is not experimental. 1BNA remains a deposited duplex.",
+        "operationId": "dnaHelix3d",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DnaHelix3dRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Illustrative B-DNA or deposited DNA 3D coordinates",
+        "tags": [
+          "dna"
+        ]
+      }
+    },
+    "/api/v1/evidence/pack": {
+      "post": {
+        "description": "confidence_score remains null. Conflicts are listed, not voted.",
+        "operationId": "evidencePack",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvidencePackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Build an evidence pack and list source conflicts",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/explain": {
+      "post": {
+        "description": "Core explain_result. FastAPI does not generate text.",
+        "operationId": "explainResult",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExplainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Deterministic explanation of an already computed result",
+        "tags": [
+          "explain"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "delete": {
+        "description": "CANCELLED only if the job was still queued. Running engines are not fake-cancelled.",
+        "operationId": "jobCancel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Request job cancellation if actually supported",
+        "tags": [
+          "jobs"
+        ]
+      },
+      "get": {
+        "description": "NON-DURABLE local runner. Progress percentages are not invented.",
+        "operationId": "jobGet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get local job execution status and result",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/motif/search": {
+      "post": {
+        "description": "Coordinates are 0-based half-open. Hits do not prove biological function.",
+        "operationId": "motifSearch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MotifSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "IUPAC/exact motif search",
+        "tags": [
+          "motif"
+        ]
+      }
+    },
+    "/api/v1/msa/availability": {
+      "get": {
+        "description": "EBI Clustal Omega and local allowlisted binaries. No arbitrary executable.",
+        "operationId": "msaAvailability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Declared MSA backends",
+        "tags": [
+          "msa"
+        ]
+      }
+    },
+    "/api/v1/msa/jobs": {
+      "post": {
+        "description": "Computed MSA, distinct from user-supplied prealigned FASTA.",
+        "operationId": "msaEngineSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MsaEngineJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue an MSA engine job",
+        "tags": [
+          "msa"
+        ]
+      }
+    },
+    "/api/v1/msa/prealigned": {
+      "post": {
+        "description": "Does not run Clustal/MAFFT/MUSCLE.",
+        "operationId": "msaImportPrealigned",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MsaPrealignedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Import user-declared prealigned FASTA",
+        "tags": [
+          "msa"
+        ]
+      }
+    },
+    "/api/v1/msa/prealigned/upload": {
+      "post": {
+        "description": "Filename is never used as a server path. Bytes are size-limited.",
+        "operationId": "msaImportPrealignedUpload",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_msaImportPrealignedUpload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Import prealigned FASTA from an uploaded file",
+        "tags": [
+          "msa"
+        ]
+      }
+    },
+    "/api/v1/ncbi/fetch": {
+      "post": {
+        "description": "Entrez fetch under the process lock. Email and API key are not returned.",
+        "operationId": "ncbiFetch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NcbiFetchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fetch one NCBI record by accession, GeneID, or PMID",
+        "tags": [
+          "ncbi"
+        ]
+      }
+    },
+    "/api/v1/ncbi/search": {
+      "post": {
+        "description": "Search nucleotide, protein, gene, or pubmed. Not a generic database API.",
+        "operationId": "ncbiSearch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NcbiSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Entrez esearch plus esummary",
+        "tags": [
+          "ncbi"
+        ]
+      }
+    },
+    "/api/v1/phylogeny/infer": {
+      "post": {
+        "description": "IQ-TREE and FastTree must use the job endpoint.",
+        "operationId": "phylogenyInfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhylogenyInferRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Infer NJ or UPGMA from prealigned FASTA",
+        "tags": [
+          "phylogeny"
+        ]
+      }
+    },
+    "/api/v1/phylogeny/jobs": {
+      "post": {
+        "description": "Local non-durable runner. IQ-TREE/FastTree execute off the request path.",
+        "operationId": "phylogenySubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhylogenyInferRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue phylogeny (NJ, UPGMA, IQ-TREE, FastTree)",
+        "tags": [
+          "phylogeny"
+        ]
+      }
+    },
+    "/api/v1/phylogeny/taxonomy": {
+      "post": {
+        "description": "Taxonomy is classification, not the phylogenetic tree.",
+        "operationId": "phylogenyAttachTaxonomy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhylogenyTaxonomyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Attach NCBI taxonomy to an existing tree without changing topology",
+        "tags": [
+          "phylogeny"
+        ]
+      }
+    },
+    "/api/v1/protein/analyze": {
+      "post": {
+        "description": "ProtParam-style metrics. Sequence SS predictors remain UNAVAILABLE.",
+        "operationId": "proteinAnalyze",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinAnalyzeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Physicochemical protein metrics",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/structure/alphafold": {
+      "post": {
+        "description": "Deposited AFDB coordinates. Does not run AlphaFold locally.",
+        "operationId": "proteinAlphafoldRetrieve",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinAlphafoldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Retrieve an AlphaFold DB prediction by UniProt accession",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/structure/analyze": {
+      "post": {
+        "description": "SASA/DSSP/STRIDE/EDTSurf on deposited coordinates. No sequence SS invention.",
+        "operationId": "proteinStructureAnalyze",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinStructureAnalyzeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Coordinate analyses on a bundled deposited structure",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/structure/capabilities": {
+      "get": {
+        "description": "DSSP, PDB-REDO DSSP, STRIDE, EDTSurf, SASA, AlphaFold retrieval, RCSB search.",
+        "operationId": "proteinStructureCapabilities",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Protein-structure engine capability contract",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/structure/load": {
+      "post": {
+        "description": "Bundled 1CRN/1BNA/1RNA never fetch. Other IDs use the official RCSB files API.",
+        "operationId": "proteinStructureLoad",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinStructureLoadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Load a bundled fixture or an official RCSB PDB identifier",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/structure/search": {
+      "post": {
+        "description": "Official RCSB Search API when sequence search is requested. No HTML scrape.",
+        "operationId": "proteinStructureSearch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinStructureSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Search RCSB / UniProt / AlphaFold structure sources",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/protein/uniprot": {
+      "post": {
+        "description": "Official rest.uniprot.org entry. Does not guess identity from a pasted sequence.",
+        "operationId": "proteinUniprot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProteinUniprotRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Retrieve UniProtKB annotation by accession",
+        "tags": [
+          "protein"
+        ]
+      }
+    },
+    "/api/v1/references": {
+      "get": {
+        "description": "Browser must not decide readiness. Status comes from core.",
+        "operationId": "listReferences",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Local reference catalog with READY/NOT_INSTALLED/RESOURCE_LIMIT",
+        "tags": [
+          "references"
+        ]
+      }
+    },
+    "/api/v1/references/admission": {
+      "post": {
+        "description": "Does not download. TEST REFERENCE is not a public genome.",
+        "operationId": "referencesAdmitDownload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReferenceAdmissionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Resource admission for a catalogued public assembly",
+        "tags": [
+          "references"
+        ]
+      }
+    },
+    "/api/v1/references/install": {
+      "post": {
+        "description": "Explicit confirm required. RESOURCE_LIMIT is not bypassed. No arbitrary URL.",
+        "operationId": "referencesInstallCatalog",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReferenceInstallRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start a catalogued reference download after admission PROCEED",
+        "tags": [
+          "references"
+        ]
+      }
+    },
+    "/api/v1/rna/analyze": {
+      "post": {
+        "description": "Composition plus optional codon metrics and ViennaRNA fold.",
+        "operationId": "rnaAnalyze",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RnaAnalyzeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analyze an RNA sequence",
+        "tags": [
+          "rna"
+        ]
+      }
+    },
+    "/api/v1/rna/helix-3d": {
+      "post": {
+        "description": "ILLUSTRATIVE A-RNA is not experimental. MFE is not 3D. 1RNA is deposited.",
+        "operationId": "rnaHelix3d",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RnaHelix3dRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Illustrative A-RNA or deposited RNA 3D coordinates",
+        "tags": [
+          "rna"
+        ]
+      }
+    },
+    "/api/v1/rna/transcribe": {
+      "post": {
+        "description": "Exact transcription helper. Not splicing.",
+        "operationId": "rnaTranscribe",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranscribeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Transcribe DNA to RNA (T to U)",
+        "tags": [
+          "rna"
+        ]
+      }
+    },
+    "/api/v1/rna/translate-coding": {
+      "post": {
+        "description": "Does not treat arbitrary RNA as a gene. ORF/CDS context is required.",
+        "operationId": "rnaTranslateCoding",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RnaTranslateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Translate resolved coding RNA/CDS and report amino-acid composition",
+        "tags": [
+          "rna"
+        ]
+      }
+    },
+    "/api/v1/structures/catalog/experimental-complexes": {
+      "get": {
+        "description": "4UN3 remains a pointer. Mapping is not promoted.",
+        "operationId": "structureExperimentalCatalog",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Published Cas-guide-DNA PDB pointers without fabricated coordinates",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/structures/coordinate-file": {
+      "post": {
+        "description": "Serves only 1CRN/1BNA/1RNA bundled copies. No user URL.",
+        "operationId": "structureCoordinateFile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructureCoordinateFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Allowlisted bundled mmCIF text for the molecular viewer",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/structures/experimental-complex": {
+      "post": {
+        "description": "4UN3/4OO8 experimental coordinates. Guide mapping stays UNCERTAIN.",
+        "operationId": "structureLoadExperimentalComplex",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructureComplexRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fetch a catalogued Cas-guide-DNA complex from RCSB",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/structures/fixture": {
+      "post": {
+        "description": "Coordinates from the deposited copy. No camera fields.",
+        "operationId": "structureLoadFixture",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructureFixtureRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Load bundled 1CRN/1BNA/1RNA mmCIF (no network)",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/structures/fixture/mapped": {
+      "post": {
+        "description": "Preserves mapping_status including UNCERTAIN. No promotion.",
+        "operationId": "structureLoadFixtureMapped",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructureMappedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Map a query onto a bundled deposited structure",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/structures/mapping/classify": {
+      "post": {
+        "description": "polymer_length 0 stays UNCERTAIN. Used for 4UN3-class uncertainty.",
+        "operationId": "structureClassifyMapping",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StructureMappingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Classify mapping status without promoting best-effort mapping",
+        "tags": [
+          "structures"
+        ]
+      }
+    },
+    "/api/v1/system/capabilities": {
+      "get": {
+        "description": "Uses helixscope_core.get_capabilities. Paths remain basenames.",
+        "operationId": "systemCapabilities",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sanitized engine and reference capabilities",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/system/identity": {
+      "get": {
+        "description": "Frontend compares this OpenAPI hash to the types it was generated against.",
+        "operationId": "systemIdentity",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Systemidentity",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sanitized runtime and OpenAPI identity",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/variants/explore": {
+      "post": {
+        "description": "Does not set helixscope_pathogenic. Remote layers are explicit flags.",
+        "operationId": "variantExplore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariantExploreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Identity plus optional remote layers (defaults off)",
+        "tags": [
+          "variants"
+        ]
+      }
+    },
+    "/api/v1/variants/identify": {
+      "post": {
+        "description": "Assembly is part of identity. effect_status remains NOT_COMPUTED.",
+        "operationId": "variantIdentify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariantIdentifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Parse variant identity without effect prediction",
+        "tags": [
+          "variants"
+        ]
+      }
+    },
+    "/api/v1/variants/jobs": {
+      "post": {
+        "description": "Use when VEP/ClinVar/InterPro are requested. Local runner is non-durable.",
+        "operationId": "variantExploreSubmitJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariantExploreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue remote variant annotation",
+        "tags": [
+          "variants"
+        ]
+      }
+    },
+    "/health/live": {
+      "get": {
+        "description": "HTTP process is up. No engine or remote calls.",
+        "operationId": "healthLive",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Healthlive",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Liveness probe",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "description": "Core import and local job runner. NCBI/ClinVar/RCSB/GRCh38 are not required.",
+        "operationId": "healthReady",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Healthready",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Readiness probe",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  }
+}

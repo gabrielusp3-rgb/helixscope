@@ -1,0 +1,79 @@
+{
+  "coordinate_convention": "start 0-based inclusive, end exclusive, on the informed strand",
+  "exact": [
+    {
+      "end": 4,
+      "match": "ACGT",
+      "start": 0,
+      "strand": "+"
+    },
+    {
+      "end": 4,
+      "match": "ACGT",
+      "start": 0,
+      "strand": "-"
+    },
+    {
+      "end": 8,
+      "match": "ACGT",
+      "start": 4,
+      "strand": "+"
+    },
+    {
+      "end": 8,
+      "match": "ACGT",
+      "start": 4,
+      "strand": "-"
+    },
+    {
+      "end": 12,
+      "match": "ACGT",
+      "start": 8,
+      "strand": "+"
+    },
+    {
+      "end": 12,
+      "match": "ACGT",
+      "start": 8,
+      "strand": "-"
+    }
+  ],
+  "iupac": [
+    {
+      "end": 4,
+      "match": "ACGT",
+      "start": 0,
+      "strand": "+"
+    },
+    {
+      "end": 4,
+      "match": "ACGT",
+      "start": 0,
+      "strand": "-"
+    },
+    {
+      "end": 8,
+      "match": "ACGT",
+      "start": 4,
+      "strand": "+"
+    },
+    {
+      "end": 8,
+      "match": "ACGT",
+      "start": 4,
+      "strand": "-"
+    },
+    {
+      "end": 12,
+      "match": "ACGT",
+      "start": 8,
+      "strand": "+"
+    },
+    {
+      "end": 12,
+      "match": "ACGT",
+      "start": 8,
+      "strand": "-"
+    }
+  ]
+}

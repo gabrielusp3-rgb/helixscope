@@ -1,0 +1,11 @@
+{
+  "query_id": "helixscope-fixture",
+  "result_type": "polymer_entity",
+  "total_count": 1,
+  "result_set": [
+    {
+      "identifier": "1CRN_1",
+      "score": 1.0
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "EXACT": [
+    "sequence",
+    "identifier",
+    "status",
+    "integer count",
+    "coordinate integers",
+    "hash",
+    "accession",
+    "boolean semantic flags",
+    "Newick leaf set (not sibling order)"
+  ],
+  "FLOAT_TOLERANCE": {
+    "MFE_kcal_mol": {
+      "abs": 0.0001,
+      "justification": "ViennaRNA Python float32/float64 mix observed on 2.7.2"
+    },
+    "MW": {
+      "abs": 1e-06,
+      "justification": "ProtParam float",
+      "unit": "Da or kDa as stored"
+    },
+    "RMSD_A": {
+      "abs": 0.05,
+      "justification": "RCSB/US-align reported precision; do not use \u00b110%"
+    },
+    "SASA_A2": {
+      "abs": 0.5,
+      "justification": "Shrake-Rupley probe sampling"
+    },
+    "Tm_C": {
+      "abs": 1e-09,
+      "justification": "same SantaLucia/Wallace implementation"
+    },
+    "gc_fraction": {
+      "abs": 1e-12,
+      "justification": "IEEE-754 identity of the same Python formula"
+    },
+    "identity_pct": {
+      "abs": 0.01,
+      "justification": "stored at 2 decimal places"
+    }
+  },
+  "SEMANTIC_PARITY": [
+    "Newick sibling order",
+    "JSON key order",
+    "dict insertion order"
+  ],
+  "STRUCTURAL_ARRAY_PARITY": "mmCIF coordinates identical when the same file hash is used"
+}

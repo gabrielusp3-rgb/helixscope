@@ -1,0 +1,12 @@
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include helixscope_core *.py
+recursive-include helixscope_core py.typed
+recursive-include modules *.py
+global-exclude *.py[cod] *.so *.pyd *.exe *.dll *.cif *.pdb
+prune tests
+prune ui
+prune tools
+prune data
+prune docs

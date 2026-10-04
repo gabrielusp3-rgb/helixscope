@@ -1,0 +1,24 @@
+[theme]
+base = "dark"
+primaryColor = "#FFFFFF"
+backgroundColor = "#000000"
+secondaryBackgroundColor = "#000000"
+textColor = "#FFFFFF"
+showSidebarBorder = false
+showWidgetBorder = false
+chartCategoricalColors = ["#FFFFFF"]
+
+[server]
+headless = true
+enableCORS = true
+enableXsrfProtection = true
+maxUploadSize = 1
+
+[client]
+toolbarMode = "viewer"
+showSidebarNavigation = false
+
+[logger]
+# Stops the startup banner from calling checkip.amazonaws.com and printing
+# a public address. Local access stays http://127.0.0.1:8501.
+hideWelcomeMessage = true

@@ -1,0 +1,66 @@
+.glass-thin,
+.glass-medium,
+.glass-thick,
+.floating-control,
+.science-chrome {
+  border: 1px solid var(--hs-glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--hs-specular),
+    0 12px 40px var(--hs-shadow);
+  background-image:
+    radial-gradient(
+      420px circle at var(--mx) var(--my),
+      rgba(175, 203, 241, 0.09),
+      transparent 55%
+    );
+}
+
+.glass-thin {
+  background-color: var(--hs-glass-thin);
+  backdrop-filter: blur(11px) saturate(1.18);
+  -webkit-backdrop-filter: blur(11px) saturate(1.18);
+}
+
+.glass-medium {
+  background-color: var(--hs-glass-medium);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+
+.glass-thick {
+  background-color: var(--hs-glass-thick);
+  backdrop-filter: blur(16px) saturate(1.22);
+  -webkit-backdrop-filter: blur(16px) saturate(1.22);
+}
+
+.science-surface {
+  background: var(--hs-surface-1);
+  border: 1px solid var(--hs-border);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.science-table-surface {
+  background: var(--hs-surface-table);
+  border: 1px solid var(--hs-border);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-thin,
+  .glass-medium,
+  .glass-thick {
+    background-color: var(--hs-glass-fallback);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-reduced-motion: reduce) {
+  .glass-thin,
+  .glass-medium,
+  .glass-thick {
+    background-color: var(--hs-glass-fallback);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-image: none;
+  }
+}

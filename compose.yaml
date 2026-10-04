@@ -1,0 +1,22 @@
+services:
+  helixscope:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: helixscope:local
+    environment:
+      PORT: "8501"
+    ports:
+      - "127.0.0.1:8501:8501"
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=256m
+      - /home/helix:rw,nosuid,size=128m,uid=10001,gid=10001,mode=0700
+    security_opt:
+      - no-new-privileges:true
+    # Measured on the previous image: idle 5 PIDs / 89 MiB; one scientific
+    # workload peaked at 11 PIDs / 113 MiB. 64 PIDs and 1 GiB leave room for
+    # several engine processes without an untested CPU cap.
+    pids_limit: 64
+    mem_limit: 1g

@@ -1,0 +1,137 @@
+# Ambientes virtuais
+venv/
+.venv/
+.venv-api-prompt2/
+env/
+ENV/
+
+# Cache de property tests
+.hypothesis/
+
+# Cache e artefatos Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Variaveis de ambiente e segredos
+.env
+.streamlit/secrets.toml
+.vercel/
+
+# Testes e cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Lock de dependencias gerado por pip freeze
+requirements.lock.txt
+
+# Notebooks
+*.ipynb_checkpoints
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores e IDEs
+.idea/
+.vscode/
+.mypy_cache/
+.ruff_cache/
+
+# Chaves e certificados locais
+*.pem
+*.key
+*.p12
+
+# Executaveis e dependencias de frontend fora do app oficial
+*.exe
+node_modules/
+
+# Diretorios temporarios
+tmp/
+temp/
+
+# Capturas locais desta maquina.
+/evidence/
+
+# Registros de desenvolvimento e instrucoes de agente.
+# Permanecem no disco local. Nao fazem parte da arvore do produto.
+/.cursorrules
+/AGENTS.md
+/CLAUDE_HANDOFF.md
+/NOTES.md
+/PHASE_*
+/PROMPT*
+/MIGRATION_*
+/POST_MIGRATION_*
+/SCIENTIFIC_REBUILD_*
+/SCIENTIFIC_POWER_SCALE_*
+/FUNCTIONAL_RECOVERY_*
+/TOTAL_RESTORATION_*
+/VERCEL_*
+/vercel.json
+/vercel_asgi.py
+/requirements-vercel-api.txt
+/.vercelignore
+/COMPARE_API_REPORT.md
+/CRISPR_CONTRACT_REPORT.md
+/DIAGNOSTIC_FULL_STATE.md
+/FINAL_ENGINE_VALIDATION.md
+/FINAL_SCIENTIFIC_CAPABILITY_MATRIX.md
+/HELIXSCOPE_AUDITORIA_COMPLETA.md
+/HELIXSCOPE_MASTER.md
+/HELIXSCOPE_MONOCHROME_REDESIGN_REPORT.md
+/MSA_PHYLOGENY_CONNECTION_REPORT.md
+/PROTEIN_STRUCTURE_API_REPORT.md
+/REFERENCE_MANAGEMENT_REPORT.md
+/SCIENTIFIC_CONNECTION_GRAPH.md
+/SCIENTIFIC_CORE_API_GAPS.md
+/STREAMLIT_RETIREMENT.md
+/TRANSLATION_TAXONOMY_REPORT.md
+/apps/web/AGENTS.md
+/apps/web/CLAUDE.md
+/tests/phase*.py
+/tests/_monochrome_capture.py
+/tests/phase16_browser_stdout.txt
+
+# Arvore local de rascunhos, nao destina-se ao GitHub
+_archive/
+
+# Logs
+*.log
+
+# Local workstation launcher (PIDs and redirected logs)
+.helixscope-local.json
+.helixscope-logs/
+
+# Next.js workstation (Prompt 3)
+apps/web/node_modules/
+apps/web/.next/
+apps/web/.env.local
+apps/web/playwright-report/
+apps/web/test-results/
+apps/web/blob-report/
+apps/web/public/mediapipe/models/*.task
+apps/web/public/mediapipe/wasm/
+
+# Optional official binaries (never commit executables)
+/tools/*
+!/tools/README.md
+!/tools/.gitkeep
+
+# Genome-scale local store (never commit assemblies or job output)
+/data/references/**
+!/data/references/README.md
+!/data/references/.gitkeep
+/data/jobs/**
+!/data/jobs/README.md
+!/data/jobs/.gitkeep
+/data/structure_cache/**
+.vercel
+.env*
+!.env.example
+.vercel-protection-patch.json

@@ -1,0 +1,63 @@
+name: Docker
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * 1"
+  pull_request:
+    paths:
+      - Dockerfile
+      - compose.yaml
+      - requirements.txt
+      - docker/**
+      - .github/workflows/docker.yml
+  push:
+    paths:
+      - Dockerfile
+      - compose.yaml
+      - requirements.txt
+      - docker/**
+      - .github/workflows/docker.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image:
+    name: Build and scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Validate Compose
+        run: docker compose config --quiet
+
+      - name: Build the local image
+        run: docker compose build
+
+      - name: Check pinned runtime versions
+        run: |
+          docker run --rm --entrypoint /usr/local/bin/python helixscope:local -c "import importlib.metadata as md, shutil, sys, streamlit, Bio; assert sys.version.startswith('3.14.3'), sys.version; assert streamlit.__version__=='1.58.0'; assert Bio.__version__=='1.87'; assert md.version('ViennaRNA')=='2.7.2'; missing=[name for name in ('FastTree','iqtree3','blastn','USalign') if shutil.which(name) is None]; assert not missing, 'missing from image: ' + ', '.join(missing)"
+
+      - name: Report image vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: helixscope:local
+          format: table
+          severity: CRITICAL,HIGH,MEDIUM,LOW
+          exit-code: "0"
+
+      - name: Fail on critical image vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: helixscope:local
+          format: table
+          severity: CRITICAL
+          exit-code: "1"
+          ignore-unfixed: false

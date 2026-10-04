@@ -1,0 +1,72 @@
+{
+  "global": {
+    "aligned_seq1": "ACGTACGTACGT",
+    "aligned_seq2": "ACGTACGGACGT",
+    "coverage_seq1_definition": "non-gap residues in aligned seq1 / original seq1 length, percent",
+    "coverage_seq1_pct": 100.0,
+    "coverage_seq2_definition": "non-gap residues in aligned seq2 / original seq2 length, percent",
+    "coverage_seq2_pct": 100.0,
+    "gaps": 0,
+    "identity_definition": "matches / alignment_length including gap columns, percent",
+    "identity_pct": 91.67,
+    "length": 12,
+    "matches": 11,
+    "method": "Needleman-Wunsch",
+    "mismatches": 1,
+    "molecule": "DNA",
+    "parameters": {
+      "extend_gap": -0.5,
+      "match": 2.0,
+      "mismatch": -1.0,
+      "mode": "global",
+      "open_gap": -5.0,
+      "substitution": null
+    },
+    "query_length": 12,
+    "score": 21.0,
+    "scoring": "identity match=2 mismatch=-1",
+    "similarity_pct": 91.67,
+    "status": "COMPUTED",
+    "subject_length": 12,
+    "ungapped_identity_definition": "matches / (matches + mismatches), percent",
+    "ungapped_identity_pct": 91.67
+  },
+  "local": {
+    "aligned_seq1": "ACGTACGTACGT",
+    "aligned_seq2": "ACGTACGGACGT",
+    "coverage_seq1_definition": "non-gap residues in aligned seq1 / original seq1 length, percent",
+    "coverage_seq1_pct": 100.0,
+    "coverage_seq2_definition": "non-gap residues in aligned seq2 / original seq2 length, percent",
+    "coverage_seq2_pct": 100.0,
+    "gaps": 0,
+    "identity_definition": "matches / alignment_length including gap columns, percent",
+    "identity_pct": 91.67,
+    "length": 12,
+    "matches": 11,
+    "method": "Smith-Waterman",
+    "mismatches": 1,
+    "molecule": "DNA",
+    "parameters": {
+      "extend_gap": -0.5,
+      "match": 2.0,
+      "mismatch": -1.0,
+      "mode": "local",
+      "open_gap": -5.0,
+      "substitution": null
+    },
+    "query_length": 12,
+    "score": 21.0,
+    "scoring": "identity match=2 mismatch=-1",
+    "similarity_pct": 91.67,
+    "status": "COMPUTED",
+    "subject_length": 12,
+    "ungapped_identity_definition": "matches / (matches + mismatches), percent",
+    "ungapped_identity_pct": 91.67
+  },
+  "parameters": {
+    "extend_gap": -0.5,
+    "match": 2.0,
+    "mismatch": -1.0,
+    "open_gap": -5.0
+  }
+}
