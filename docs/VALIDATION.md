@@ -38,9 +38,11 @@ performance or accuracy claims.
 
 ## Application and container
 
-- Pytest on the image, ignoring `tests/api`: 1216 passed and 8 skipped on the
-  port-aware image, then 1215 passed and 9 skipped after the documentation
-  edit. Both runs had 0 failed.
+- Pytest on a clean clone of published `main`, without optional engines:
+  1200 passed, 25 skipped, 0 failed on 2026-10-04. Earlier container runs
+  reported 1216 passed with 8 skipped, then 1215 passed with 9 skipped, both
+  with 0 failed. Those container counts were not repeated on the published
+  commit.
 - Browser checks at 1440×900, 1366×768 and 1920×1080 covered Overview, DNA,
   Protein, RNA, back, forward and history.
 - Health succeeded on `PORT` 8501, 9000 and 10000. Malformed `PORT` values

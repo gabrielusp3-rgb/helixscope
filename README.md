@@ -25,32 +25,6 @@ Public hosted demo: not yet available.
 - Session history that does not rerun an engine when a stored result is opened
 - A non-root Linux container with a dynamic `PORT` and a read-only root in Compose
 
-## Interface
-
-Overview, with the session history after three local analyses. Open restores the stored result. It does not launch a new engine run.
-
-![Overview showing three session history entries for protein, RNA and DNA composition.](docs/screenshots/07-analysis-history.png)
-
-DNA metrics for the Dickerson dodecamer `CGCGAATTCGCG`: length, GC, AT, melting temperature, mass and skew. The melting temperature shown is the short-oligonucleotide method, not a laboratory measurement.
-
-![DNA workspace with computed composition and melting-temperature metrics for a 12 bp sequence.](docs/screenshots/02-dna-analysis.png)
-
-RNA composition for `GGGAAACCC`, then a ViennaRNA minimum-free-energy fold. The panel states that the dot-bracket is a 2D prediction, not a 3D fold. The email field is the empty form placeholder.
-
-![RNA workspace with the ViennaRNA secondary-structure control and a predicted MFE result.](docs/screenshots/04-rna-analysis.png)
-
-Protein profile for `ACDEFGHIKLMNPQRSTVWY`: mass, theoretical pI, charge, extinction and Shannon complexity. SEG low-complexity masking is marked unavailable.
-
-![Protein workspace with ProtParam-style physicochemical metrics for a 20-residue sequence.](docs/screenshots/03-protein-analysis.png)
-
-Phylogeny refuses to draw a tree when no completed MSA is loaded.
-
-![Phylogeny page stating that a tree is not invented from an empty alignment.](docs/screenshots/05-phylogeny.png)
-
-Engine summary on the tested container. ViennaRNA Python is live validated. Tools without that validation are omitted from the summary rather than shown as available.
-
-![Scientific engines page listing ViennaRNA Python as live validated.](docs/screenshots/08-scientific-engines.png)
-
 ## Why HelixScope
 
 Sequence tools often collapse "retrieved from a database", "computed here" and
@@ -235,10 +209,13 @@ Do not use it as the HelixScope launcher.
 python -m pytest tests --ignore=tests/api -q
 ```
 
-Inside the tested image this selection has been run twice without failures:
-1216 passed and 8 skipped on the port-aware image, then 1215 passed and 9
-skipped after this documentation pass. The counts move when an optional remote
-test skips. They are not a coverage percentage.
+A clean clone of the published `main` tree, without the optional engines,
+reported 1200 passed, 25 skipped and 0 failed on 2026-10-04. Those skips are
+engines and remote calls that are absent in that environment. Earlier runs
+inside the tested container, which includes ViennaRNA and the local engines,
+reported 1216 passed with 8 skipped and 1215 passed with 9 skipped, both with
+0 failed. Those container counts were not repeated on the published commit.
+None of the counts is a coverage percentage.
 
 `tests/api` targets the retired API and is not part of that command.
 

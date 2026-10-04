@@ -9,11 +9,13 @@ python -m pytest tests --ignore=tests/api -q
 `tests/api` belongs to the retired FastAPI service. The Streamlit product
 suite does not install FastAPI to make that directory pass.
 
-On the tested container image this command has reported 1216 passed with 8
-skipped, and later 1215 passed with 9 skipped. Both runs had 0 failed. An
-optional remote test can skip when the network call is unavailable. Those
-eight or nine skips were left as skips. The counts describe those runs. They
-are not a coverage percentage.
+A clean clone of the published `main` tree, without the optional engines,
+reported 1200 passed, 25 skipped and 0 failed on 2026-10-04. Earlier runs
+inside the tested container, which includes ViennaRNA and the local engines,
+reported 1216 passed with 8 skipped and 1215 passed with 9 skipped, both with
+0 failed. Those container counts were not repeated on the published commit.
+An optional remote test can skip when the network call is unavailable. The
+counts describe those runs. They are not a coverage percentage.
 
 The suite includes unit tests, property tests, AppTest checks for navigation
 and history, and the container port parser. AppTest is an in-process Streamlit

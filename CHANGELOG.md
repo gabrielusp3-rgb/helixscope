@@ -16,6 +16,8 @@ reconstructed release history.
 
 ### Changed
 
+- The public README keeps the repository banner and no longer embeds the
+  interface screenshots or the captions that described them.
 - Python dependencies in `requirements.txt` are pinned to the versions measured
   in the tested container: Streamlit 1.58.0, Biopython 1.87, Plotly 6.9.0,
   pandas 2.3.3, NumPy 2.5.3, pytest 9.1.1 and Hypothesis 6.168.3.

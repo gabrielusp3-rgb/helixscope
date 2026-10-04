@@ -37,9 +37,12 @@ python -m pytest tests --ignore=tests/api -q
 ```
 
 Or the same command inside the image, with `tests` mounted and `PYTHONPATH`
-set to `/app`. Two container runs reported 1216 passed with 8 skipped, then
-1215 passed with 9 skipped, both with 0 failed. Repeat the command after you
-change code. Do not treat either count as a permanent property of the project.
+set to `/app`. A clean clone of published `main`, without optional engines,
+reported 1200 passed, 25 skipped and 0 failed on 2026-10-04. Earlier container
+runs reported 1216 passed with 8 skipped, then 1215 passed with 9 skipped,
+both with 0 failed. Those container counts were not repeated on the published
+commit. Repeat the command after you change code. Do not treat any of these
+counts as a permanent property of the project.
 
 A self-alignment of `1CRN.cif` is a fixture check: RMSD 0.0 Å and TM-score 1.0
 on that pair only.
