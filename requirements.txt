@@ -2,10 +2,10 @@
 # Streamlit and Biopython stay on the validated workstation pins.
 # Plotly, pandas, numpy, pytest and hypothesis were previously ranges;
 # these are the versions that passed the container suite, not newer releases.
-streamlit==1.58.0
-biopython==1.87
-plotly==6.9.0
-pandas==2.3.3
+streamlit==1.64.0
+biopython==1.88
+plotly==7.1.0
+pandas==3.0.6
 numpy==2.5.3
 pytest==9.1.1
 hypothesis==6.168.3
