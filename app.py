@@ -8446,12 +8446,17 @@ def render_motif_search() -> None:
         return
     st.markdown(status_badge("COMPUTED"), unsafe_allow_html=True)
     hits = list(packed.get("hits") or [])
+    summary = motif_search.summarize_motif_hits(hits)
     st.markdown(
         helix_workspace.result_header_html(
             "Motif search",
             status="COMPUTED",
             lines=[
-                f"{len(hits)} hits",
+                f"{summary['unique_loci']} unique loci",
+                (
+                    f"{summary['forward_hits']} forward, "
+                    f"{summary['reverse_complement_hits']} reverse-complement"
+                ),
                 f"{packed.get('molecule')} · {packed.get('sequence_length')} residues",
             ],
         ),
@@ -8461,13 +8466,23 @@ def render_motif_search() -> None:
         "motif",
         {
             "status": "COMPUTED",
-            "n_hits": len(hits),
+            "n_hits": summary["literal_hits"],
+            "unique_loci": summary["unique_loci"],
+            "forward_hits": summary["forward_hits"],
+            "reverse_complement_hits": summary["reverse_complement_hits"],
             "pattern": packed.get("pattern"),
             "method": "IUPAC motif scan",
             "source": "HelixScope motif search",
         },
     )
-    render_metric_grid([("Hits", str(len(hits)), "")], columns=4)
+    render_metric_grid(
+        [
+            ("Unique loci", str(summary["unique_loci"]), ""),
+            ("Forward", str(summary["forward_hits"]), ""),
+            ("Reverse complement", str(summary["reverse_complement_hits"]), ""),
+        ],
+        columns=3,
+    )
     if not hits:
         st.info("No motif matches in the provided sequence.")
         return

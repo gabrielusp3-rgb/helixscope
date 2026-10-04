@@ -22,6 +22,17 @@ def test_find_motif_reverse_strand():
     assert "-" in strands
 
 
+def test_dickerson_ecoRI_is_one_locus_on_two_strands():
+    hits = motif_search.find_motif("CGCGAATTCGCG", "GAATTC")
+    summary = motif_search.summarize_motif_hits(hits)
+    assert summary["literal_hits"] == 2
+    assert summary["forward_hits"] == 1
+    assert summary["reverse_complement_hits"] == 1
+    assert summary["unique_loci"] == 1
+    assert {(item["start"], item["end"]) for item in hits} == {(3, 9)}
+    assert "CGCGAATTCGCG"[3:9] == "GAATTC"
+
+
 def test_find_motif_iupac():
     hits = motif_search.find_motif("GAATTC", "GAATTY")
     assert any(item["strand"] == "+" and item["start"] == 0 for item in hits)

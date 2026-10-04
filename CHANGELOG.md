@@ -26,7 +26,11 @@ reconstructed release history.
 - History actions use Open and Delete, matching the English caption.
 - Uploads with path-like names or empty contents are refused before analysis.
   A request whose body contains `../` can still be blocked by the host edge
-  before it reaches the application.
+  before it reaches the application. The interface replaces the raw client
+  error from that block with a short rejection.
+- A palindromic motif such as GAATTC in CGCGAATTCGCG is reported as one
+  unique locus with a forward hit and a reverse-complement hit, not as two
+  separate physical sites.
 - Python dependencies in `requirements.txt` are pinned to the versions measured
   in the tested container: Streamlit 1.58.0, Biopython 1.87, Plotly 6.9.0,
   pandas 2.3.3, NumPy 2.5.3, pytest 9.1.1 and Hypothesis 6.168.3.

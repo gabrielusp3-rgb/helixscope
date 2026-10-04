@@ -459,16 +459,38 @@ def _motif(values: Mapping[str, Any]) -> Explanation:
     n_hits = display_number(values.get("n_hits"), digits=0)
     pattern = display_text(values.get("pattern"))
     method, source = _method_source(values, method="IUPAC motif scan", source="HelixScope")
+    unique = values.get("unique_loci")
+    if unique is None:
+        plain = (
+            f"The pattern {pattern} has {n_hits} strand-oriented hit(s). "
+            "Strand-oriented hits are not automatically distinct physical sites."
+        )
+        title = f"MOTIF SEARCH — {n_hits} strand-oriented hits"
+    else:
+        forward = display_number(values.get("forward_hits"), digits=0)
+        reverse = display_number(values.get("reverse_complement_hits"), digits=0)
+        loci = display_number(unique, digits=0)
+        plain = (
+            f"The pattern {pattern} matches {loci} unique coordinate span(s) "
+            f"({forward} forward-strand, {reverse} reverse-complement). "
+            "A palindromic site can match both strands at the same coordinates. "
+            "That is one locus, not two separate physical sites."
+        )
+        title = f"MOTIF SEARCH — {loci} unique loci"
     return Explanation(
         kind="motif",
-        title=f"MOTIF SEARCH — {n_hits} hits",
+        title=title,
         status=status,
-        plain_meaning=(
-            f"The pattern {pattern} occurs {n_hits} time(s) in the analyzed sequence "
-            "on the reported strand(s)."
+        plain_meaning=plain,
+        why_this_result=(
+            "Matches are IUPAC or exact string occurrences with 0-based "
+            "half-open coordinates. Reverse-complement hits are mapped back "
+            "onto the reported sequence."
         ),
-        why_this_result="Matches are string/IUPAC occurrences with 0-based half-open coordinates internally.",
-        interpretation="A motif hit is a sequence occurrence, not a demonstrated binding event.",
+        interpretation=(
+            "A motif hit is a sequence occurrence, not a demonstrated binding event. "
+            "Unique loci count coordinate spans, not strand orientations."
+        ),
         limitations=_limitations_for_status(
             status,
             "Motif occurrence alone does not prove biological function.",

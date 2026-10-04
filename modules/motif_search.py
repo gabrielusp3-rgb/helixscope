@@ -161,6 +161,40 @@ def find_motif(seq: str, pattern: str) -> List[dict]:
     return results
 
 
+def summarize_motif_hits(hits: List[dict]) -> dict:
+    """Count strand-oriented hits separately from unique coordinate spans.
+
+    Args:
+        hits: Records from find_motif or find_motif_rna. Protein hits use
+            strand "+" only.
+
+    Returns:
+        literal_hits is the number of strand-oriented records. forward_hits
+        and reverse_complement_hits split them. unique_loci is the number of
+        distinct (start, end) spans on the reported sequence. A palindromic
+        site that matches both strands at the same coordinates is one locus.
+
+    Raises:
+        Nenhum.
+    """
+    forward = 0
+    reverse = 0
+    loci: set[tuple[int, int]] = set()
+    for hit in hits:
+        strand = str(hit.get("strand") or "+")
+        if strand == "-":
+            reverse += 1
+        else:
+            forward += 1
+        loci.add((int(hit.get("start") or 0), int(hit.get("end") or 0)))
+    return {
+        "literal_hits": len(hits),
+        "forward_hits": forward,
+        "reverse_complement_hits": reverse,
+        "unique_loci": len(loci),
+    }
+
+
 IUPAC_TO_REGEX_RNA: Dict[str, str] = {
     "A": "A", "C": "C", "G": "G", "U": "U",
     "R": "[AG]", "Y": "[CU]", "S": "[GC]", "W": "[AU]",

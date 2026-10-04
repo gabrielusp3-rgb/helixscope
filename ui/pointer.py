@@ -1,4 +1,4 @@
-"""Cursor-reactive glass highlight via Streamlit Components v2.
+"""Pointer-reactive glass highlight via Streamlit Components v2.
 
 Trusted application script only. Does not receive NCBI, ClinVar, FASTA, or
 user strings. isolate_styles is False so the listener can reach glass nodes
@@ -39,8 +39,31 @@ export default function(component) {
     });
   }
   root.addEventListener("pointermove", onMove, { passive: true });
+  const uploadMessage = "The upload was rejected before analysis. Use a simple file name such as sample.fasta. The file was not stored or executed.";
+  function softenUploadErrors(node) {
+    if (!node || !node.querySelectorAll) {
+      return;
+    }
+    const alerts = node.querySelectorAll("[data-testid='stFileUploader'] [data-testid='stAlert'], [data-testid='stFileUploader'] [role='alert']");
+    alerts.forEach(function (el) {
+      const text = el.textContent || "";
+      if (text.indexOf("AxiosError") !== -1 || text.indexOf("status code 403") !== -1) {
+        if (el.textContent !== uploadMessage) {
+          el.textContent = uploadMessage;
+        }
+      }
+    });
+  }
+  softenUploadErrors(root);
+  const observer = new MutationObserver(function () {
+    softenUploadErrors(root);
+  });
+  if (root.body) {
+    observer.observe(root.body, { childList: true, subtree: true, characterData: true });
+  }
   return function () {
     root.removeEventListener("pointermove", onMove);
+    observer.disconnect();
   };
 }
 """
