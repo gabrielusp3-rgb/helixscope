@@ -1,0 +1,112 @@
+{
+  "guide_scan": [
+    {
+      "canonical_spcas9_length": true,
+      "cas_system": "SpCas9",
+      "coordinate_system": "internal_sense",
+      "end_0based": 20,
+      "full_target": "ACGTACGTACGTACGTACGTAGG",
+      "gc_content": 50.0,
+      "guide_length": 20,
+      "guide_sequence": "ACGTACGTACGTACGTACGT",
+      "pam_sequence": "AGG",
+      "position": 1,
+      "start_0based": 0,
+      "strand": "+"
+    }
+  ],
+  "model_availability": {
+    "cas9_guide_dna_3d_complex": {
+      "available": false,
+      "reason": "No synthetic Cas9+guide+DNA structure is generated. PDB pointers (4UN3, 4OO8) are catalogued for a future mapping workflow. Coordinates are not loaded.",
+      "requires": "deposited Cas-guide-DNA structure and validated mapping"
+    },
+    "cas_offinder": {
+      "available": true,
+      "reason": "Found allowlisted executable cas-offinder.exe. Device C (CPU) is preferred when a CPU OpenCL ICD exists; device G is used if only GPU OpenCL is available. This Windows build of Cas-OFFinder still needs a working OpenCL ICD; missing OpenCL is ERROR, not simulated hits. GPU is not required. Cas-OFFinder 3 is not used (not production-ready per upstream).",
+      "requires": "allowlisted cas-offinder executable (env HELIXSCOPE_CAS_OFFINDER or PATH) and a working OpenCL ICD. Not a Python reimplementation.",
+      "version": "Cas-OFFinder v2.4.1 (Jan 23 2021)"
+    },
+    "distributed_workers": {
+      "available": false,
+      "reason": "Local subprocess workers exist for Cas-OFFinder genome jobs. They are not cloud workers, not multi-tenant, and not a public job queue. Authentication and per-user quotas remain UNAVAILABLE.",
+      "requires": "authentication, quotas and isolated public workers"
+    },
+    "genome_wide_off_targets": {
+      "available": false,
+      "reason": "Genome-wide means a checksum-verified READY public assembly (GRCh38.p14, T2T-CHM13v2.0, or GRCm39) was searched to completion by Cas-OFFinder. Opening CRISPR does not download genomes. A provided FASTA or TEST REFERENCE is not genome-wide. Partial, timed-out, cancelled, or capped jobs do not produce a global specificity score.",
+      "requires": "Cas-OFFinder binary, READY assembly with NCBI MD5 verification, and COMPLETED_FULL_REFERENCE. Auth, quotas and public workers remain UNAVAILABLE."
+    },
+    "hsu_2013_single_hit": {
+      "available": true,
+      "reason": "Per-site Hsu 2013 score for a verified 20 nt spacer pair (CRISPOR calcHitScore / crispr.mit.edu). Scale 0-100. Not the genome-wide MIT Specificity Score. No bulge term.",
+      "requires": "20 nt spacer and a verified site with computed mismatches"
+    },
+    "indel_frameshift_profile": {
+      "available": false,
+      "reason": "Indel profiles need trained models such as inDelphi or ForeCasT.",
+      "requires": "inDelphi or ForeCasT"
+    },
+    "on_target_azimuth": {
+      "available": false,
+      "identical_to_ruleset2": true,
+      "reason": "Azimuth 2 is Rule Set 2 (Doench et al. 2016), not a second on-target model. The Microsoft Research repository is archived (2024) and is not a supported runtime here.",
+      "requires": "Official Azimuth runtime and model files compatible with this Python, loaded without untrusted pickle, for SpCas9 30-nt context only."
+    },
+    "on_target_deephf": {
+      "available": false,
+      "paper": "Wang D et al. Nature Communications 10:5804 (2019). Optimized CRISPR guide RNA design for two high-fidelity Cas9 variants by deep learning.",
+      "reason": "DeepHF is a trained recurrent network (Wang et al. 2019). Weights and a deep-learning runtime are not vendored. A house network is not DeepHF.",
+      "requires": "Official DeepHF weights plus a pinned inference environment."
+    },
+    "on_target_doench_ruleset2": {
+      "available": false,
+      "identical_to_azimuth": true,
+      "paper": "Doench JG et al. Nature Biotechnology 34:184-191 (2016). Azimuth 2 is the Rule Set 2 on-target model (Microsoft Research, archived 2024).",
+      "reason": "Azimuth 2 (Rule Set 2) is an archived Microsoft Research gradient-boosting model whose official pickles target Python 2 / old scikit-learn. HelixScope does not load untrusted pickle weights and does not reimplement the trees. The positional heuristic is not used as a silent substitute for Rule Set 2.",
+      "requires": "Official Azimuth runtime and model files compatible with this Python, loaded without untrusted pickle, for SpCas9 30-nt context only."
+    },
+    "provided_reference_offtarget_search": {
+      "available": true,
+      "reason": "PAM-indexed scan of a user FASTA, workspace DNA, or NCBI nucleotide record already in this session, within size limits. Not genome-wide. No automatic assembly download.",
+      "requires": "validated reference FASTA in this session"
+    },
+    "specificity_cfd": {
+      "available": true,
+      "model": "Doench2016_CFD",
+      "reason": "Per-site CFD (Doench et al. 2016) with embedded published mismatch and PAM matrices (CRISPOR calcCfdScore / GuideMaker dump). Scale 0-1. Not Rule Set 2. Not a genome-wide score.",
+      "requires": "verified 23-mer spacer+PAM pair (20 nt spacer + 3 nt PAM)",
+      "scale": "0-1",
+      "version": "CRISPOR-calcCfdScore-Doench2016-matrices"
+    },
+    "specificity_cfd_guide_aggregate": {
+      "available": true,
+      "model": "Doench2016_CFD_guide_specificity",
+      "reason": "Guide-level CFD specificity (GuideScan / CRISPOR May 2019) 100/(100+sum) on CFD hits of a COMPLETED search. Scope-limited. NOT_RUN/TIMEOUT/RESOURCE_LIMIT never become 0. Not genome-wide unless that search processed a complete declared assembly.",
+      "requires": "completed off-target search with verified CFD per hit",
+      "scale": "0-100",
+      "version": "GuideScan-CRISPOR-100-over-100-plus-sum"
+    },
+    "specificity_mit": {
+      "available": false,
+      "reason": "The genome-wide MIT Specificity Score Sguide aggregates Hsu hit scores over a complete public assembly. This app does not download or process hg38/mm39. Summing hits on a plasmid or locus is a scope-limited aggregate (see specificity_mit_aggregate_over_search), not MIT genome-wide.",
+      "requires": "complete declared assembly search plus Hsu aggregate"
+    },
+    "specificity_mit_aggregate_over_search": {
+      "available": true,
+      "model": "Hsu2013_MIT_Sguide_aggregate",
+      "reason": "CRISPOR calcMitGuideScore = 100/(100+sum of Hsu 2013 single-hit scores) over a COMPLETED search, excluding the intended on-target, including additional exact copies. Alt-PAM Hsu is multiplied by 0.2 as in CRISPOR. Not genome-wide unless the search was.",
+      "requires": "completed off-target search with Hsu single-hit scores",
+      "scale": "0-100",
+      "version": "CRISPOR-calcMitGuideScore"
+    }
+  },
+  "on_target_deephf_available": false,
+  "on_target_doench_ruleset2_available": false,
+  "reference_identity": {
+    "assembly": null,
+    "n_contigs": 2,
+    "status": "READY"
+  },
+  "scope": "TEST REFERENCE / pasted sequence. Not genome-wide. Not GRCh38."
+}

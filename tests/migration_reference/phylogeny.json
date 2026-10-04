@@ -1,0 +1,172 @@
+{
+  "msa_alignment_hash": "3b861c3b34ed5bbb6f01a27588fc50a07eed28fb557c9912a6278fe41086748a",
+  "n_columns": null,
+  "n_sequences": 4,
+  "semantic_parity": "Newick sibling order may differ across engines. Compare leaf sets, status, method, and engine-specific model/support semantics. Do not require NJ == IQ-TREE topology.",
+  "trees": {
+    "fasttree": {
+      "alignment_hash": "3b861c3b34ed5bbb6f01a27588fc50a07eed28fb557c9912a6278fe41086748a",
+      "disclaimer": "Phylogenetic inference from this MSA, method and model. Not a true evolutionary tree, not a taxonomic classification, and not BLAST similarity. Branch lengths are algorithm output. Support is N/A when no test was run, never 0. Felsenstein bootstrap, UFBoot and SH-aLRT are distinct methods and are not averaged.",
+      "leaves": [
+        {
+          "sequence_hash": "94b13c84da2b8662afce328784b3a01a8e5a20917d6fc9046469cd9ba59ccfa3",
+          "tree_id": "seq_c"
+        },
+        {
+          "sequence_hash": "42aa56c16ed32ad63a0e6604338147cf3e7d35a592f9686e4b0fbd8dbb53e9be",
+          "tree_id": "seq_d"
+        },
+        {
+          "sequence_hash": "907945a971b7a487acb4bc195ffdbe60c9815fa5dd072b8da049da171be0a16b",
+          "tree_id": "seq_b"
+        },
+        {
+          "sequence_hash": "df3e7a7dc412a3df7131f235b677cf99cca82dcea1b7e9999bc2bf85ab2103c5",
+          "tree_id": "seq_a"
+        }
+      ],
+      "method": "fasttree_ml",
+      "model": "FastTree default approximate ML (nucleotide JC-like / protein CAT as implemented by FastTree)",
+      "n_leaves": 4,
+      "newick": "(seq_c:0.16909,seq_d:0.16909,(seq_b:0.16909,seq_a:0.00000)0.00:0.00000):0.00000;",
+      "not_taxonomic_tree": true,
+      "status": "COMPUTED",
+      "support": {
+        "disclaimer": "No support values. Absence is N/A, not 0.",
+        "method": "",
+        "methods": [],
+        "n_replicates": 0,
+        "n_replicates_requested": 0,
+        "seed": null,
+        "status": "UNAVAILABLE",
+        "truncated": false,
+        "values": {}
+      },
+      "tool": "FastTree",
+      "tool_version": "2.2.0"
+    },
+    "iqtree": {
+      "alignment_hash": "3b861c3b34ed5bbb6f01a27588fc50a07eed28fb557c9912a6278fe41086748a",
+      "disclaimer": "Phylogenetic inference from this MSA, method and model. Not a true evolutionary tree, not a taxonomic classification, and not BLAST similarity. Branch lengths are algorithm output. Support is N/A when no test was run, never 0. Felsenstein bootstrap, UFBoot and SH-aLRT are distinct methods and are not averaged.",
+      "leaves": [
+        {
+          "sequence_hash": "df3e7a7dc412a3df7131f235b677cf99cca82dcea1b7e9999bc2bf85ab2103c5",
+          "tree_id": "seq_a"
+        },
+        {
+          "sequence_hash": "907945a971b7a487acb4bc195ffdbe60c9815fa5dd072b8da049da171be0a16b",
+          "tree_id": "seq_b"
+        },
+        {
+          "sequence_hash": "94b13c84da2b8662afce328784b3a01a8e5a20917d6fc9046469cd9ba59ccfa3",
+          "tree_id": "seq_c"
+        },
+        {
+          "sequence_hash": "42aa56c16ed32ad63a0e6604338147cf3e7d35a592f9686e4b0fbd8dbb53e9be",
+          "tree_id": "seq_d"
+        }
+      ],
+      "method": "iqtree_ml",
+      "model": "JC",
+      "n_leaves": 4,
+      "newick": "(seq_a:0.00000,seq_b:0.16736,(seq_c:0.16736,seq_d:0.16736):0.00000):0.00000;",
+      "not_taxonomic_tree": true,
+      "status": "COMPUTED",
+      "support": {
+        "disclaimer": "No support values. Absence is N/A, not 0.",
+        "method": "",
+        "methods": [],
+        "n_replicates": 0,
+        "n_replicates_requested": 0,
+        "seed": null,
+        "status": "UNAVAILABLE",
+        "truncated": false,
+        "values": {}
+      },
+      "tool": "IQ-TREE",
+      "tool_version": "3.1.3"
+    },
+    "nj": {
+      "alignment_hash": "3b861c3b34ed5bbb6f01a27588fc50a07eed28fb557c9912a6278fe41086748a",
+      "disclaimer": "Phylogenetic inference from this MSA, method and model. Not a true evolutionary tree, not a taxonomic classification, and not BLAST similarity. Branch lengths are algorithm output. Support is N/A when no test was run, never 0. Felsenstein bootstrap, UFBoot and SH-aLRT are distinct methods and are not averaged.",
+      "leaves": [
+        {
+          "sequence_hash": "df3e7a7dc412a3df7131f235b677cf99cca82dcea1b7e9999bc2bf85ab2103c5",
+          "tree_id": "seq_a"
+        },
+        {
+          "sequence_hash": "94b13c84da2b8662afce328784b3a01a8e5a20917d6fc9046469cd9ba59ccfa3",
+          "tree_id": "seq_c"
+        },
+        {
+          "sequence_hash": "907945a971b7a487acb4bc195ffdbe60c9815fa5dd072b8da049da171be0a16b",
+          "tree_id": "seq_b"
+        },
+        {
+          "sequence_hash": "42aa56c16ed32ad63a0e6604338147cf3e7d35a592f9686e4b0fbd8dbb53e9be",
+          "tree_id": "seq_d"
+        }
+      ],
+      "method": "neighbor_joining",
+      "model": "p_distance",
+      "n_leaves": 4,
+      "newick": "(seq_a:0.00000,(seq_c:0.15000,seq_b:0.15000)Inner1:0.00000,seq_d:0.15000)Inner2:0.00000;",
+      "not_taxonomic_tree": true,
+      "status": "COMPUTED",
+      "support": {
+        "disclaimer": "No support values. Absence is N/A, not 0.",
+        "method": "",
+        "methods": [],
+        "n_replicates": 0,
+        "n_replicates_requested": 0,
+        "seed": null,
+        "status": "UNAVAILABLE",
+        "truncated": false,
+        "values": {}
+      },
+      "tool": "Biopython DistanceTreeConstructor",
+      "tool_version": "1.87"
+    },
+    "upgma": {
+      "alignment_hash": "3b861c3b34ed5bbb6f01a27588fc50a07eed28fb557c9912a6278fe41086748a",
+      "disclaimer": "Phylogenetic inference from this MSA, method and model. Not a true evolutionary tree, not a taxonomic classification, and not BLAST similarity. Branch lengths are algorithm output. Support is N/A when no test was run, never 0. Felsenstein bootstrap, UFBoot and SH-aLRT are distinct methods and are not averaged.",
+      "leaves": [
+        {
+          "sequence_hash": "907945a971b7a487acb4bc195ffdbe60c9815fa5dd072b8da049da171be0a16b",
+          "tree_id": "seq_b"
+        },
+        {
+          "sequence_hash": "94b13c84da2b8662afce328784b3a01a8e5a20917d6fc9046469cd9ba59ccfa3",
+          "tree_id": "seq_c"
+        },
+        {
+          "sequence_hash": "42aa56c16ed32ad63a0e6604338147cf3e7d35a592f9686e4b0fbd8dbb53e9be",
+          "tree_id": "seq_d"
+        },
+        {
+          "sequence_hash": "df3e7a7dc412a3df7131f235b677cf99cca82dcea1b7e9999bc2bf85ab2103c5",
+          "tree_id": "seq_a"
+        }
+      ],
+      "method": "upgma",
+      "model": "p_distance",
+      "n_leaves": 4,
+      "newick": "(seq_b:0.13125,(seq_c:0.11250,(seq_d:0.07500,seq_a:0.07500)Inner1:0.03750)Inner2:0.01875)Inner3:0.00000;",
+      "not_taxonomic_tree": true,
+      "status": "COMPUTED",
+      "support": {
+        "disclaimer": "No support values. Absence is N/A, not 0.",
+        "method": "",
+        "methods": [],
+        "n_replicates": 0,
+        "n_replicates_requested": 0,
+        "seed": null,
+        "status": "UNAVAILABLE",
+        "truncated": false,
+        "values": {}
+      },
+      "tool": "Biopython DistanceTreeConstructor",
+      "tool_version": "1.87"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "confidence_score": null,
+  "conflicts": [
+    {
+      "field": "most_severe_consequence",
+      "items": [
+        {
+          "evidence_status": "RETRIEVED",
+          "field": "Variant A most_severe_consequence",
+          "identifier": "",
+          "mapping_status": "AVAILABLE",
+          "note": "",
+          "retrieved_at_utc": "2026-08-29T00:00:00Z",
+          "software_version": "0.24.3-19",
+          "source": "Ensembl VEP",
+          "value": "missense_variant",
+          "version": "0.24.3-19"
+        },
+        {
+          "evidence_status": "RETRIEVED",
+          "field": "Variant B most_severe_consequence",
+          "identifier": "",
+          "mapping_status": "AVAILABLE",
+          "note": "",
+          "retrieved_at_utc": "2026-08-29T00:00:00Z",
+          "software_version": "0.24.3-19",
+          "source": "NCBI ClinVar",
+          "value": "synonymous_variant",
+          "version": "0.24.3-19"
+        }
+      ],
+      "policy": "Sources disagree. HelixScope shows all values and does not take a majority vote."
+    }
+  ],
+  "items": [
+    {
+      "evidence_status": "RETRIEVED",
+      "field": "Variant A most_severe_consequence",
+      "identifier": "",
+      "mapping_status": "AVAILABLE",
+      "note": "",
+      "retrieved_at_utc": "2026-08-29T00:00:00Z",
+      "software_version": "0.24.3-19",
+      "source": "Ensembl VEP",
+      "value": "missense_variant",
+      "version": "0.24.3-19"
+    },
+    {
+      "evidence_status": "RETRIEVED",
+      "field": "Variant B most_severe_consequence",
+      "identifier": "",
+      "mapping_status": "AVAILABLE",
+      "note": "",
+      "retrieved_at_utc": "2026-08-29T00:00:00Z",
+      "software_version": "0.24.3-19",
+      "source": "NCBI ClinVar",
+      "value": "synonymous_variant",
+      "version": "0.24.3-19"
+    }
+  ],
+  "policy": "Conflicts are listed. Majority vote does not resolve them. confidence_score is None."
+}

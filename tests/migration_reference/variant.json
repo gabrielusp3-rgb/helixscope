@@ -1,0 +1,15 @@
+{
+  "grch38": {
+    "alt": "G",
+    "assembly": "GRCh38.p14",
+    "contig": "17",
+    "effect_status": "NOT_COMPUTED",
+    "identity_hash": "6e7f989517439995c834dfa24e4c57f27d1ae12bf6a46f437be753f62809e6ed",
+    "position_0based": 43093556,
+    "position_1based": 43093557,
+    "ref": "C",
+    "status": "NORMALIZED"
+  },
+  "note": "Identity only. No VEP/ClinVar live call in this golden. BRCA1 locus example is coordinate identity.",
+  "same_text_different_assembly_identity_differs": true
+}

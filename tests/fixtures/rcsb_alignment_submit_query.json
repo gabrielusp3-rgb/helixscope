@@ -1,0 +1,22 @@
+{
+  "context": {
+    "mode": "pairwise",
+    "method": {
+      "name": "fatcat-rigid"
+    },
+    "structures": [
+      {
+        "entry_id": "8HSK",
+        "selection": {
+          "asym_id": "A"
+        }
+      },
+      {
+        "entry_id": "8HSF",
+        "selection": {
+          "asym_id": "A"
+        }
+      }
+    ]
+  }
+}

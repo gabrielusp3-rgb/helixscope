@@ -1,0 +1,18 @@
+********************************************************************
+ * US-align (Version 20241108)                                      *
+ * Universal Structure Alignment of Proteins and Nucleic Acids      *
+ ********************************************************************
+
+Name of Structure_1: 1CRN.cif:A (to be superimposed onto Structure_2)
+Name of Structure_2: 1CRN.cif:A
+Length of Structure_1: 46 residues
+Length of Structure_2: 46 residues
+
+Aligned length= 46, RMSD=   0.00, Seq_ID=n_identical/n_aligned= 1.000
+TM-score= 1.00000 (normalized by length of Structure_1: L=46, d0=2.10)
+TM-score= 1.00000 (normalized by length of Structure_2: L=46, d0=2.10)
+
+(":" denotes residue pairs of d < 5.0 Angstrom, "." denotes other aligned residues)
+TTCCPSIVARSNFNVCRLPGTPEAICATYTGCIIIPGATCPGDYAN
+::::::::::::::::::::::::::::::::::::::::::::::
+TTCCPSIVARSNFNVCRLPGTPEAICATYTGCIIIPGATCPGDYAN

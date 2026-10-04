@@ -1,0 +1,35 @@
+{
+  "expected_semantics": {
+    "block_rmsd_angstrom": 0.8,
+    "coverage_note": "95% / 100% where the current path supplies it",
+    "global_rmsd_angstrom": 0.99,
+    "n_aligned_ca_pairs": 20,
+    "tm_score": 0.23
+  },
+  "fixture_parser": {
+    "method": "fatcat-rigid",
+    "n_pairs": 20,
+    "status": "RETRIEVED"
+  },
+  "live_record": {
+    "details": {
+      "engine_location": "remote",
+      "method": "fatcat-rigid",
+      "n_pairs": 20,
+      "pair": "8HSK vs 8HSF",
+      "rmsd_block0": 0.8,
+      "rmsd_global": 0.99,
+      "ticket": "1bd3cf2e-96c8-4d49-9b76-09ca49e72aca"
+    },
+    "engine_location": "remote",
+    "ok": true,
+    "status": "remote_validated",
+    "tool": "RCSB Alignment API",
+    "validated_at_utc": "2026-08-29T19:15:08Z",
+    "version": "api/v1"
+  },
+  "method": "fatcat-rigid / jFATCAT-rigid",
+  "pair": "8HSK vs 8HSF",
+  "parity": "FLOAT_TOLERANCE RMSD abs=0.05 A (RCSB reported precision 0.01-0.1). Pair count EXACT.",
+  "source": "data/jobs/engine_live.json REMOTE_VALIDATED snapshot, not a new RCSB call"
+}

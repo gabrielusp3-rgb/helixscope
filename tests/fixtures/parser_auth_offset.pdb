@@ -1,0 +1,4 @@
+HEADER    PARSER FIXTURE AUTH NUMBERING OFFSET
+ATOM      1  CA  ALA A  10       1.000   2.000   3.000  1.00 10.00           C
+ATOM      2  CA  LYS A  11       4.000   5.000   6.000  1.00 11.00           C
+END

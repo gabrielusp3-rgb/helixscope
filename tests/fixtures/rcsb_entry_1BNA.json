@@ -1,0 +1,11 @@
+{
+  "structure_id": "1BNA",
+  "source": "RCSB PDB",
+  "kind": "experimental",
+  "method": "X-RAY DIFFRACTION",
+  "resolution_angstrom": 1.9,
+  "release_date": "1981-05-21T00:00:00.000+00:00",
+  "methodology": "experimental",
+  "deposited_atom_count": 566,
+  "deposited_model_count": 1
+}

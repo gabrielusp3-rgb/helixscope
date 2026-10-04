@@ -1,0 +1,118 @@
+{
+  "composition": {
+    "A": {
+      "count": 2,
+      "frequency": 6.06
+    },
+    "C": {
+      "count": 0,
+      "frequency": 0.0
+    },
+    "D": {
+      "count": 0,
+      "frequency": 0.0
+    },
+    "E": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "F": {
+      "count": 2,
+      "frequency": 6.06
+    },
+    "G": {
+      "count": 1,
+      "frequency": 3.03
+    },
+    "H": {
+      "count": 1,
+      "frequency": 3.03
+    },
+    "I": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "K": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "L": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "M": {
+      "count": 1,
+      "frequency": 3.03
+    },
+    "N": {
+      "count": 0,
+      "frequency": 0.0
+    },
+    "P": {
+      "count": 0,
+      "frequency": 0.0
+    },
+    "Q": {
+      "count": 4,
+      "frequency": 12.12
+    },
+    "R": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "S": {
+      "count": 3,
+      "frequency": 9.09
+    },
+    "T": {
+      "count": 1,
+      "frequency": 3.03
+    },
+    "V": {
+      "count": 2,
+      "frequency": 6.06
+    },
+    "W": {
+      "count": 0,
+      "frequency": 0.0
+    },
+    "Y": {
+      "count": 1,
+      "frequency": 3.03
+    }
+  },
+  "length": 33,
+  "note": "Sequence SS predictors remain UNAVAILABLE. DSSP is coordinate assignment, not this report.",
+  "physicochemical_report": {
+    "aliphatic_index": 94.55,
+    "aliphatic_index_method": "Ikai (1980)",
+    "aromaticity": 0.0909,
+    "composition_consistent": true,
+    "gravy": -0.403,
+    "gravy_method": "Kyte-Doolittle",
+    "instability_index": 53.55,
+    "instability_index_method": "Guruprasad et al. (1990) dipeptide instability, via ProtParam; computational index, not experimental stability",
+    "isoelectric_point": 9.99,
+    "isoelectric_point_kind": "theoretical",
+    "isoelectric_point_method": "Biopython ProtParam / Bjellqvist pKa scale; not an experimental pI",
+    "length": 33,
+    "molecular_weight_da": 3936.0,
+    "molecular_weight_kda": 3.936,
+    "molecular_weight_method": "Biopython ProtParam average isotopic residue masses minus water for peptide bonds",
+    "net_charge": 2.59,
+    "net_charge_method": "Henderson-Hasselbalch on ionizable side chains and termini via ProtParam",
+    "net_charge_ph": 7.0,
+    "status": "COMPUTED"
+  },
+  "sequence": "MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ",
+  "ss_prediction_status": {
+    "available": false,
+    "reason": "Predicao de estrutura secundaria exige informacao evolutiva de alinhamentos multiplos, ausente neste projeto. Metodos por propensao local acertam cerca de 60 por cento dos residuos, o que nao sustenta conclusao biologica.",
+    "recommended_tools": [
+      "PSIPRED (predicao baseada em perfis de PSI-BLAST)",
+      "JPred4 (consenso de multiplos preditores)",
+      "AlphaFold DB (estrutura tridimensional, da qual a estrutura secundaria e derivada)",
+      "DSSP (atribuicao a partir de estrutura experimental resolvida)"
+    ]
+  }
+}

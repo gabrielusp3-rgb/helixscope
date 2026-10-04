@@ -1,0 +1,14 @@
+{
+  "availability": {
+    "executables_detected": true,
+    "not_nt_nr": true,
+    "version": "2.17.0+"
+  },
+  "run": {
+    "backend": "NCBI BLAST+ local",
+    "db_not_nt": true,
+    "n_hits": 1,
+    "not_remote_ncbi": true,
+    "status": "READY"
+  }
+}

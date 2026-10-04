@@ -1,0 +1,1244 @@
+{
+  "app_py": "SCIENCE + STREAMLIT cache wrappers + UI composition",
+  "modules": [
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 7,
+      "path": "modules/alignment.py",
+      "public": [
+        "pairwise_global",
+        "pairwise_local",
+        "dotplot_matrix",
+        "classify_alignment_columns",
+        "format_pairwise_export",
+        "multiple_alignment_availability",
+        "blast_search_availability"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 23,
+      "path": "modules/blast_search.py",
+      "public": [
+        "class:BlastError",
+        "declared_blast_prefix",
+        "local_blast_availability",
+        "detect_makeblastdb",
+        "build_declared_blast_database",
+        "run_local_blast",
+        "ncbi_blast_availability",
+        "programs_for_molecule",
+        "databases_for_program",
+        "prepare_query",
+        "cache_key",
+        "seconds_until_next_poll",
+        "submit_search",
+        "poll_search",
+        "retrieve_search",
+        "parse_put_response",
+        "parse_status_response",
+        "parse_blast_xml",
+        "paginate_hits",
+        "mark_cached_result",
+        "export_hits_table",
+        "export_result_bundle",
+        "deployment_readiness"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 3,
+      "path": "modules/cds_mapping.py",
+      "public": [
+        "class:CdsMappingError",
+        "map_genomic_base_to_codon",
+        "map_hit_to_protein_residue"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 8,
+      "path": "modules/clinvar_evidence.py",
+      "public": [
+        "class:ClinVarError",
+        "url_is_allowed",
+        "network_disclosure",
+        "build_search_term",
+        "search_clinvar",
+        "parse_clinvar_summary",
+        "record_matches_variant",
+        "fetch_clinvar_records"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 10,
+      "path": "modules/comparative.py",
+      "public": [
+        "class:ComparativeError",
+        "compare_structures_remote",
+        "compare_structures_usalign",
+        "compare_variants",
+        "compare_guides",
+        "msa_column_to_structure",
+        "structure_residue_to_msa_column",
+        "group_associated_positions",
+        "load_parsed_structure_for_entry",
+        "compare_proteins"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 10,
+      "path": "modules/complex_structure.py",
+      "public": [
+        "class:ComplexError",
+        "classify_chain_role",
+        "map_guide_to_rna_chain",
+        "map_target_to_dna_chain",
+        "map_pam_on_nontarget",
+        "annotate_parsed_complex",
+        "annotate_from_polymer_entities",
+        "complex_provenance",
+        "highlight_indices_for_chain_span",
+        "deposited_to_structure_3d_input"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 35,
+      "path": "modules/crispr.py",
+      "public": [
+        "class:CrisprError",
+        "find_guides",
+        "score_guide_doench",
+        "find_off_targets",
+        "rank_guides",
+        "design_primer_pair",
+        "generate_report",
+        "list_supported_systems",
+        "list_interface_systems",
+        "system_info",
+        "model_availability",
+        "poly_t_signal",
+        "self_complementarity",
+        "off_target_mismatch_summary",
+        "local_specificity_proxy",
+        "classify_guide_risk",
+        "composite_score",
+        "count_spcas9_pams",
+        "diagnose_spcas9_target",
+        "seed_occurrences",
+        "longest_homopolymer",
+        "restriction_overlaps",
+        "microhomology_at_cut",
+        "order_ready_oligos",
+        "cut_site_position",
+        "base_editing_window",
+        "prime_editing_notes",
+        "evaluate_guides",
+        "hsu_single_hit_score",
+        "validate_spcas9_guide",
+        "guide_target_span",
+        "offtarget_cache_key",
+        "scientific_crispr_report",
+        "search_off_targets_in_reference",
+        "export_offtarget_rows"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 6,
+      "path": "modules/crispr_assemblies.py",
+      "public": [
+        "list_catalog",
+        "catalog_by_id",
+        "test_reference_descriptor",
+        "lookup_declaration",
+        "annotate_reference",
+        "gtf_matches_assembly"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 12,
+      "path": "modules/crispr_casoffinder.py",
+      "public": [
+        "detect_cas_offinder",
+        "cas_offinder_version_policy",
+        "resolve_search_device",
+        "full_reference_definition",
+        "build_engine_input_manifest",
+        "search_completeness_record",
+        "search_with_cas_offinder",
+        "parse_cas_offinder_output",
+        "casoffinder_position_to_internal",
+        "locate_casoffinder_site",
+        "search_indexed_fasta",
+        "locate_casoffinder_site_indexed"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 4,
+      "path": "modules/crispr_cfd.py",
+      "public": [
+        "cfd_model_record",
+        "cfd_pair_score",
+        "cfd_from_spacer_and_pam",
+        "attach_cfd_to_hit"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 9,
+      "path": "modules/crispr_offtarget.py",
+      "public": [
+        "build_pam_index",
+        "search_off_targets_in_reference",
+        "annotate_verified_hits",
+        "build_search_envelope",
+        "validate_hit_against_reference",
+        "overlapping_ncbi_features",
+        "export_offtarget_rows",
+        "not_run_envelope",
+        "mismatch_summary_from_hits"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 4,
+      "path": "modules/crispr_ontarget.py",
+      "public": [
+        "ruleset2_availability",
+        "deephf_availability",
+        "score_doench_ruleset2",
+        "score_deephf"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 11,
+      "path": "modules/crispr_reference.py",
+      "public": [
+        "class:ReferenceError",
+        "decode_reference_payload",
+        "load_reference_from_text",
+        "load_reference_from_bytes",
+        "reference_from_ncbi_record",
+        "reference_from_workspace_dna",
+        "contig_by_id",
+        "extract_sense_window",
+        "reference_cache_key",
+        "provenance_record",
+        "to_fasta_text"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 5,
+      "path": "modules/crispr_specificity.py",
+      "public": [
+        "mit_sguide_from_hit_sum",
+        "cfd_sguide_from_cfd_sum",
+        "mit_weighted_hsu",
+        "assign_site_roles",
+        "scores_from_search"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 2,
+      "path": "modules/crispr_structure_catalog.py",
+      "public": [
+        "list_experimental_complexes",
+        "mapping_contract"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 18,
+      "path": "modules/dna_3d.py",
+      "public": [
+        "class:Dna3dError",
+        "normalize_kind",
+        "predicted_availability",
+        "bundled_experimental_for_sequence",
+        "overview_object_budget",
+        "navigate",
+        "representation_for_sequence",
+        "scene_from_representation",
+        "highlight_from_motif",
+        "highlight_from_guide",
+        "highlight_from_ncbi_spans",
+        "highlight_from_msa_column",
+        "highlight_from_window",
+        "export_representation",
+        "position_to_3d",
+        "pick_to_position",
+        "base_labels_for_view",
+        "window_integrity"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 30,
+      "path": "modules/dna_analysis.py",
+      "public": [
+        "validate_sequence",
+        "validate_for_molecule",
+        "nucleotide_composition",
+        "gc_content",
+        "at_content",
+        "dinucleotide_frequencies",
+        "gc_sliding_window",
+        "melting_temperature",
+        "melting_temperature_report",
+        "molecular_weight",
+        "reverse_complement",
+        "gc_skew",
+        "at_skew_windows",
+        "orf_coordinates_on_input",
+        "find_restriction_sites",
+        "find_orfs",
+        "select_non_overlapping_orfs",
+        "cpg_islands",
+        "cpg_dinucleotide_positions",
+        "shannon_entropy",
+        "at_skew",
+        "gc_skew_global",
+        "kmer_counts",
+        "kmer_summary",
+        "entropy_sliding_window",
+        "composition_is_consistent",
+        "supported_iupac_dna_symbols",
+        "windowed_profiles",
+        "parse_sequence_payload",
+        "parse_fasta_records"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 5,
+      "path": "modules/engine_validation.py",
+      "public": [
+        "record_live_validation",
+        "record_remote_validation",
+        "live_record",
+        "merge_status",
+        "reset_live_validations"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 10,
+      "path": "modules/ensembl_vep.py",
+      "public": [
+        "class:VepError",
+        "url_is_allowed",
+        "host_for_assembly",
+        "network_disclosure",
+        "service_availability",
+        "classify_consequence",
+        "parse_vep_response",
+        "annotate_region",
+        "annotate_hgvs",
+        "annotate_identifier"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/evidence_workspace.py",
+      "public": [
+        "class:EvidenceError",
+        "evidence_item",
+        "collect_from_alignment",
+        "collect_from_variant_result",
+        "source_conflicts",
+        "export_pack"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 5,
+      "path": "modules/explain.py",
+      "public": [
+        "class:Explanation",
+        "display_number",
+        "display_text",
+        "explain",
+        "explanation_as_dict"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 12,
+      "path": "modules/genome_annotation.py",
+      "public": [
+        "class:AnnotationError",
+        "parse_gff_text",
+        "parse_gff_path",
+        "bind_annotation_to_assembly",
+        "build_interval_index",
+        "overlapping_features",
+        "classify_hit_context",
+        "annotate_hits",
+        "context_cache_identity",
+        "annotation_catalog_urls",
+        "load_ready_annotation",
+        "install_annotation_from_text"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/genome_coordinates.py",
+      "public": [
+        "class:CoordinateError",
+        "internal_to_display",
+        "display_to_internal",
+        "roundtrip_ok",
+        "pam_interval_on_strand",
+        "hit_display_fields"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 9,
+      "path": "modules/genome_download.py",
+      "public": [
+        "class:GenomeDownloadError",
+        "url_is_allowed",
+        "download_to_partial",
+        "decompress_gzip_to_fasta",
+        "install_public_assembly_from_gz",
+        "download_and_install_assembly",
+        "extract_zip_safe",
+        "download_cas_offinder_windows",
+        "spawn_download_assembly"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 14,
+      "path": "modules/genome_fasta.py",
+      "public": [
+        "class:GenomeFastaError",
+        "display_interval_1based_inclusive",
+        "parse_fai_text",
+        "load_fai",
+        "write_fai",
+        "build_fai_for_fasta",
+        "fai_provenance_path",
+        "write_fai_provenance",
+        "read_fai_provenance",
+        "fai_is_current",
+        "file_sha256",
+        "file_md5",
+        "fetch_sequence",
+        "region_hash"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 15,
+      "path": "modules/genome_jobs.py",
+      "public": [
+        "class:GenomeJobError",
+        "new_job_id",
+        "job_dir",
+        "read_json",
+        "write_status",
+        "load_job",
+        "load_status",
+        "cache_identity",
+        "full_genome_search_preflight",
+        "sanitize_job_log",
+        "submit_casoffinder_job",
+        "request_cancel",
+        "cancel_requested",
+        "find_cached_job",
+        "load_result"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 4,
+      "path": "modules/genome_region.py",
+      "public": [
+        "class:RegionViewError",
+        "clip_window",
+        "local_region_view",
+        "shift_window"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 17,
+      "path": "modules/genome_store.py",
+      "public": [
+        "class:GenomeStoreError",
+        "repository_root",
+        "store_root",
+        "jobs_root",
+        "assembly_dir",
+        "path_is_in_store",
+        "disk_status",
+        "empty_manifest",
+        "read_manifest",
+        "write_manifest",
+        "list_local_references",
+        "ready_record",
+        "any_public_assembly_ready",
+        "mark_partial",
+        "mark_corrupt",
+        "install_test_reference",
+        "finalize_ready_from_fasta"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 4,
+      "path": "modules/genome_worker.py",
+      "public": [
+        "job_int",
+        "run_casoffinder_job",
+        "run_download_assembly",
+        "main"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 4,
+      "path": "modules/genomic_variant.py",
+      "public": [
+        "class:VariantError",
+        "normalize_allele",
+        "genomic_variant",
+        "variant_from_mapping"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 21,
+      "path": "modules/gesture_math.py",
+      "public": [
+        "landmark_xyz",
+        "palm_scale",
+        "pinch_ratio",
+        "tracking_ok",
+        "is_open_palm",
+        "palm_centroid",
+        "open_palm_reset_ready",
+        "apply_pinch_hysteresis",
+        "two_hand_span",
+        "eye_to_orbit",
+        "orbit_to_eye",
+        "apply_dead_zone",
+        "clamp_orbit_delta",
+        "orbit_from_pinch_move",
+        "zoom_from_two_hands",
+        "class:OneEuro",
+        "OneEuro.reset",
+        "OneEuro.filter",
+        "traces_xyz_fingerprint",
+        "synthetic_open_hand",
+        "synthetic_pinch_hand"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 15,
+      "path": "modules/molecule_selection.py",
+      "public": [
+        "class:SelectionError",
+        "molecules_are_compatible",
+        "make_selection",
+        "selection_identity_hash",
+        "query_indices_of",
+        "primary_index",
+        "selection_applies_to",
+        "selection_from_sequence_position",
+        "selection_from_structure_pick",
+        "selection_from_msa_column",
+        "selection_from_motif_hit",
+        "selection_from_ncbi_spans",
+        "selection_from_tree_leaf",
+        "ungapped_sequence_for_hash",
+        "structure_availability_for_hash"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/motif_search.py",
+      "public": [
+        "find_motif",
+        "find_motif_rna",
+        "find_motif_protein",
+        "parse_motif_patterns",
+        "filter_motif_hits",
+        "find_motifs"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 35,
+      "path": "modules/msa.py",
+      "public": [
+        "class:MsaError",
+        "tool_availability",
+        "detect_local_tools",
+        "available_backend_ids",
+        "parse_unaligned_fasta",
+        "build_collection_member",
+        "member_from_ncbi_record",
+        "pending_member_from_blast_hit",
+        "complete_blast_member_with_ncbi",
+        "validate_collection",
+        "identical_sequence_groups",
+        "cache_key",
+        "seconds_until_next_poll",
+        "submit_msa",
+        "poll_msa",
+        "retrieve_msa",
+        "parse_aligned_fasta",
+        "ungap",
+        "import_prealigned_fasta",
+        "validate_aligned_rows",
+        "column_coordinate_maps",
+        "consensus_from_columns",
+        "conservation_shannon",
+        "classify_column_variation",
+        "variation_vs_reference",
+        "identity_matrix_from_msa",
+        "column_detail",
+        "viewer_window",
+        "spans_for_column",
+        "build_msa_result",
+        "export_aligned_fasta",
+        "export_clustal_like",
+        "export_column_csv",
+        "export_result_bundle",
+        "mark_cached_result"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 5,
+      "path": "modules/na_structure_catalog.py",
+      "public": [
+        "list_experimental_dna_structures",
+        "list_experimental_rna_structures",
+        "catalog_entry",
+        "rnacentral_is_appropriate_for_3d",
+        "rna_3d_predictor_research"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 15,
+      "path": "modules/ncbi_fetch.py",
+      "public": [
+        "class:NCBIQueryError",
+        "api_key_from_environment",
+        "classify_identifier",
+        "resolve_database",
+        "fetch_by_accession",
+        "search_records",
+        "fetch_taxonomy",
+        "homology_search_availability",
+        "parse_genbank_location",
+        "extract_cds_regions",
+        "split_accession_version",
+        "record_explorer_fields",
+        "extract_annotated_features",
+        "sequence_for_workspace",
+        "feature_spans_for_analysis"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 5,
+      "path": "modules/nucleic_geometry.py",
+      "public": [
+        "class:NucleicGeometryError",
+        "illustrative_bdna_model",
+        "illustrative_arna_model",
+        "availability",
+        "structure_3d_input_from_illustrative"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 11,
+      "path": "modules/opencl_runtime.py",
+      "public": [
+        "class:OpenCLError",
+        "hardware_summary",
+        "icd_loader_path",
+        "khronos_vendor_icds",
+        "enumerate_platforms",
+        "known_cpu_icd_installed",
+        "ocl_icd_filenames_is_hanging",
+        "subprocess_environ",
+        "select_cas_offinder_device",
+        "cas_offinder_opencl_ready",
+        "diagnose"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 23,
+      "path": "modules/phylogeny.py",
+      "public": [
+        "class:PhylogenyError",
+        "tool_availability",
+        "detect_fasttree",
+        "detect_iqtree",
+        "alignment_identity_hash",
+        "unique_leaf_labels",
+        "validate_msa_for_phylogeny",
+        "pairwise_p_distance",
+        "jukes_cantor_distance",
+        "kimura_two_parameter_distance",
+        "distance_matrix_from_msa",
+        "infer_phylogeny",
+        "cache_key",
+        "tree_hash",
+        "export_newick",
+        "parse_newick",
+        "newick_roundtrip",
+        "serialize_bio_tree",
+        "layout_phylogram",
+        "scientific_report",
+        "export_leaf_csv",
+        "leaf_by_sequence_hash",
+        "leaf_by_tree_id"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 18,
+      "path": "modules/protein_analysis.py",
+      "public": [
+        "translate",
+        "amino_acid_composition",
+        "isoelectric_point",
+        "molecular_weight_protein",
+        "hydrophobicity_profile",
+        "gravy_index",
+        "net_charge",
+        "aliphatic_index",
+        "amino_acid_categories",
+        "aromaticity",
+        "charge_count_profile",
+        "per_residue_formal_charge",
+        "secondary_structure_availability",
+        "instability_index",
+        "composition_is_consistent",
+        "hydrophobicity_profile_records",
+        "physicochemical_report",
+        "feature_prediction_availability"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 8,
+      "path": "modules/protein_domains.py",
+      "public": [
+        "class:DomainError",
+        "url_is_allowed",
+        "network_disclosure",
+        "validate_uniprot_accession",
+        "parse_interpro_entries",
+        "fetch_protein_domains",
+        "domains_covering_residue",
+        "fetch_uniprot_protein"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 62,
+      "path": "modules/protein_structure.py",
+      "public": [
+        "class:StructureError",
+        "residue_one_letter",
+        "dssp_availability",
+        "dssp_remote_availability",
+        "stride_availability",
+        "surface_tool_research",
+        "surface_availability",
+        "atoms_to_pdb_text",
+        "parse_ply_ascii",
+        "generate_molecular_surface",
+        "validate_surface_mesh",
+        "parse_dssp_legacy_output",
+        "map_dssp_assignments",
+        "parse_stride_output",
+        "assign_secondary_structure_stride",
+        "assign_secondary_structure_dssp",
+        "assign_secondary_structure_dssp_remote",
+        "ca_contact_map",
+        "interchain_contacts",
+        "shrake_rupley_sasa",
+        "classify_structure_identifier",
+        "url_is_allowed",
+        "remote_source_status",
+        "source_disclaimer",
+        "cache_key",
+        "mark_cached_result",
+        "parse_mmcif",
+        "parse_pdb",
+        "parse_structure_text",
+        "parse_rcsb_entry_metadata",
+        "parse_alphafold_prediction",
+        "parse_uniprot_structure_xrefs",
+        "classify_mapping_status",
+        "map_query_to_chain",
+        "coverage_from_mapping",
+        "query_position_to_residue",
+        "structure_residue_to_query",
+        "map_msa_column_to_structure_residue",
+        "residues_for_sequence_span",
+        "read_bundled_mmcif",
+        "bundled_deposited_hit",
+        "search_structure_sources",
+        "search_rcsb_by_sequence",
+        "fetch_rcsb_entry",
+        "fetch_alphafold_prediction",
+        "fetch_uniprot_entry",
+        "structure_cache_root",
+        "structure_file_cache_identity",
+        "read_cached_structure_file",
+        "write_cached_structure_file",
+        "fetch_structure_file",
+        "load_protein_structure",
+        "load_deposited_macromolecule",
+        "structure_kind_label",
+        "structure_3d_input",
+        "freeze_structure_3d_input",
+        "export_mapping_csv",
+        "export_result_bundle",
+        "parse_rcsb_polymer_entity",
+        "fetch_rcsb_polymer_entity",
+        "experimental_structure_provenance",
+        "check_structure_integrity"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 11,
+      "path": "modules/provenance.py",
+      "public": [
+        "utc_now",
+        "build_provenance",
+        "hashes_match",
+        "sequence_digest",
+        "csv_cell",
+        "workspace_snapshot",
+        "json_safe",
+        "analysis_envelope",
+        "structure_disclaimer",
+        "redact_secrets",
+        "diagnostic_event"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 14,
+      "path": "modules/rcsb_alignment.py",
+      "public": [
+        "class:AlignmentApiError",
+        "url_is_allowed",
+        "supported_methods",
+        "method_kind",
+        "display_name_for",
+        "network_disclosure",
+        "rcsb_csm_id_from_uniprot",
+        "parse_rcsb_csm_uniprot",
+        "validate_entry_id",
+        "validate_asym_id",
+        "build_pairwise_query",
+        "submit_pairwise",
+        "fetch_results",
+        "align_pairwise"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 7,
+      "path": "modules/region_nav.py",
+      "public": [
+        "class:RegionError",
+        "normalize_lod",
+        "helix_limit_for_lod",
+        "clamp_region",
+        "contiguous_view",
+        "backbone_stride",
+        "downsample_indices"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/resource_admission.py",
+      "public": [
+        "system_memory",
+        "disk_free",
+        "estimate_bases_from_fasta_bytes",
+        "estimate_cas_offinder_memory",
+        "admit_reference_search",
+        "admit_download"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 5,
+      "path": "modules/rna_3d.py",
+      "public": [
+        "class:Rna3dError",
+        "predicted_availability",
+        "representation_for_sequence",
+        "pairing_sync",
+        "pairing_geometry_consistency"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 16,
+      "path": "modules/rna_analysis.py",
+      "public": [
+        "transcribe",
+        "detect_accession",
+        "special_genome_notes",
+        "orfs_to_regions",
+        "codons_from_regions",
+        "resolve_coding_codons",
+        "synonymous_family_sizes",
+        "relative_synonymous_codon_usage",
+        "effective_number_of_codons",
+        "codon_usage_table",
+        "codon_adaptation_index",
+        "codon_adaptation_index_report",
+        "effective_number_of_codons_report",
+        "shannon_entropy",
+        "kmer_counts",
+        "secondary_structure_availability"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS",
+      "n_public_symbols": 24,
+      "path": "modules/rna_folding.py",
+      "public": [
+        "class:FoldingError",
+        "tool_availability",
+        "detect_python_bindings",
+        "detect_rnafold_executable",
+        "available_backend_ids",
+        "default_fold_parameters",
+        "validate_rna_for_folding",
+        "parse_rnafold_output",
+        "parse_dot_bracket",
+        "reconstruct_dot_bracket",
+        "validate_pairs_against_sequence",
+        "classify_structural_elements",
+        "cache_key",
+        "mark_cached_result",
+        "fold_rna",
+        "build_fold_result",
+        "pair_at_position",
+        "spans_for_position",
+        "map_msa_column_to_fold_position",
+        "arc_paths",
+        "circular_layout",
+        "export_dot_bracket",
+        "export_pairs_csv",
+        "export_result_bundle"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 7,
+      "path": "modules/runtime.py",
+      "public": [
+        "load_module",
+        "missing_attributes",
+        "reload_if_missing",
+        "ensure_runtime",
+        "require_attr",
+        "reset_runtime_cache",
+        "module_is_current"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 4,
+      "path": "modules/scale_profile.py",
+      "public": [
+        "recommended_window_step",
+        "window_count",
+        "analysis_plan",
+        "enforce_window_budget"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 24,
+      "path": "modules/scientific_checks.py",
+      "public": [
+        "percent_is_valid",
+        "composition_counts_match_length",
+        "span_is_valid",
+        "to_1based_inclusive",
+        "to_0based_half_open",
+        "alignment_rows_are_consistent",
+        "motif_hit_matches_sequence",
+        "crispr_guide_in_sequence",
+        "chart_xy_lengths_match",
+        "msa_row_length_matches",
+        "conservation_score_is_valid",
+        "rna_structure_length_matches",
+        "rna_parentheses_are_balanced",
+        "atom_coordinate_is_finite",
+        "mapping_status_is_declared",
+        "protein_mapping_covers_query",
+        "mfe_kcal_mol_is_valid",
+        "blast_hsp_is_valid",
+        "protein_composition_matches_length",
+        "make_span",
+        "offtarget_hit_coordinates_valid",
+        "phylogenetic_leaf_set_matches_msa",
+        "branch_length_is_valid",
+        "bootstrap_support_is_valid"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 8,
+      "path": "modules/structure_alignment.py",
+      "public": [
+        "class:StructureAlignmentError",
+        "scores_by_type",
+        "score_of_type",
+        "all_scores_of_type",
+        "expand_region_pairs",
+        "parse_alignment_payload",
+        "lookup_correspondence",
+        "comparison_summary_rows"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 14,
+      "path": "modules/structure_scene.py",
+      "public": [
+        "class:SceneError",
+        "webgl_capability_note",
+        "visual_color_for_plddt",
+        "visual_color_from_scale",
+        "make_structure_event",
+        "parse_selection_payload",
+        "query_to_structure_residue",
+        "structure_residue_to_query",
+        "highlight_query_indices_for_span",
+        "scientific_snapshot",
+        "scene_fingerprint",
+        "structure_3d_report",
+        "renderer_log",
+        "build_scene"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 7,
+      "path": "modules/structure_superposition.py",
+      "public": [
+        "class:SuperpositionError",
+        "apply_column_major_4x4",
+        "ca_index",
+        "transform_atom_copies",
+        "independent_aligned_ca_rmsd",
+        "superposition_bundle",
+        "rmsd_agrees"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/taxonomy.py",
+      "public": [
+        "class:TaxonomyError",
+        "cache_key",
+        "declared_from_msa_row",
+        "attach_declared_metadata",
+        "attach_ncbi_taxonomy",
+        "color_groups_by_rank"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/thermodynamics.py",
+      "public": [
+        "class:ThermodynamicsError",
+        "nn_parameter_record",
+        "reverse_complement_dna",
+        "is_self_complementary",
+        "cache_key",
+        "santalucia_nearest_neighbor_tm"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 6,
+      "path": "modules/tool_detection.py",
+      "public": [
+        "normalized_tool_basename",
+        "allowlisted_basenames",
+        "sanitize_tool_path",
+        "classify_tool_record",
+        "resolve_allowlisted_executable",
+        "environment_report"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 3,
+      "path": "modules/tool_paths.py",
+      "public": [
+        "repository_tools_dir",
+        "tools_roots",
+        "candidates_for"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 2,
+      "path": "modules/tool_registry.py",
+      "public": [
+        "collect_tool_snapshot",
+        "tool_row"
+      ]
+    },
+    {
+      "classification": "SCIENCE + SUBPROCESS + REMOTE API",
+      "n_public_symbols": 9,
+      "path": "modules/usalign.py",
+      "public": [
+        "class:USAlignError",
+        "detect_usalign",
+        "nucleic_structural_comparison_availability",
+        "parse_usalign_stdout",
+        "parse_usalign_matrix",
+        "rotation_translation_to_column_major",
+        "align_structure_files",
+        "build_alignment_record",
+        "write_structure_text"
+      ]
+    },
+    {
+      "classification": "PURE SCIENCE",
+      "n_public_symbols": 11,
+      "path": "modules/variant_core.py",
+      "public": [
+        "class:VariantInputError",
+        "normalize_allele",
+        "classify_variant_kind",
+        "trim_alleles",
+        "left_align_indel",
+        "validate_ref_against_reference",
+        "parse_variant_input",
+        "variant_identity_hash",
+        "build_variant",
+        "variant_region_string",
+        "ensembl_contig_name"
+      ]
+    },
+    {
+      "classification": "SCIENCE + REMOTE API",
+      "n_public_symbols": 11,
+      "path": "modules/variant_explorer.py",
+      "public": [
+        "class:VariantExplorerError",
+        "layer_result",
+        "residue_property_change",
+        "variant_cache_key",
+        "select_protein_consequences",
+        "uniprot_accessions_from_consequence",
+        "map_residue_to_msa_column",
+        "evolutionary_context_at_residue",
+        "cross_source_gene_agreement",
+        "field_provenance",
+        "explore_variant"
+      ]
+    }
+  ],
+  "n_module_files": 63,
+  "n_module_files_importing_streamlit": 0,
+  "n_public_module_symbols": 693,
+  "ui": [
+    {
+      "classification": "PURE SCIENCE",
+      "imports_streamlit": false,
+      "path": "ui/__init__.py"
+    },
+    {
+      "classification": "VISUALIZATION ONLY",
+      "imports_streamlit": false,
+      "path": "ui/charts.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/command_palette.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": false,
+      "path": "ui/components.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/hand_control.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/navigation.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/pointer.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/shell.py"
+    },
+    {
+      "classification": "VISUALIZATION ONLY",
+      "imports_streamlit": false,
+      "path": "ui/structure_viewer.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/styles.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": false,
+      "path": "ui/tokens.py"
+    },
+    {
+      "classification": "UI ONLY",
+      "imports_streamlit": true,
+      "path": "ui/workspace.py"
+    }
+  ]
+}

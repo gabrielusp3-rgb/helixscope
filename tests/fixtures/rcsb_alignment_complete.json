@@ -1,0 +1,147 @@
+{
+  "info": {
+    "uuid": "095be615-a8ad-4c33-8e9c-c7612fbf6c9f",
+    "status": "COMPLETE"
+  },
+  "meta": {
+    "alignment_mode": "pairwise",
+    "alignment_method": "fatcat-rigid"
+  },
+  "results": [
+    {
+      "structures": [
+        {
+          "entry_id": "8HSK",
+          "selection": {
+            "asym_id": "A"
+          }
+        },
+        {
+          "entry_id": "8HSF",
+          "selection": {
+            "asym_id": "A"
+          }
+        }
+      ],
+      "structure_alignment": [
+        {
+          "regions": [
+            [
+              {
+                "asym_id": "A",
+                "beg_seq_id": 2,
+                "beg_index": 0,
+                "length": 20
+              }
+            ],
+            [
+              {
+                "asym_id": "A",
+                "beg_seq_id": 2,
+                "beg_index": 0,
+                "length": 20
+              }
+            ]
+          ],
+          "transformations": [
+            [
+             1,0,0,0,
+             0,1,0,0,
+             0,0,1,0,
+             0,0,0,1
+            ],
+            [
+              -0.8889015220646295,
+              0.28849242584094076,
+              -0.35584575914797134,
+              0,
+              0.4580963137739113,
+              0.5574857302520937,
+              -0.6923564312346959,
+              0,
+              -0.0013606534977563256,
+              -0.7784483160735203,
+              -0.6277072309798264,
+              0,
+              34.474017147741414,
+              37.146458031257666,
+              21.91822996249393,
+              1
+            ]
+          ],
+          "summary": {
+            "scores": [
+              {
+                "value": 0.8,
+                "type": "RMSD"
+              },
+              {
+                "value": 46.7,
+                "type": "similarity-score"
+              }
+            ],
+            "n_aln_residue_pairs": 20
+          }
+        }
+      ],
+      "sequence_alignment": [
+        {
+          "sequence": "GIVEQCCTSICSLYQLENYCN",
+          "regions": [
+            {
+              "asym_id": "A",
+              "beg_seq_id": 2,
+              "beg_index": 0,
+              "length": 20
+            }
+          ]
+        },
+        {
+          "sequence": "GIVEQCCTSICSLYQLENYCN",
+          "regions": [
+            {
+              "asym_id": "A",
+              "beg_seq_id": 2,
+              "beg_index": 0,
+              "length": 20
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "scores": [
+          {
+            "value": 1,
+            "type": "sequence-similarity"
+          },
+          {
+            "value": 1,
+            "type": "sequence-identity"
+          },
+          {
+            "value": 46.7,
+            "type": "similarity-score"
+          },
+          {
+            "value": 0.23,
+            "type": "TM-score"
+          },
+          {
+            "value": 0.99,
+            "type": "RMSD"
+          }
+        ],
+        "n_aln_residue_pairs": 20,
+        "n_modeled_residues": [
+          21,
+          20
+        ],
+        "seq_aln_len": 20,
+        "aln_coverage": [
+          95,
+          100
+        ]
+      }
+    }
+  ]
+}

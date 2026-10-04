@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helixscope-core"
+version = "0.24.3.19"
+description = "HelixScope scientific core (product version remains 0.24.3-19). No Streamlit."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+dependencies = [
+    "biopython>=1.85,<1.90",
+    "numpy>=2.0,<2.6",
+    "pandas>=2.3,<3.0",
+]
+
+[project.optional-dependencies]
+rna = ["ViennaRNA==2.7.2"]
+dev = ["pytest>=9.0.3,<10", "hypothesis>=6.100,<7"]
+
+[tool.setuptools]
+include-package-data = false
+license-files = ["LICENSE"]
+
+[tool.setuptools.package-data]
+helixscope_core = ["py.typed"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["helixscope_core*", "modules*"]
+exclude = ["tests*", "ui*", "tools*", "data*", "docs*"]

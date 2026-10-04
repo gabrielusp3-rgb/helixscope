@@ -1,0 +1,5 @@
+# Scientific fixtures are compared byte for byte.
+# Do not rewrite their line endings on checkout.
+tests/fixtures/** -text
+*.cif -text
+*.pdb -text

@@ -1,0 +1,6 @@
+MediaPipe Tasks Vision WASM files are copied from @mediapipe/tasks-vision@0.10.18
+(Apache License 2.0). See node_modules/@mediapipe/tasks-vision.
+
+Hand Landmarker model (optional, fetched only by this script):
+https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task
+Pinned path /1/ — not /latest/. Camera frames never leave the browser.

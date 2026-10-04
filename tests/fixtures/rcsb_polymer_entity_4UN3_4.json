@@ -1,0 +1,24 @@
+{
+  "entity_poly": {
+    "type": "polydeoxyribonucleotide",
+    "pdbx_seq_one_letter_code_can": "AAAATGGTATTG",
+    "pdbx_seq_one_letter_code": "(DA)(DA)(DA)(DA)(DT)(DG)(DG)(DT)(DA)(DT)(DT)(DG)",
+    "pdbx_strand_id": "D",
+    "rcsb_entity_polymer_type": "DNA",
+    "rcsb_sample_sequence_length": 12
+  },
+  "rcsb_polymer_entity": {
+    "pdbx_description": "NON-TARGET DNA STRAND"
+  },
+  "rcsb_polymer_entity_container_identifiers": {
+    "entry_id": "4UN3",
+    "entity_id": "4",
+    "asym_ids": [
+      "D"
+    ],
+    "auth_asym_ids": [
+      "D"
+    ]
+  },
+  "_helixscope_note": "Field subset of RCSB Data API GET /rest/v1/core/polymer_entity/4UN3/{entity} retrieved 2026-08-27. Not a complete API dump. Values are copied from the live JSON, not invented."
+}

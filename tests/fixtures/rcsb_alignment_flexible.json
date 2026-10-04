@@ -1,0 +1,63 @@
+{
+  "info": {
+    "uuid": "11111111-2222-4333-8444-555555555555",
+    "status": "COMPLETE"
+  },
+  "meta": {
+    "alignment_mode": "pairwise",
+    "alignment_method": "fatcat-flexible"
+  },
+  "results": [
+    {
+      "structures": [
+        {
+          "entry_id": "1CLL",
+          "selection": { "asym_id": "A" }
+        },
+        {
+          "entry_id": "3SUI",
+          "selection": { "asym_id": "A" }
+        }
+      ],
+      "structure_alignment": [
+        {
+          "regions": [
+            [{ "asym_id": "A", "beg_seq_id": 10, "length": 4 }],
+            [{ "asym_id": "A", "beg_seq_id": 20, "length": 4 }]
+          ],
+          "transformations": [
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5, 0, 0, 1]
+          ],
+          "summary": {
+            "scores": [{ "value": 1.2, "type": "RMSD" }],
+            "n_aln_residue_pairs": 4
+          }
+        },
+        {
+          "regions": [
+            [{ "asym_id": "A", "beg_seq_id": 80, "length": 3 }],
+            [{ "asym_id": "A", "beg_seq_id": 90, "length": 3 }]
+          ],
+          "transformations": [
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 8, 0, 1]
+          ],
+          "summary": {
+            "scores": [{ "value": 2.4, "type": "RMSD" }],
+            "n_aln_residue_pairs": 3
+          }
+        }
+      ],
+      "summary": {
+        "scores": [
+          { "value": 0.41, "type": "TM-score" },
+          { "value": 2.1, "type": "RMSD" }
+        ],
+        "n_aln_residue_pairs": 7,
+        "n_modeled_residues": [148, 148],
+        "aln_coverage": [5, 5]
+      }
+    }
+  ]
+}

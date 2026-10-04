@@ -1,0 +1,8 @@
+==== Secondary Structure Definition by the program DSSP (parser fixture) ====
+REFERENCE Kabsch W, Sander C. Biopolymers 22:2577-2637 (1983).
+This file tests the HelixScope DSSP column parser. It is not a live mkdssp
+run on 1CRN or any other deposition.
+  #  RESIDUE AA STRUCTURE BP1 BP2  ACC     N-H-->O    O-->H-N
+    1    1 A I  H              0   0    0
+    2    2 A T  E              0   0    0
+    3    3 A C                 0   0    0

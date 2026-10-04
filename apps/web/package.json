@@ -1,0 +1,40 @@
+{
+  "name": "helixscope-web",
+  "version": "0.4.0-prompt4",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack --port 3000 --hostname localhost",
+    "build": "node scripts/copy-mediapipe-assets.mjs && next build --webpack",
+    "start": "next start --port 3000 --hostname localhost",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "api:types": "node scripts/generate-api-types.mjs",
+    "api:types:check": "node scripts/check-openapi-contract.mjs",
+    "mediapipe:assets": "node scripts/copy-mediapipe-assets.mjs"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "0.10.18",
+    "immutable": "5.1.9",
+    "molstar": "5.11.0",
+    "next": "16.3.3",
+    "plotly.js": "3.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3",
+    "jsdom": "^28.1.0",
+    "openapi-typescript": "7.13.0",
+    "typescript": "^5",
+    "vitest": "4.1.11"
+  }
+}

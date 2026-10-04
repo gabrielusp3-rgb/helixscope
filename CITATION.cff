@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+type: software
+title: HelixScope
+version: 0.24.3-19
+date-released: 2026-10-03
+license: MIT
+abstract: >-
+  Local scientific workstation for DNA, RNA and protein sequence analysis,
+  pairwise alignment, motif search, CRISPR guide inspection, variant identity,
+  multiple sequence alignment, phylogenetic inference and structure comparison,
+  with explicit provenance and without invented scores.
+authors:
+  - family-names: Fiusa
+    given-names: Gabriel Rodrigues Pinto
