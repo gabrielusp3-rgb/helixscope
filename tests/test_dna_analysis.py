@@ -13,7 +13,6 @@ from tests.helix_apptest import open_module
 import pytest
 
 from modules import dna_analysis
-from tests.helix_apptest import open_module
 
 
 @pytest.fixture
@@ -443,6 +442,30 @@ def test_cpg_dinucleotide_positions_are_in_sequence():
         assert 0 <= start < len(seq) - 1
         assert seq[start : start + 2] == "CG"
     assert dna_analysis.cpg_dinucleotide_positions("ATAT") == []
+
+
+def test_aaaaa_hides_gc_window_when_stored_size_is_below_minimum():
+    """Stored window 4 must not crash when the sequence becomes shorter than 10 bp."""
+    app = open_module("dna", timeout=90)
+    long_seq = "ACGT" * 20
+    app.text_area(key="dna_text").set_value(long_seq).run()
+    app.button(key="dna_analyze").click().run()
+    app.toggle(key="dna_gc_window").set_value(True).run()
+    assert not app.exception
+    app.session_state["dna_gc_window_size"] = 4
+    app.text_area(key="dna_text").set_value("AAAAA").run()
+    app.button(key="dna_analyze").click().run()
+    assert not app.exception
+    labels = [str(getattr(item, "label", "")) for item in app.number_input]
+    assert "Window size (bp)" not in labels
+    body = " ".join(str(getattr(item, "value", "")) for item in app.markdown)
+    assert "5 bp" in body or "5" in body
+    app.text_area(key="dna_text").set_value(long_seq).run()
+    app.button(key="dna_analyze").click().run()
+    app.toggle(key="dna_gc_window").set_value(True).run()
+    assert not app.exception
+    labels = [str(getattr(item, "label", "")) for item in app.number_input]
+    assert "Window size (bp)" in labels
 
 
 def test_dna_analyze_does_not_crash_on_stale_result_guard():

@@ -126,6 +126,77 @@ def _section_toggle(label: str, *, key: str, expanded: bool = False) -> bool:
     return st.toggle(label, value=expanded, key=key)
 
 
+MIN_PROFILE_WINDOW_BP: int = 10
+
+
+def _coerce_widget_int(key: str, minimum: int, maximum: int, default: int) -> int:
+    """Put a persisted number inside the bounds of the widget about to be created.
+
+    Args:
+        key: Streamlit widget key.
+        minimum: Inclusive lower bound for this run.
+        maximum: Inclusive upper bound for this run.
+        default: Replacement when the stored value is outside those bounds.
+
+    Returns:
+        A value that satisfies minimum <= value <= maximum.
+
+    Raises:
+        ValueError: When maximum is below minimum. The caller must not
+            create the widget in that case.
+    """
+    if maximum < minimum:
+        raise ValueError("widget bounds are empty")
+    fallback = min(max(int(default), int(minimum)), int(maximum))
+    if key not in st.session_state:
+        return fallback
+    try:
+        stored = int(st.session_state[key])
+    except (TypeError, ValueError):
+        stored = fallback
+    if stored < minimum or stored > maximum:
+        st.session_state[key] = fallback
+        return fallback
+    return stored
+
+
+def _bounded_number_input(
+    label: str,
+    *,
+    key: str,
+    minimum: int,
+    maximum: int,
+    default: int,
+    step: int = 1,
+) -> int:
+    """Create a number input only after its stored value fits the current bounds.
+
+    Args:
+        label: Widget label.
+        key: Streamlit widget key.
+        minimum: Inclusive lower bound.
+        maximum: Inclusive upper bound.
+        default: Value used when nothing valid is stored.
+        step: Widget step.
+
+    Returns:
+        The integer selected by the widget.
+
+    Raises:
+        ValueError: When the bounds are empty.
+    """
+    fitted = _coerce_widget_int(key, minimum, maximum, default)
+    kwargs: dict = {
+        "min_value": minimum,
+        "max_value": maximum,
+        "step": step,
+        "key": key,
+    }
+    if key not in st.session_state:
+        kwargs["value"] = fitted
+    return int(st.number_input(label, **kwargs))
+
+
 def _sequence_hashes_match(stored: object, current: object) -> bool:
     """Compara hashes; fallback se o modulo provenance em memoria estiver obsoleto."""
     matcher = getattr(provenance, "hashes_match", None)
@@ -1896,15 +1967,13 @@ def _render_dna_3d_section(dna_seq: str) -> None:
     )
     highlights = _nucleic_highlight_indices(dna_seq, "DNA")
     _consume_3d_pending_position("dna_3d_pos", len(dna_seq))
-    selected = int(
-        st.number_input(
-            "Inspect DNA position (0-based)",
-            min_value=0,
-            max_value=max(0, len(dna_seq) - 1),
-            value=0,
-            step=1,
-            key="dna_3d_pos",
-        )
+    position_max = max(0, len(dna_seq) - 1)
+    selected = _bounded_number_input(
+        "Inspect DNA position (0-based)",
+        key="dna_3d_pos",
+        minimum=0,
+        maximum=position_max,
+        default=0,
     )
     st.caption(f"Selected base {selected}: {dna_seq[selected] if dna_seq else 'N/A'}")
     if highlights:
@@ -2603,57 +2672,63 @@ def render_dna_analysis() -> None:
     if _section_toggle("GC Content in Sliding Window", key="dna_gc_window"):
         with st.container(border=True):
             plan = scale_profile.analysis_plan(length, molecule="DNA")
-            max_window = max(10, min(2000, length))
-            default_window = min(max_window, int(plan["suggested_window"]))
-            default_step = min(max_window, max(1, int(plan["suggested_step"])))
-            win_col, step_col = st.columns(2)
-            with win_col:
-                gc_window = st.number_input(
-                    "Window size (bp)",
-                    min_value=10,
-                    max_value=max_window,
-                    value=default_window,
-                    step=10,
-                    key="dna_gc_window_size",
+            if length < MIN_PROFILE_WINDOW_BP:
+                st.caption(
+                    "A sliding GC window needs at least 10 bp. "
+                    "This sequence is shorter, so that profile is not calculated."
                 )
-            with step_col:
-                gc_step = st.number_input(
-                    "Step (bp)",
-                    min_value=1,
-                    max_value=max_window,
-                    value=default_step,
-                    step=5,
-                    key="dna_gc_window_step",
-                )
-            st.caption(
-                f"Display/memory cap is {scale_profile.MAX_WINDOW_PROFILE_ROWS:,} windows. "
-                "If the grid is too dense, increase the step. The GC formula is unchanged."
-            )
-            try:
-                profile = _gc_sliding_window(clean, int(gc_window), int(gc_step))
-                st.plotly_chart(
-                    charts.gc_sliding_window_plot(profile), width="stretch"
-                )
-                windows = _windowed_profiles(clean, int(gc_window), int(gc_step))
-                if windows:
-                    window_df = _export_frame(windows)
-                    st.dataframe(window_df, width="stretch", hide_index=True)
-                    st.download_button(
-                        "Download windowed profiles (CSV)",
-                        data=window_df.to_csv(index=False).encode("utf-8"),
-                        file_name="dna_windowed_profiles.csv",
-                        mime="text/csv",
-                        key="dna_windowed_download",
+            else:
+                max_window = min(2000, length)
+                default_window = min(max_window, int(plan["suggested_window"]))
+                default_step = min(max_window, max(1, int(plan["suggested_step"])))
+                win_col, step_col = st.columns(2)
+                with win_col:
+                    gc_window = _bounded_number_input(
+                        "Window size (bp)",
+                        key="dna_gc_window_size",
+                        minimum=MIN_PROFILE_WINDOW_BP,
+                        maximum=max_window,
+                        default=default_window,
+                        step=10,
                     )
-                    st.markdown(
-                        "<span style='color:var(--hs-text-secondary);font-size:12px;'>Coordinates "
-                        "are 0-based, end exclusive. Alphabet: ACGT. window_size "
-                        f"and step_size are {int(gc_window)} and {int(gc_step)}. "
-                        "Undefined metrics are N/A, not 0.</span>",
-                        unsafe_allow_html=True,
+                with step_col:
+                    gc_step = _bounded_number_input(
+                        "Step (bp)",
+                        key="dna_gc_window_step",
+                        minimum=1,
+                        maximum=max_window,
+                        default=default_step,
+                        step=5,
                     )
-            except ValueError as exc:
-                st.info(str(exc))
+                st.caption(
+                    f"Display/memory cap is {scale_profile.MAX_WINDOW_PROFILE_ROWS:,} windows. "
+                    "If the grid is too dense, increase the step. The GC formula is unchanged."
+                )
+                try:
+                    profile = _gc_sliding_window(clean, int(gc_window), int(gc_step))
+                    st.plotly_chart(
+                        charts.gc_sliding_window_plot(profile), width="stretch"
+                    )
+                    windows = _windowed_profiles(clean, int(gc_window), int(gc_step))
+                    if windows:
+                        window_df = _export_frame(windows)
+                        st.dataframe(window_df, width="stretch", hide_index=True)
+                        st.download_button(
+                            "Download windowed profiles (CSV)",
+                            data=window_df.to_csv(index=False).encode("utf-8"),
+                            file_name="dna_windowed_profiles.csv",
+                            mime="text/csv",
+                            key="dna_windowed_download",
+                        )
+                        st.markdown(
+                            "<span style='color:var(--hs-text-secondary);font-size:12px;'>Coordinates "
+                            "are 0-based, end exclusive. Alphabet: ACGT. window_size "
+                            f"and step_size are {int(gc_window)} and {int(gc_step)}. "
+                            "Undefined metrics are N/A, not 0.</span>",
+                            unsafe_allow_html=True,
+                        )
+                except ValueError as exc:
+                    st.info(str(exc))
 
     if _section_toggle("Entropy, k-mers and AT skew", key="dna_stats"):
         with st.container(border=True):
@@ -2663,34 +2738,36 @@ def render_dna_analysis() -> None:
                 "contain non-ACGT symbols. AT skew is (A-T)/(A+T).</span>",
                 unsafe_allow_html=True,
             )
-            max_window = max(10, min(2000, length))
             plan = scale_profile.analysis_plan(length, molecule="DNA")
-            default_window = min(max_window, int(plan["suggested_window"]))
             k_col, win_col, step_col = st.columns(3)
             with k_col:
-                kmer_k = st.number_input(
+                kmer_k = _bounded_number_input(
                     "k-mer length",
-                    min_value=1,
-                    max_value=5,
-                    value=3,
                     key="dna_kmer_k",
+                    minimum=1,
+                    maximum=5,
+                    default=3,
                 )
-            with win_col:
-                ent_window = st.number_input(
-                    "Entropy window (bp)",
-                    min_value=10,
-                    max_value=max_window,
-                    value=default_window,
-                    key="dna_entropy_window",
-                )
-            with step_col:
-                ent_step = st.number_input(
-                    "Entropy step (bp)",
-                    min_value=1,
-                    max_value=max_window,
-                    value=min(max_window, max(1, int(plan["suggested_step"]))),
-                    key="dna_entropy_step",
-                )
+            entropy_ready = length >= MIN_PROFILE_WINDOW_BP
+            if entropy_ready:
+                max_window = min(2000, length)
+                default_window = min(max_window, int(plan["suggested_window"]))
+                with win_col:
+                    ent_window = _bounded_number_input(
+                        "Entropy window (bp)",
+                        key="dna_entropy_window",
+                        minimum=MIN_PROFILE_WINDOW_BP,
+                        maximum=max_window,
+                        default=default_window,
+                    )
+                with step_col:
+                    ent_step = _bounded_number_input(
+                        "Entropy step (bp)",
+                        key="dna_entropy_step",
+                        minimum=1,
+                        maximum=max_window,
+                        default=min(max_window, max(1, int(plan["suggested_step"]))),
+                    )
             kmers = _kmer_counts_dna(clean, int(kmer_k))
             summary = _kmer_summary_dna(clean, int(kmer_k))
             if kmers:
@@ -2713,14 +2790,21 @@ def render_dna_analysis() -> None:
                     )
             else:
                 st.info("Insufficient data for k-mer counts.")
-            try:
-                ent_profile = _entropy_profile(clean, int(ent_window), int(ent_step))
-            except ValueError as exc:
-                st.info(str(exc))
+            if entropy_ready:
+                try:
+                    ent_profile = _entropy_profile(clean, int(ent_window), int(ent_step))
+                except ValueError as exc:
+                    st.info(str(exc))
+                    ent_profile = []
+            else:
                 ent_profile = []
+                st.caption(
+                    "An entropy window needs at least 10 bp. "
+                    "k-mer counts above still use this sequence."
+                )
             if ent_profile:
                 st.plotly_chart(charts.entropy_profile_plot(ent_profile), width="stretch")
-            else:
+            elif entropy_ready:
                 st.info("Insufficient data for an entropy profile at this window size.")
             plan_skew = scale_profile.analysis_plan(length, molecule="DNA")
             at_window = int(plan_skew["suggested_window"]) if length >= 100 else length
@@ -3074,25 +3158,20 @@ def _render_rna_structure_section(rna_seq: str) -> Optional[dict]:
     region_start = 0
     region_end = len(rna_seq)
     if fold_region:
-        region_start = int(
-            st.number_input(
-                "Region start (0-based)",
-                min_value=0,
-                max_value=max(0, len(rna_seq) - 1),
-                value=0,
-                step=1,
-                key="rna_fold_start",
-            )
+        start_max = max(0, len(rna_seq) - 1)
+        region_start = _bounded_number_input(
+            "Region start (0-based)",
+            key="rna_fold_start",
+            minimum=0,
+            maximum=start_max,
+            default=0,
         )
-        region_end = int(
-            st.number_input(
-                "Region end (exclusive, 0-based)",
-                min_value=region_start + 1,
-                max_value=len(rna_seq),
-                value=len(rna_seq),
-                step=1,
-                key="rna_fold_end",
-            )
+        region_end = _bounded_number_input(
+            "Region end (exclusive, 0-based)",
+            key="rna_fold_end",
+            minimum=region_start + 1,
+            maximum=max(region_start + 1, len(rna_seq)),
+            default=len(rna_seq),
         )
         st.caption(
             "Folding performed on selected subsequence. This is not the native "
@@ -3552,41 +3631,48 @@ def render_rna_analysis() -> None:
 
     if _section_toggle("GC Content in Sliding Window", key="rna_gc_window"):
         with st.container(border=True):
-            plan = scale_profile.analysis_plan(len(rna_seq), molecule="RNA")
-            max_window = max(10, min(2000, len(rna_seq)))
-            default_window = min(max_window, int(plan["suggested_window"]))
-            default_step = min(max_window, max(1, int(plan["suggested_step"])))
-            win_col, step_col = st.columns(2)
-            with win_col:
-                gc_window = st.number_input(
-                    "Window size (nt)",
-                    min_value=10,
-                    max_value=max_window,
-                    value=default_window,
-                    step=10,
-                    key="rna_gc_window_size",
+            rna_length = len(rna_seq)
+            plan = scale_profile.analysis_plan(rna_length, molecule="RNA")
+            if rna_length < MIN_PROFILE_WINDOW_BP:
+                st.caption(
+                    "A sliding GC window needs at least 10 nt. "
+                    "This sequence is shorter, so that profile is not calculated."
                 )
-            with step_col:
-                gc_step = st.number_input(
-                    "Step (nt)",
-                    min_value=1,
-                    max_value=max_window,
-                    value=default_step,
-                    step=5,
-                    key="rna_gc_window_step",
+            else:
+                max_window = min(2000, rna_length)
+                default_window = min(max_window, int(plan["suggested_window"]))
+                default_step = min(max_window, max(1, int(plan["suggested_step"])))
+                win_col, step_col = st.columns(2)
+                with win_col:
+                    gc_window = _bounded_number_input(
+                        "Window size (nt)",
+                        key="rna_gc_window_size",
+                        minimum=MIN_PROFILE_WINDOW_BP,
+                        maximum=max_window,
+                        default=default_window,
+                        step=10,
+                    )
+                with step_col:
+                    gc_step = _bounded_number_input(
+                        "Step (nt)",
+                        key="rna_gc_window_step",
+                        minimum=1,
+                        maximum=max_window,
+                        default=default_step,
+                        step=5,
+                    )
+                st.caption(
+                    f"Display/memory cap is {scale_profile.MAX_WINDOW_PROFILE_ROWS:,} windows. "
+                    "ViennaRNA MFE remains limited to "
+                    f"{rna_folding.MAX_FOLD_NT} nt; that is a folding limit, not an analysis limit."
                 )
-            st.caption(
-                f"Display/memory cap is {scale_profile.MAX_WINDOW_PROFILE_ROWS:,} windows. "
-                "ViennaRNA MFE remains limited to "
-                f"{rna_folding.MAX_FOLD_NT} nt; that is a folding limit, not an analysis limit."
-            )
-            try:
-                profile = _gc_sliding_window(dna_view, int(gc_window), int(gc_step))
-                st.plotly_chart(
-                    charts.gc_sliding_window_plot(profile), width="stretch"
-                )
-            except ValueError as exc:
-                st.info(str(exc))
+                try:
+                    profile = _gc_sliding_window(dna_view, int(gc_window), int(gc_step))
+                    st.plotly_chart(
+                        charts.gc_sliding_window_plot(profile), width="stretch"
+                    )
+                except ValueError as exc:
+                    st.info(str(exc))
 
     if _section_toggle("Codon Usage Table", key="rna_codon_usage"):
         with st.container(border=True):
