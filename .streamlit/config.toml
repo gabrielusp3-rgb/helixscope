@@ -12,6 +12,7 @@ chartCategoricalColors = ["#FFFFFF"]
 headless = true
 enableCORS = true
 enableXsrfProtection = true
+enableStaticServing = true
 maxUploadSize = 1
 
 [client]

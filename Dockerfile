@@ -82,8 +82,13 @@ COPY modules /app/modules
 COPY ui /app/ui
 COPY helixscope_core /app/helixscope_core
 COPY .streamlit /app/.streamlit
+COPY static /app/static
 COPY tests/fixtures/1CRN.cif tests/fixtures/1BNA.cif tests/fixtures/1RNA.cif /app/fixtures/
 COPY docker /app/docker
+
+# The intro has to live in the HTML Streamlit sends before React mounts,
+# otherwise the boot spinner is already on screen when the clip starts.
+RUN python /app/docker/patch_streamlit_intro.py
 
 RUN mkdir -p /app/tools/blast_db /app/data/references /app/data/jobs /home/helix \
     && printf '%s\n' '>tiny_ref' 'ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT' > /tmp/tiny_nucl.fa \
