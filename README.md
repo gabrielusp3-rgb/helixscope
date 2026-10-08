@@ -242,10 +242,22 @@ See [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).
 ## Security
 
 Do not put tokens in the tree or the image. Report a vulnerability through a
-private GitHub security advisory after the repository is published. There is
-no separate security mailbox.
+private GitHub security advisory. There is no separate security mailbox.
 
 See [SECURITY.md](SECURITY.md).
+
+## Related project
+
+BioWiki is a separate catalogue of real biological sequence records. HelixScope
+does not read that catalogue and does not depend on it. The two repositories
+are complementary: BioWiki records public sequence data, and HelixScope
+analyses sequences and structures supplied here.
+
+BioWiki's own documentation, verified 1 September 2026, reports 16,433
+sequences, 36,190 publications, 34,139 unique PMIDs, 1,881 organisms and 107
+genome assemblies, drawn from multiple public biological data sources.
+
+https://github.com/gabrielusp3-rgb/BioWiki
 
 ## Citation
 

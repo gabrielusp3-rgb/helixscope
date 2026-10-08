@@ -468,6 +468,24 @@ def test_aaaaa_hides_gc_window_when_stored_size_is_below_minimum():
     assert "Window size (bp)" in labels
 
 
+def test_short_dna_clamps_a_stale_sequence_viewer_index():
+    """A jump index from a long sequence must not exceed the new length."""
+    app = open_module("dna", timeout=90)
+    long_seq = "ACGT" * 20
+    app.text_area(key="dna_text").set_value(long_seq).run()
+    app.button(key="dna_analyze").click().run()
+    assert not app.exception
+    app.toggle(key="dna_seq_view").set_value(True).run()
+    assert not app.exception
+    app.session_state["dna_view_jump"] = 400
+    app.text_area(key="dna_text").set_value("AAAAA").run()
+    app.button(key="dna_analyze").click().run()
+    app.toggle(key="dna_seq_view").set_value(True).run()
+    assert not app.exception
+    jump = app.number_input(key="dna_view_jump")
+    assert int(jump.value) <= 4
+
+
 def test_dna_analyze_does_not_crash_on_stale_result_guard():
     app = open_module("dna", timeout=60)
     assert not app.exception

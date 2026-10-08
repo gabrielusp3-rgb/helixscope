@@ -1,8 +1,8 @@
 # Continuous integration
 
-These workflows are ready to run when the repository is on GitHub. They have
-not been executed on a remote runner yet. Nothing here deploys or publishes
-an image.
+These workflows run on GitHub for every matching push and pull request. A
+green run is the record of that commit. The workflows do not deploy this
+repository and do not publish a container image.
 
 ## Workflows
 
@@ -39,7 +39,7 @@ External actions are pinned to a full commit SHA from the official repository, w
 
 Workflows request `contents: read`. CodeQL also requests `security-events: write` so it can upload results. There is no `pull_request_target` and no repository secret in these files.
 
-## After the repository is public
+## Repository settings
 
 These are settings, not files in this tree:
 

@@ -17,7 +17,20 @@ from modules.session_history import (
 KNOWN = {"overview", "dna", "protein", "rna", "crispr", "msa", "phylogeny", "structure_3d", "compare"}
 
 
-def test_back_follows_the_real_visit_order_not_overview() -> None:
+def test_two_sessions_do_not_share_or_delete_each_other() -> None:
+    left = {"dna_input": "AAAAA"}
+    right = {"dna_input": "CCCCC"}
+    left_history = sync_analysis_history(left)
+    right_history = sync_analysis_history(right)
+    assert left_history is not right_history
+    assert left_history["entries"][0]["input_hash"] != right_history["entries"][0]["input_hash"]
+    delete_analysis(left_history, left_history["entries"][0]["id"])
+    assert left_history["entries"] == []
+    assert len(right_history["entries"]) == 1
+    restored = restore_analysis(right_history, right_history["entries"][0]["id"], right)
+    assert restored is not None
+    assert right["dna_input"] == "CCCCC"
+
     back, forward, current = [], [], "overview"
     for target in ("dna", "protein", "rna"):
         back, forward, current = visit_module(back, forward, current, target, known=KNOWN)

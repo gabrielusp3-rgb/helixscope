@@ -1,8 +1,7 @@
-"""HelixScope: aplicacao Streamlit de analise de bioinformatica.
+"""HelixScope: Streamlit workstation for sequence and structure analysis.
 
-Orquestrador da interface. Esta primeira metade implementa a barra lateral de
-navegacao e as abas de analise de DNA e de RNA; as demais abas (proteina,
-alinhamento, NCBI e CRISPR) sao adicionadas na etapa seguinte.
+The interface calls the scientific modules and labels each result with its
+evidence status. It does not invent missing measurements.
 """
 
 from __future__ import annotations
@@ -195,6 +194,61 @@ def _bounded_number_input(
     if key not in st.session_state:
         kwargs["value"] = fitted
     return int(st.number_input(label, **kwargs))
+
+
+def _fit_widget_choice(key: str, options: list, default: object | None = None) -> None:
+    """Drop a stored select value that is not in the current option list.
+
+    Args:
+        key: Streamlit widget key.
+        options: Options that will be passed to the widget.
+        default: Preferred replacement. The first option is used when this
+            is absent.
+
+    Returns:
+        None.
+
+    Raises:
+        None.
+    """
+    if key not in st.session_state:
+        return
+    choices = list(options)
+    stored = st.session_state[key]
+    if stored in choices:
+        return
+    if default in choices:
+        st.session_state[key] = default
+        return
+    if choices:
+        st.session_state[key] = choices[0]
+        return
+    del st.session_state[key]
+
+
+def _fit_widget_multi(key: str, options: list) -> None:
+    """Keep only stored multiselect values that are still legal.
+
+    Args:
+        key: Streamlit widget key.
+        options: Options that will be passed to the widget.
+
+    Returns:
+        None.
+
+    Raises:
+        None.
+    """
+    if key not in st.session_state:
+        return
+    stored = st.session_state[key]
+    allowed = list(options)
+    if not isinstance(stored, list):
+        del st.session_state[key]
+        return
+    fitted = [item for item in stored if item in allowed]
+    if fitted != stored:
+        st.session_state[key] = fitted
 
 
 def _sequence_hashes_match(stored: object, current: object) -> bool:
@@ -1543,37 +1597,28 @@ def _sequence_viewer_panel(
     cap = int(scale_profile.MAX_SEQUENCE_VIEWER_RESIDUES)
     jump_col, start_col, end_col, nav_col = st.columns(4)
     with jump_col:
-        jump = int(
-            st.number_input(
-                "Jump (0-based)",
-                min_value=0,
-                max_value=max(0, length - 1),
-                value=0,
-                step=1,
-                key=f"{key_prefix}_jump",
-            )
+        jump = _bounded_number_input(
+            "Jump (0-based)",
+            key=f"{key_prefix}_jump",
+            minimum=0,
+            maximum=max(0, length - 1),
+            default=0,
         )
     with start_col:
-        start = int(
-            st.number_input(
-                "Start (0-based)",
-                min_value=0,
-                max_value=max(0, length - 1),
-                value=0,
-                step=1,
-                key=f"{key_prefix}_vstart",
-            )
+        start = _bounded_number_input(
+            "Start (0-based)",
+            key=f"{key_prefix}_vstart",
+            minimum=0,
+            maximum=max(0, length - 1),
+            default=0,
         )
     with end_col:
-        end = int(
-            st.number_input(
-                "End (exclusive)",
-                min_value=1,
-                max_value=max(1, length),
-                value=min(length, cap),
-                step=1,
-                key=f"{key_prefix}_vend",
-            )
+        end = _bounded_number_input(
+            "End (exclusive)",
+            key=f"{key_prefix}_vend",
+            minimum=1,
+            maximum=max(1, length),
+            default=min(length, cap) if length else 1,
         )
     with nav_col:
         if st.button("Center on jump", key=f"{key_prefix}_center"):
@@ -1991,24 +2036,20 @@ def _render_dna_3d_section(dna_seq: str) -> None:
         st.session_state[window_hash_key] = digest
     region_cols = st.columns(3)
     with region_cols[0]:
-        region_start = int(
-            st.number_input(
-                "Helix start (0-based)",
-                min_value=0,
-                max_value=max(0, len(dna_seq) - 1),
-                step=1,
-                key="dna_3d_rstart",
-            )
+        region_start = _bounded_number_input(
+            "Helix start (0-based)",
+            key="dna_3d_rstart",
+            minimum=0,
+            maximum=max(0, len(dna_seq) - 1),
+            default=0,
         )
     with region_cols[1]:
-        region_end = int(
-            st.number_input(
-                "Helix end (exclusive)",
-                min_value=1,
-                max_value=max(1, len(dna_seq)),
-                step=1,
-                key="dna_3d_rend",
-            )
+        region_end = _bounded_number_input(
+            "Helix end (exclusive)",
+            key="dna_3d_rend",
+            minimum=1,
+            maximum=max(1, len(dna_seq)),
+            default=min(len(dna_seq), cap) if dna_seq else 1,
         )
     with region_cols[2]:
         center_on_selected = st.checkbox(
@@ -2099,15 +2140,12 @@ def _render_rna_3d_section(rna_seq: str, fold_result: Optional[dict] = None) -> 
     )
     highlights = _nucleic_highlight_indices(rna_seq, "RNA")
     _consume_3d_pending_position("rna_3d_pos", len(rna_seq))
-    selected = int(
-        st.number_input(
-            "Inspect RNA 3D position (0-based)",
-            min_value=0,
-            max_value=max(0, len(rna_seq) - 1),
-            value=0,
-            step=1,
-            key="rna_3d_pos",
-        )
+    selected = _bounded_number_input(
+        "Inspect RNA 3D position (0-based)",
+        key="rna_3d_pos",
+        minimum=0,
+        maximum=max(0, len(rna_seq) - 1),
+        default=0,
     )
     lod = _lod_select("rna_3d_lod")
     cap = region_nav.helix_limit_for_lod(lod)
@@ -2119,24 +2157,20 @@ def _render_rna_3d_section(rna_seq: str, fold_result: Optional[dict] = None) -> 
         st.session_state[rna_window_key] = rna_digest
     rna_region = st.columns(3)
     with rna_region[0]:
-        rna_start = int(
-            st.number_input(
-                "RNA helix start (0-based)",
-                min_value=0,
-                max_value=max(0, len(rna_seq) - 1),
-                step=1,
-                key="rna_3d_rstart",
-            )
+        rna_start = _bounded_number_input(
+            "RNA helix start (0-based)",
+            key="rna_3d_rstart",
+            minimum=0,
+            maximum=max(0, len(rna_seq) - 1),
+            default=0,
         )
     with rna_region[1]:
-        rna_end = int(
-            st.number_input(
-                "RNA helix end (exclusive)",
-                min_value=1,
-                max_value=max(1, len(rna_seq)),
-                step=1,
-                key="rna_3d_rend",
-            )
+        rna_end = _bounded_number_input(
+            "RNA helix end (exclusive)",
+            key="rna_3d_rend",
+            minimum=1,
+            maximum=max(1, len(rna_seq)),
+            default=min(len(rna_seq), cap) if rna_seq else 1,
         )
     with rna_region[2]:
         rna_center = st.checkbox(
@@ -2378,15 +2412,12 @@ def _render_crispr_complex_section(dna_seq: str, guides: list) -> None:
     _consume_3d_pending_position("crispr_complex_pos", len(query))
     selected_complex = 0
     if query:
-        selected_complex = int(
-            st.number_input(
-                "Inspect CRISPR-complex query position (0-based)",
-                min_value=0,
-                max_value=max(0, len(query) - 1),
-                value=0,
-                step=1,
-                key="crispr_complex_pos",
-            )
+        selected_complex = _bounded_number_input(
+            "Inspect CRISPR-complex query position (0-based)",
+            key="crispr_complex_pos",
+            minimum=0,
+            maximum=max(0, len(query) - 1),
+            default=0,
         )
     _render_validated_scene_3d(
         query,
@@ -3347,15 +3378,12 @@ def _render_rna_structure_section(rna_seq: str) -> Optional[dict]:
         str(result.get("sequence") or "") + "\n" + str(result.get("dot_bracket") or ""),
         language="text",
     )
-    selected = int(
-        st.number_input(
-            "Inspect RNA position (0-based)",
-            min_value=0,
-            max_value=max(0, len(str(result.get("sequence") or "")) - 1),
-            value=0,
-            step=1,
-            key="rna_fold_pos",
-        )
+    selected = _bounded_number_input(
+        "Inspect RNA position (0-based)",
+        key="rna_fold_pos",
+        minimum=0,
+        maximum=max(0, len(str(result.get("sequence") or "")) - 1),
+        default=0,
     )
     pair = rna_folding.pair_at_position(result, selected)
     residue = str(result.get("sequence") or "")[selected]
@@ -4402,6 +4430,7 @@ def _render_protein_structure_3d(
         chain_filter = default_chain
     visible_chains = None
     if len(chain_ids) > 1:
+        _fit_widget_multi("prot_3d_visible", chain_ids)
         visible_chains = st.multiselect(
             "Visible chains",
             chain_ids,
@@ -4882,15 +4911,12 @@ def _render_protein_structure_section(protein_seq: str) -> Optional[dict]:
     _apply_pending_molecule_selection(protein_seq)
     nav_cols = st.columns([3, 1, 1])
     with nav_cols[0]:
-        selected = int(
-            st.number_input(
-                "Inspect analysis residue (0-based)",
-                min_value=0,
-                max_value=max(0, len(protein_seq) - 1),
-                value=0,
-                step=1,
-                key="prot_struct_pos",
-            )
+        selected = _bounded_number_input(
+            "Inspect analysis residue (0-based)",
+            key="prot_struct_pos",
+            minimum=0,
+            maximum=max(0, len(protein_seq) - 1),
+            default=0,
         )
     with nav_cols[1]:
         if st.button("Previous residue", key="prot_res_prev") and selected > 0:
@@ -6098,6 +6124,7 @@ def render_ncbi_fetch() -> None:
                 f"{item.get('accession')} | {str(item.get('title') or '')[:80]}"
                 for item in hits
             ]
+            _fit_widget_choice("ncbi_hit_choice", labels)
             chosen = st.selectbox("Selected search hit", labels, key="ncbi_hit_choice")
             if st.button("Use selected accession", key="ncbi_use_hit"):
                 index = labels.index(chosen)
@@ -6353,13 +6380,12 @@ def render_ncbi_fetch() -> None:
             else:
                 feature_page_size = 40
                 total_features = len(annotated) if annotated else len(record["features"])
-                page = st.number_input(
+                page = _bounded_number_input(
                     "Feature page",
-                    min_value=1,
-                    max_value=max(1, math.ceil(total_features / feature_page_size)),
-                    value=1,
-                    step=1,
                     key="ncbi_feature_page",
+                    minimum=1,
+                    maximum=max(1, math.ceil(total_features / feature_page_size)),
+                    default=1,
                 )
                 if annotated:
                     start = (int(page) - 1) * feature_page_size
@@ -6773,8 +6799,10 @@ def render_blast_search() -> None:
         databases: tuple = ()
     else:
         st.markdown("#### Remote configuration")
+        _fit_widget_choice("blast_program", programs)
         program = st.selectbox("BLAST program", programs, key="blast_program")
         databases = blast_search.databases_for_program(program)
+        _fit_widget_choice("blast_database", list(databases))
     database = (
         st.selectbox("NCBI BLAST database", list(databases), key="blast_database")
         if databases
@@ -7048,13 +7076,12 @@ def render_blast_search() -> None:
         if not valid_hits:
             st.error("All BLAST hits failed display validation.")
             return
-        page = st.number_input(
+        page = _bounded_number_input(
             "Hit page",
-            min_value=1,
-            max_value=max(1, math.ceil(len(valid_hits) / blast_search.MAX_DISPLAY_HITS)),
-            value=1,
-            step=1,
             key="blast_hit_page",
+            minimum=1,
+            maximum=max(1, math.ceil(len(valid_hits) / blast_search.MAX_DISPLAY_HITS)),
+            default=1,
         )
         paged = blast_search.paginate_hits(valid_hits, int(page))
         st.markdown(
@@ -7082,6 +7109,7 @@ def render_blast_search() -> None:
             f"{item.get('accession')} | {str(item.get('description') or '')[:60]}"
             for item in paged["items"]
         ]
+        _fit_widget_multi("blast_msa_hits", hit_labels)
         selected_hits = st.multiselect(
             "Select BLAST hits to retrieve full NCBI sequences for the MSA set",
             hit_labels,
@@ -7162,6 +7190,7 @@ def render_blast_search() -> None:
             f"{item.get('accession')} E={item.get('evalue')}"
             for item in paged["items"]
         ]
+        _fit_widget_choice("blast_align_choice", labels)
         chosen = st.selectbox("Alignment viewer", labels, key="blast_align_choice")
         selected = paged["items"][labels.index(chosen)]
         st.markdown(_blast_alignment_html(selected), unsafe_allow_html=True)
@@ -7265,15 +7294,12 @@ def _render_evolution_linked_workspace(msa_result: dict, tree: dict) -> None:
         length = int(msa_result.get("alignment_length") or 0)
         col_idx = int(st.session_state.get("msa_column") or 0)
         if length > 0:
-            col_idx = int(
-                st.number_input(
-                    "Linked MSA column (0-based)",
-                    min_value=0,
-                    max_value=max(0, length - 1),
-                    value=min(col_idx, max(0, length - 1)),
-                    step=1,
-                    key="evo_linked_column",
-                )
+            col_idx = _bounded_number_input(
+                "Linked MSA column (0-based)",
+                key="evo_linked_column",
+                minimum=0,
+                maximum=max(0, length - 1),
+                default=min(col_idx, max(0, length - 1)),
             )
         try:
             detail = msa.column_detail(msa_result, col_idx)
@@ -7430,9 +7456,11 @@ def _render_phylogeny_panel(msa_result: dict) -> None:
         outgroup_index = 0
         if rooting == phylogeny.ROOTING_OUTGROUP:
             rows = list(msa_result.get("rows") or [])
+            outgroup_options = list(range(len(rows)))
+            _fit_widget_choice("phylo_outgroup_index", outgroup_options, 0)
             outgroup_index = st.selectbox(
                 "Outgroup sequence",
-                list(range(len(rows))),
+                outgroup_options,
                 format_func=lambda i: (
                     f"{rows[i].get('identifier')} "
                     f"({str(rows[i].get('hash') or '')[:8]})"
@@ -7589,6 +7617,7 @@ def _render_phylogeny_panel(msa_result: dict) -> None:
             filtered_ids = leaf_ids
     else:
         filtered_ids = leaf_ids
+    _fit_widget_choice("phylo_leaf_select", filtered_ids)
     selected_id = st.selectbox(
         "Select leaf (highlights the MSA sequence with the same hash)",
         filtered_ids,
@@ -7893,6 +7922,7 @@ def render_msa_analysis() -> None:
         if seq:
             ws_options.append(molecule)
     if ws_options:
+        _fit_widget_multi("msa_from_workspace", ws_options)
         chosen_ws = st.multiselect(
             "Add from analysis workspace",
             ws_options,
@@ -7950,13 +7980,12 @@ def render_msa_analysis() -> None:
                     "Identical sequences (same hash), not silently removed: "
                     + ", ".join(str(label) for label in group.get("identifiers") or [])
                 )
-        move_index = st.number_input(
+        move_index = _bounded_number_input(
             "Sequence order index",
-            min_value=0,
-            max_value=max(0, len(collection) - 1),
-            value=0,
-            step=1,
             key="msa_order_index",
+            minimum=0,
+            maximum=max(0, len(collection) - 1),
+            default=0,
         )
         cols = st.columns(3)
         with cols[0]:
@@ -8144,21 +8173,20 @@ def render_msa_analysis() -> None:
         f"{html_escape(result.get('disclaimer'))}</span>",
         unsafe_allow_html=True,
     )
-    row_start = st.number_input(
+    row_start = _bounded_number_input(
         "Viewer row start",
-        min_value=0,
-        max_value=max(0, n_rows - 1),
-        value=0,
-        step=1,
         key="msa_row_start",
+        minimum=0,
+        maximum=max(0, n_rows - 1),
+        default=0,
     )
-    col_start = st.number_input(
+    col_start = _bounded_number_input(
         "Viewer column start",
-        min_value=0,
-        max_value=max(0, length - 1),
-        value=0,
-        step=msa.MAX_DISPLAY_COLUMNS,
         key="msa_col_start",
+        minimum=0,
+        maximum=max(0, length - 1),
+        default=0,
+        step=msa.MAX_DISPLAY_COLUMNS,
     )
     try:
         window = msa.viewer_window(
@@ -8185,13 +8213,12 @@ def render_msa_analysis() -> None:
         + "</pre></div>",
         unsafe_allow_html=True,
     )
-    selected_col = st.number_input(
+    selected_col = _bounded_number_input(
         "Inspect alignment column (0-based)",
-        min_value=0,
-        max_value=max(0, length - 1),
-        value=int(window["col_start"]),
-        step=1,
         key="msa_column",
+        minimum=0,
+        maximum=max(0, length - 1),
+        default=int(window["col_start"]),
     )
     try:
         detail = msa.column_detail(result, int(selected_col))
@@ -8594,6 +8621,7 @@ def render_motif_search() -> None:
                 f"{item.get('start')}-{item.get('end')} {item.get('match')}"
                 for item in hits
             ]
+            _fit_widget_choice("motif_3d_hit", labels)
             chosen = st.selectbox("Motif hit for protein 3D", labels, key="motif_3d_hit")
             if st.button("Highlight this motif on protein 3D", key="motif_3d_highlight"):
                 from modules import molecule_selection
@@ -8713,9 +8741,11 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
             f"{item.get('assembly')} [{item.get('local_status')}]"
             for item in public_rows
         ]
+        assembly_options = labels or ["(catalog empty)"]
+        _fit_widget_choice("crispr_gw_assembly_label", assembly_options)
         selected_label = st.selectbox(
             "Public assembly",
-            labels or ["(catalog empty)"],
+            assembly_options,
             key="crispr_gw_assembly_label",
         )
         selected = public_rows[labels.index(selected_label)] if labels else None
@@ -8829,6 +8859,7 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
             )
             for item in ready_choices
         ]
+        _fit_widget_choice("crispr_gw_ready_label", ready_labels)
         ready_label = st.selectbox(
             "READY reference to search",
             ready_labels,
@@ -8868,6 +8899,7 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
             f"{g.get('strand')} @{g.get('position')}"
             for g in guides[: min(len(guides), crispr.MAX_REFERENCE_GUIDES)]
         ]
+        _fit_widget_choice("crispr_gw_guide", guide_labels)
         selected_guide_label = st.selectbox(
             "Guide (SpCas9 20 nt + NGG)",
             guide_labels,
@@ -9106,8 +9138,12 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
             ["all"] + [str(i) for i in range(0, 5)],
             key="crispr_gw_filter_mm",
         )
-        filter_role = st.selectbox("Filter role", ["all"] + [r for r in roles if r], key="crispr_gw_filter_role")
-        filter_pam = st.selectbox("Filter PAM", ["all"] + [p for p in pams if p], key="crispr_gw_filter_pam")
+        role_options = ["all"] + [r for r in roles if r]
+        pam_options = ["all"] + [p for p in pams if p]
+        _fit_widget_choice("crispr_gw_filter_role", role_options)
+        _fit_widget_choice("crispr_gw_filter_pam", pam_options)
+        filter_role = st.selectbox("Filter role", role_options, key="crispr_gw_filter_role")
+        filter_pam = st.selectbox("Filter PAM", pam_options, key="crispr_gw_filter_pam")
         filter_feature = st.selectbox(
             "Filter genomic context",
             ["all", "coding", "noncoding", "intergenic", "exact", "off-target"],
@@ -9158,14 +9194,12 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
         filtered.sort(key=_sort_key, reverse=reverse)
         page_size = 25
         n_pages = max(1, (len(filtered) + page_size - 1) // page_size)
-        page = int(
-            st.number_input(
-                "Results page",
-                min_value=1,
-                max_value=n_pages,
-                value=1,
-                key="crispr_gw_page",
-            )
+        page = _bounded_number_input(
+            "Results page",
+            key="crispr_gw_page",
+            minimum=1,
+            maximum=n_pages,
+            default=1,
         )
         start = (page - 1) * page_size
         page_hits = filtered[start : start + page_size]
@@ -9211,6 +9245,7 @@ def _render_crispr_genome_reference(guides: list, sequence: str) -> None:
             f"{h.get('chromosome_or_contig')} {h.get('start_0based')}-{h.get('end_0based')} {h.get('strand')}"
             for h in page_hits
         ]
+        _fit_widget_choice("crispr_gw_detail", detail_labels)
         detail_label = st.selectbox("Hit detail", detail_labels, key="crispr_gw_detail")
         detail = page_hits[detail_labels.index(detail_label)]
         mm_pos = detail.get("mismatch_positions") or []
@@ -9393,6 +9428,7 @@ def _render_crispr_provided_reference(
                     f"{crispr.MAX_REFERENCE_GUIDES} guides by current ranking "
                     "(resource cap, not a biological rule)."
                 )
+            _fit_widget_choice("crispr_ref_guide", guide_labels)
             selected_label = st.selectbox(
                 "Guide to search",
                 guide_labels,
@@ -9790,12 +9826,12 @@ def _render_crispr_provided_reference(
                     )
                 page_size = 25
                 n_pages = max(1, (len(hits) + page_size - 1) // page_size)
-                page = st.number_input(
+                page = _bounded_number_input(
                     "Hit page",
-                    min_value=1,
-                    max_value=n_pages,
-                    value=1,
                     key="crispr_ref_hit_page",
+                    minimum=1,
+                    maximum=n_pages,
+                    default=1,
                 )
                 start = (int(page) - 1) * page_size
                 page_hits = hits[start : start + page_size]
@@ -11081,6 +11117,7 @@ def _render_compare_structures() -> None:
             "They are never merged into one RMSD or TM-score."
         ),
     )
+    _fit_widget_choice("cmp_method", labels)
     method_label = st.selectbox("Alignment method", labels, key="cmp_method")
     api_name = next(row["api_name"] for row in methods if row["display_name"] == method_label)
     kind = rcsb_alignment.method_kind(api_name)
