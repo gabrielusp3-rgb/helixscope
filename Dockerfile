@@ -12,7 +12,7 @@
 # openssl/glibc security updates that clear the other criticals. Python stays 3.14.3.
 # Tag python:3.14.3-slim-trixie, digest below.
 
-FROM python:3.14.3-slim-trixie@sha256:5e59aae31ff0e87511226be8e2b94d78c58f05216efda3b07dbbed938ec8583b AS engines
+FROM python:3.15.2-slim-trixie@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928 AS engines
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -56,7 +56,7 @@ RUN curl -fsSL -A "Mozilla/5.0 (compatible; HelixScope-build/1.0)" \
     && chmod 755 /opt/USalign \
     && rm /tmp/usalign.zip
 
-FROM python:3.14.3-slim-trixie@sha256:5e59aae31ff0e87511226be8e2b94d78c58f05216efda3b07dbbed938ec8583b
+FROM python:3.15.2-slim-trixie@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libgomp1 ca-certificates \
